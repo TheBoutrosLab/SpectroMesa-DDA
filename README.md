@@ -1,162 +1,90 @@
-# Pipeline Name
+# metapipeline-ProteomicDDA
 
-[![Prepare release](https://img.shields.io/badge/Action-Create%20New%20Release-blue)](https://github.com/theboutroslab/template-NextflowPipeline/actions/workflows/prepare-release.yaml)
+Nextflow DSL2 metapipeline for DDA proteomics. It runs Comet, Sage, and/or MSFragger search through
+`pipeline-search-ProteomicMSMS`, validates PSMs with
+`pipeline-validate-ProteomicPSM`, quantifies with `pipeline-quantitate-ProteomicTMT`
+or `pipeline-quantitate-ProteomicLFQ` according to `experiment_type`, then runs
+`pipeline-quantitate-ProteomicProtein`.
 
-- [Pipeline Name](#pipeline-name)
-  - [Overview](#overview)
-  - [How To Run](#how-to-run)
-  - [Flow Diagram](#flow-diagram)
-  - [Pipeline Steps](#pipeline-steps)
-    - [1. Step/Process 1](#1-stepprocess-1)
-    - [2. Step/Process 2](#2-stepprocess-2)
-    - [3. Step/Process n](#3-stepprocess-n)
-  - [Inputs](#inputs)
-  - [Outputs](#outputs)
-  - [Testing and Validation](#testing-and-validation)
-    - [Test Data Set](#test-data-set)
-    - [Validation <version number\>](#validation-version-number)
-    - [Validation Tool](#validation-tool)
-  - [References](#references)
-  - [Discussions](#discussions)
-  - [Contributors](#contributors)
-  - [License](#license)
-## Overview
+![DDA metapipeline schematic](docs/pipeline-flow.svg)
 
-A 3-4 sentence summary of the pipeline, including the pipeline's purpose, the type of expected scientific inputs/outputs of the pipeline (e.g: FASTQs and BAMs), and a list of tools/steps in the pipeline.
+## Run
 
----
+Copy `config/template.config` and fill in input paths and experiment parameters.
+Input CSV columns are `sample_name,fraction_id,path`; each row is
+one mzML fraction. TMT rows may repeat `sample_name` for distinct `fraction_id`
+values within a plex. For TMT, provide `channel_csv` in the format required by
+the TMT child pipeline; its `plex_id` must match `sample_name`. LFQ samples may have multiple mzML fractions when all samples share the same
+fraction IDs and `quantitate_ProteomicLFQ.fractionated = true`. Set `search_ProteomicMSMS.search_engines` to any nonempty subset of
+`Comet`, `Sage`, and `MSFragger`. The default is MSFragger. Multiple engines
+are combined by validation consensus before quantitation. The MSFragger JAR
+is required only when MSFragger is selected. It passes
+the same target-decoy FASTA and decoy prefix to search,
+validation, and protein quantitation. For ProtLoom validation, set
+`validate_ProteomicPSM.run_protloom = true` and provide
+`validate_ProteomicPSM.protloom_project_yaml`; add an `annotation_id` column to
+the input CSV. ProtLoom sample and annotation IDs come from that CSV.
 
-## How To Run
-
-1. Update the params section of the .config file
-
-2. Update the input yaml
-
-3. See the submission script, [here](https://github.com/theboutroslab/tool-submit-nf), to submit your pipeline
-
----
-
-## Flow Diagram
-
-A directed acyclic graph of your pipeline. The [PlantUML](https://plantuml.com/) code defining this diagram is version-controlled in the [docs/](./docs/) folder, and a [GitHub Action](https://github.com/theboutroslab/tool-PlantUML-action) automatically regenerates the SVG image when that file is changed.
-
-![Pipeline Graph](./docs/pipeline-flow.svg)
-
----
-
-## Pipeline Steps
-
-### 1. Step/Process 1
-
-> A 2-3 sentence description of each step/proccess in your pipeline that includes the purpose of the step/process, the tool(s) being used and their version, and the expected scientific inputs/outputs (e.g: FASTQs and BAMs) of the pipeline.
-
-### 2. Step/Process 2
-
-> A 2-3 sentence description of each step/proccess in your pipeline that includes the purpose of the step/process, the tool(s) being used and their version, and the expected scientific inputs/outputs (e.g: FASTQs and BAMs) of the pipeline.
-
-### 3. Step/Process n
-
-> A 2-3 sentence description of each step/proccess in your pipeline that includes the purpose of the step/process, the tool(s) being used and their version, and the expected scientific inputs/outputs (e.g: FASTQs and BAMs) of the pipeline.
-
----
-
-## Inputs
-
-### Input YAML
-
-> include an example of the organization structure within the YAML. Example:
-```yaml
-input 1: 'patient_id'
-input:
-    normal:
-      - id: <normal id>
-        BAM: </path/to/normal.bam>
-    tumor:
-      - id: <tumor id>
-        BAM: </path/to/tumor.bam>
+```
+nextflow run main.nf -c config/my-study.config
 ```
 
-### Config
+Use `-profile pines` or `-profile boutroslab_aws` to set the lab's shared CPU and memory limits for the metapipeline and each child.
+An external profile JSON can be selected with `compute_profile` and
+`additional_resource_profile_dir`. Child process allocations can be tuned
+through each child namespace.
 
-| Field | Type | Required | Description |
-| ----- | ---- | ------------ | ------------------------ |
-| param 1 | _type_ | yes/no | 1-2 sentence description of the parameter, including any defaults if any. |
-| param 2 | _type_ | yes/no | 1-2 sentence description of the parameter, including any defaults if any. |
-| param n | _type_ | yes/no | 1-2 sentence description of the parameter, including any defaults if any. |
-| `work_dir` | path | no | Path of working directory for Nextflow. When included in the sample config file, Nextflow intermediate files and logs will be saved to this directory. With ucla_cds, the default is `/scratch` and should only be changed for testing/development. Changing this directory to `/hot` or `/tmp` can lead to high server latency and potential disk space limitations, respectively. |
+## Pipeline steps and outputs
 
-> Include the optional param `work_dir` in the inputs accompanied by a warning of the potentials dangers of using the param. Update the warning if necessary.
+The parent output layout follows the DIA metapipeline:
 
----
+```text
+<output_dir>/metapipeline-ProteomicDDA-1.0.0/<dataset_id>/
+├── main_workflow/
+│   ├── search-ProteomicMSMS-<version>/
+│   ├── validate-ProteomicPSM-<version>/
+│   ├── quantitate-ProteomicTMT-<version>/       # TMT runs only
+│   ├── quantitate-ProteomicLFQ-<version>/       # LFQ runs only
+│   ├── quantitate-ProteomicProtein-<version>/
+│   └── manifests/
+└── log-metapipeline-ProteomicDDA-1.0.0-<timestamp>/
+    └── nextflow-log/
+```
 
-## Outputs
+The `manifests/` directory contains `search.csv`, `validation.csv`,
+`validation-mzml.csv`, `quant-idxml.csv`, `quant-mzml.csv`,
+`protein-unfiltered.csv`, and `protein-consensus.csv`. ProtLoom runs also
+publish `protloom-project.generated.yaml`. These are the handoff files used
+by the child pipelines. The parent log directory contains the Nextflow trace,
+timeline, report, and effective `params.json`.
 
-<!-- List and describe the final output(s) of the pipeline. -->
+Each child keeps its native output hierarchy. Search and validation publish
+per-sample results under `<sample_name>/OpenMS-<version>/output/` (or
+`<sample_name>/ProtLoom-<version>/output/` for ProtLoom validation). TMT
+publishes per-plex results under `OpenMS-<version>/output/<plex_id>/`.
+LFQ and protein quantitation use
+`<dataset_id>/OpenMS-<version>/output/`. These differences come from the
+component pipelines; the parent directories and versioned stage names follow
+the DIA layout.
 
-| Output | Description |
-| ------------ | ------------------------ |
-| ouput 1 | 1 - 2 sentence description of the output. |
-| ouput 2 | 1 - 2 sentence description of the output. |
-| ouput n | 1 - 2 sentence description of the output. |
+## Integration tests
 
----
+See `test/README.md`. Run a named case with `test/run-nftest.sh CASE` inside a
+Slurm job after setting `.env` and providing test data. The `.env` file is local
+and ignored by Git.
 
-## Testing and Validation
+## Pinned child revisions
 
-### Test Data Set
+The component submodules are pinned to the revisions below. The Protein
+quantitation child was updated to release `v1.1.0` on 2026-10-25:
 
-A 2-3 sentence description of the test data set(s) used to validate and test this pipeline. If possible, include references and links for how to access and use the test dataset
+| Pipeline | Commit |
+| --- | --- |
+| search-ProteomicMSMS | `2df53f041d77c3dead9d15188610a2a35019b2d8` |
+| validate-ProteomicPSM | `6697d95c705836a87053748df56d3ed1d2af910f` |
+| quantitate-ProteomicTMT | `b35383753c4d9dc414451e62528b89cb4b0161ec` |
+| quantitate-ProteomicLFQ | `a022a1bb035b50fa31de95447e571535698a7657` |
+| quantitate-ProteomicProtein (`v1.1.0`) | `c8af440a4a83c4cc84b5a3ea8dfc9e8995c5d1c5` |
 
-### Validation <version number\>
-
-| Input/Output | Description | Result |
-| ------------ | ------------------------ | ------------------------ |
-| metric 1 | 1 - 2 sentence description of the metric | quantifiable result |
-| metric 2 | 1 - 2 sentence description of the metric | quantifiable result |
-| metric n | 1 - 2 sentence description of the metric | quantifiable result |
-
-- [Reference/External Link/Path 1 to any files/plots or other validation results](<link>)
-- [Reference/External Link/Path 2 to any files/plots or other validation results](<link>)
-- [Reference/External Link/Path n to any files/plots or other validation results](<link>)
-
-### Validation Tool
-
-Included is a template for validating your input files. For more information on the tool check out: https://github.com/theboutroslab/package-PipeVal
-
----
-
-## References
-
-1. [Reference 1](<links-to-papers/external-code/documentation/metadata/other-repos/or-anything-else>)
-2. [Reference 2](<links-to-papers/external-code/documentation/metadata/other-repos/or-anything-else>)
-3. [Reference n](<links-to-papers/external-code/documentation/metadata/other-repos/or-anything-else>)
-
----
-
-## Discussions
-
-- [Issue tracker](<link-to-repo-issues-page>) to report errors and enhancement ideas.
-- Discussions can take place in [<pipeline> Discussions](<link-to-repo-discussions-page>)
-- [<pipeline> pull requests](<link-to-repo-pull-requests>) are also open for discussion
-
----
-
-## Contributors
-
-> Update link to repo-specific URL for GitHub Insights Contributors page.
-
-Please see list of [Contributors](https://github.com/theboutroslab/template-NextflowPipeline/graphs/contributors) at GitHub.
-
----
-
-## License
-
-[pipeline name] is licensed under the GNU General Public License version 2. See the file LICENSE for the terms of the GNU GPL license.
-
-<one line to give the program's name and a brief idea of what it does.>
-
-Copyright (C) 2026 Sanford Burnham Prebys Medical Discovery Institute ("Boutros Lab")
-
-This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+The shared Nextflow config, module, and lib submodules follow the DIA
+metapipeline's pinned revisions.
