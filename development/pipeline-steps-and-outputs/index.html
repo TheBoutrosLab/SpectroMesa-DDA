@@ -41,7 +41,15 @@
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../run/">Run</a>
+                <li class="toctree-l1"><a class="reference internal" href="../quick-start/">Quick start</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../inputs/">Inputs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../parameters/">Parameters</a>
                 </li>
               </ul>
               <ul class="current">
@@ -51,11 +59,15 @@
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../integration-tests/">Integration tests</a>
+                <li class="toctree-l1"><a class="reference internal" href="../testing/">Testing</a>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../pinned-child-revisions/">Pinned child revisions</a>
+                <li class="toctree-l1"><a class="reference internal" href="../current-limitations/">Current limitations</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../license/">License</a>
                 </li>
               </ul>
       </div>
@@ -74,7 +86,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Pipeline steps and outputs</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/da1efeaeef192e1c74e788c76cd71a797864de87/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/65f2d8656b4734bf67edab0f56ad23f5bccf87b4/README.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -83,7 +95,13 @@
             <div class="section" itemprop="articleBody">
               
                 <h2 id="pipeline-steps-and-outputs">Pipeline steps and outputs</h2>
-<p>The parent output layout follows the DIA metapipeline:</p>
+<ol>
+<li><code>search-ProteomicMSMS</code> searches each mzML with the selected engines and merges fractions into one idXML per sample and engine.</li>
+<li><code>validate-ProteomicPSM</code> scores and filters PSMs. When several engines are selected, it produces a per-sample consensus idXML for peptide quantitation.</li>
+<li><code>quantitate-ProteomicTMT</code> or <code>quantitate-ProteomicLFQ</code> quantifies peptides according to <code>experiment_type</code>.</li>
+<li><code>quantitate-ProteomicProtein</code> uses peptide consensusXML and, for ProteinProphet, unfiltered PEP-scored idXML to quantify proteins.</li>
+</ol>
+<p>Versioned child pipeline directories and handoff manifests are published at:</p>
 <pre><code class="language-text">&lt;output_dir&gt;/metapipeline-ProteomicDDA-1.0.0/&lt;dataset_id&gt;/
 ├── main_workflow/
 │   ├── search-ProteomicMSMS-&lt;version&gt;/
@@ -93,28 +111,14 @@
 │   ├── quantitate-ProteomicProtein-&lt;version&gt;/
 │   └── manifests/
 └── log-metapipeline-ProteomicDDA-1.0.0-&lt;timestamp&gt;/
-    └── nextflow-log/
 </code></pre>
-<p>The <code>manifests/</code> directory contains <code>search.csv</code>, <code>validation.csv</code>,
-<code>validation-mzml.csv</code>, <code>quant-idxml.csv</code>, <code>quant-mzml.csv</code>,
-<code>protein-unfiltered.csv</code>, and <code>protein-consensus.csv</code>. ProtLoom runs also
-publish <code>protloom-project.generated.yaml</code>. These are the handoff files used
-by the child pipelines. The parent log directory contains the Nextflow trace,
-timeline, report, and effective <code>params.json</code>.</p>
-<p>Each child keeps its native output hierarchy. Search and validation publish
-per-sample results under <code>&lt;sample_name&gt;/OpenMS-&lt;version&gt;/output/</code> (or
-<code>&lt;sample_name&gt;/ProtLoom-&lt;version&gt;/output/</code> for ProtLoom validation). TMT
-publishes per-plex results under <code>OpenMS-&lt;version&gt;/output/&lt;plex_id&gt;/</code>.
-LFQ and protein quantitation use
-<code>&lt;dataset_id&gt;/OpenMS-&lt;version&gt;/output/</code>. These differences come from the
-component pipelines; the parent directories and versioned stage names follow
-the DIA layout.</p>
+<p><code>manifests/</code> contains <code>search.csv</code>, <code>validation.csv</code>, <code>validation-mzml.csv</code>, <code>quant-idxml.csv</code>, <code>quant-mzml.csv</code>, <code>protein-unfiltered.csv</code>, and <code>protein-consensus.csv</code>. ProtLoom runs also publish <code>protloom-project.generated.yaml</code>. Each child directory contains its scientific results and its own logs. The timestamped metapipeline log directory contains the parent Nextflow trace, timeline, report, and effective parameters.</p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../run/" class="btn btn-neutral float-left" title="Run"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../integration-tests/" class="btn btn-neutral float-right" title="Integration tests">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../parameters/" class="btn btn-neutral float-left" title="Parameters"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../testing/" class="btn btn-neutral float-right" title="Testing">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -141,10 +145,10 @@ the DIA layout.</p>
         </span>
     
     
-      <span><a href="../run/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../parameters/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../integration-tests/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../testing/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

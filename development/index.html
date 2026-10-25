@@ -43,7 +43,15 @@
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="run/">Run</a>
+                <li class="toctree-l1"><a class="reference internal" href="quick-start/">Quick start</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="inputs/">Inputs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="parameters/">Parameters</a>
                 </li>
               </ul>
               <ul>
@@ -51,11 +59,15 @@
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="integration-tests/">Integration tests</a>
+                <li class="toctree-l1"><a class="reference internal" href="testing/">Testing</a>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="pinned-child-revisions/">Pinned child revisions</a>
+                <li class="toctree-l1"><a class="reference internal" href="current-limitations/">Current limitations</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="license/">License</a>
                 </li>
               </ul>
       </div>
@@ -74,7 +86,7 @@
     <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Home</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/da1efeaeef192e1c74e788c76cd71a797864de87/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/65f2d8656b4734bf67edab0f56ad23f5bccf87b4/README.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -83,17 +95,13 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="metapipeline-proteomicdda">metapipeline-ProteomicDDA</h1>
-<p>Nextflow DSL2 metapipeline for DDA proteomics. It runs Comet, Sage, and/or MSFragger search through
-<code>pipeline-search-ProteomicMSMS</code>, validates PSMs with
-<code>pipeline-validate-ProteomicPSM</code>, quantifies with <code>pipeline-quantitate-ProteomicTMT</code>
-or <code>pipeline-quantitate-ProteomicLFQ</code> according to <code>experiment_type</code>, then runs
-<code>pipeline-quantitate-ProteomicProtein</code>.</p>
+<p>This Boutros Lab metapipeline searches DDA mzML files with Comet, Sage, or MSFragger, validates peptide-spectrum matches (PSMs), quantifies peptides with TMT or label-free quantitation (LFQ), and quantifies proteins with ProteinProphet or ProteinInferencer.</p>
 <p><img alt="DDA metapipeline schematic" src="pipeline-flow.svg" /></p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="run/" class="btn btn-neutral float-right" title="Run">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="quick-start/" class="btn btn-neutral float-right" title="Quick start">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -121,7 +129,7 @@ or <code>pipeline-quantitate-ProteomicLFQ</code> according to <code>experiment_t
     
     
     
-      <span><a href="run/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="quick-start/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
@@ -141,5 +149,5 @@ or <code>pipeline-quantitate-ProteomicLFQ</code> according to <code>experiment_t
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2026-10-25 22:13:42.270400+00:00
+Build Date UTC : 2026-10-25 22:30:59.394346+00:00
 -->
