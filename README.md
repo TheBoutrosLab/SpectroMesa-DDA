@@ -1,42 +1,165 @@
 # metapipeline-ProteomicDDA
 
-Nextflow DSL2 metapipeline for DDA proteomics. It runs Comet, Sage, and/or MSFragger search through
-`pipeline-search-ProteomicMSMS`, validates PSMs with
-`pipeline-validate-ProteomicPSM`, quantifies with `pipeline-quantitate-ProteomicTMT`
-or `pipeline-quantitate-ProteomicLFQ` according to `experiment_type`, then runs
-`pipeline-quantitate-ProteomicProtein`.
+This Boutros Lab metapipeline searches DDA mzML files with Comet, Sage, or MSFragger, validates peptide-spectrum matches (PSMs), quantifies peptides with TMT or label-free quantitation (LFQ), and quantifies proteins with ProteinProphet or ProteinInferencer.
 
 ![DDA metapipeline schematic](docs/pipeline-flow.svg)
 
-## Run
+## Quick start
 
-Copy `config/template.config` and fill in input paths and experiment parameters.
-Input CSV columns are `sample_name,fraction_id,path`; each row is
-one mzML fraction. TMT rows may repeat `sample_name` for distinct `fraction_id`
-values within a plex. For TMT, provide `channel_csv` in the format required by
-the TMT child pipeline; its `plex_id` must match `sample_name`. LFQ samples may have multiple mzML fractions when all samples share the same
-fraction IDs and `quantitate_ProteomicLFQ.fractionated = true`. Set `search_ProteomicMSMS.search_engines` to any nonempty subset of
-`Comet`, `Sage`, and `MSFragger`. The default is MSFragger. Multiple engines
-are combined by validation consensus before quantitation. The MSFragger JAR
-is required only when MSFragger is selected. It passes
-the same target-decoy FASTA and decoy prefix to search,
-validation, and protein quantitation. For ProtLoom validation, set
-`validate_ProteomicPSM.run_protloom = true` and provide
-`validate_ProteomicPSM.protloom_project_yaml`; add an `annotation_id` column to
-the input CSV. ProtLoom sample and annotation IDs come from that CSV.
+1. Initialize the child pipelines and shared Boutros Lab modules:
 
+   ```bash
+   git submodule update --init --recursive
+   ```
+
+2. Prepare the [mzML input CSV](input/input.csv) and a target-decoy FASTA. Obtain the MSFragger JAR separately if MSFragger is selected. For TMT, prepare a channel CSV with the format required by [quantitate-ProteomicTMT](external/quantitate-ProteomicTMT/README.md).
+3. Copy [config/template.config](config/template.config) to a run-specific file. Set `input_csv`, `decoy_database`, `output_dir`, `dataset_id`, `experiment_type`, and the selected search engines. Set `channel_csv` for TMT and `msfragger_executable` when using MSFragger. Keep the template's `includeConfig` lines and final `methods.setup()` call.
+4. Run with Nextflow 24.10.6 and its v1 syntax parser. Choose a work directory with enough space for the mzML files and child pipeline work:
+
+   ```bash
+   export NXF_VER=24.10.6
+   export NXF_SYNTAX_PARSER=v1
+   export NXF_WORK=/scratch/$SLURM_JOB_ID/metapipeline-ProteomicDDA-work
+   nextflow run main.nf -c /path/to/run.config -profile pines
+   ```
+
+The scratch path is an example for a Slurm job; use another suitable work directory outside Slurm. Select `-profile pines` for a 64 CPU, 500 GB node or `-profile boutroslab_aws` for a 32 CPU, 128 GB node. `child_profile` (`standard` by default) selects the container runtime in each child; make sure that runtime is available. Nextflow's `-c` option adds the run configuration to the project's configuration; see the [Nextflow configuration documentation](https://www.nextflow.io/docs/latest/config.html).
+
+### Resource profiles
+
+| Profile | Node budget | Parent child-launch processes |
+| --- | --- | --- |
+| `pines` | 64 CPUs, 500 GB | 2 CPUs, 4 GB per launcher. |
+| `boutroslab_aws` | 32 CPUs, 128 GB | 2 CPUs, 4 GB per launcher. |
+
+Parent CSV and configuration tasks request 1 CPU and 2 GB; parent child-launch tasks request 2 CPUs and 4 GB from [config/resources.json](config/resources.json). The bundled JSON profiles set `max_cpus` and `max_memory` for the parent and children. Their `children` process-allocation entries are **not applied** by the current DDA metapipeline; each child uses its own resource defaults unless its namespace supplies `base_resource_update`. These profiles describe node budgets; they do not select a Slurm partition or change the local executor.
+
+For a profile outside the repository, copy [pines.json](config/resource_profiles/pines.json) or [boutroslab_aws.json](config/resource_profiles/boutroslab_aws.json) to a directory you control, rename it `<name>.json`, and edit its `max_cpus` and `max_memory`. Set these values in the run config:
+
+```groovy
+params.compute_profile = 'my_cluster'
+params.additional_resource_profile_dir = '/path/to/resource_profiles'
 ```
-nextflow run main.nf -c config/my-study.config
+
+A matching Nextflow `-profile` entry is not required when `compute_profile` is set directly. `additional_resource_profile_dir` can contain multiple directories separated by the operating system's PATH separator (`:` on Linux/macOS). Lookup checks those directories from left to right, then the bundled `config/resource_profiles` directory. Relative directories resolve from the launch directory.
+
+## Inputs
+
+The input CSV has these required columns; `annotation_id` is needed only when ProtLoom is enabled:
+
+```csv
+sample_name,fraction_id,path
+sample_01,1,/data/sample_01_fraction_1.mzML
+sample_01,2,/data/sample_01_fraction_2.mzML
+sample_02,1,/data/sample_02_fraction_1.mzML
+sample_02,2,/data/sample_02_fraction_2.mzML
 ```
 
-Use `-profile pines` or `-profile boutroslab_aws` to set the lab's shared CPU and memory limits for the metapipeline and each child.
-An external profile JSON can be selected with `compute_profile` and
-`additional_resource_profile_dir`. Child process allocations can be tuned
-through each child namespace.
+| Input | Requirement |
+| --- | --- |
+| `sample_name` | Sample name for LFQ, or plex ID for TMT. A name may appear in multiple rows when its `fraction_id` differs. |
+| `fraction_id` | Required identifier unique within each sample or plex. LFQ samples must have the same set of fraction IDs. |
+| `path` | Existing mzML file. Relative paths resolve from the input CSV's directory. Paths and basenames must be unique; basenames cannot contain another dot before `.mzML`. |
+| `annotation_id` | Optional column for ordinary runs. Required with ProtLoom; all fractions of a sample must have the same ID, which must occur in the ProtLoom project YAML. |
+| `decoy_database` | Existing target-decoy FASTA shared by search, validation, and protein quantitation. |
+| `msfragger_executable` | Separately obtained MSFragger JAR, required only when `MSFragger` is selected. |
+| `channel_csv` | Required for TMT. Its `plex_id` values must match the input CSV's `sample_name` values. |
+
+A TMT plex may contain several mzML fractions. For fractionated LFQ, set `quantitate_ProteomicLFQ.fractionated = true`; all LFQ samples must have the same fraction IDs. A single fractionated LFQ sample currently cannot complete the protein handoff; see [Current limitations](#current-limitations).
+
+### ProtLoom project YAML
+
+The validation child accepts a project YAML with `schema_version: 1`, `annotations` containing unique `annotation_id` values and existing GTF files, and `database.output_fasta` and `database.output_entries_tsv` pointing to existing files. Database decoy and contaminant markers must match the root run settings. The metapipeline generates the `samples` section from the input CSV, writes `protloom-project.generated.yaml` under `manifests/`, and resolves relative database, GTF, and FASTA source paths against the original YAML location.
+
+ProtLoom also requires `validate_ProteomicPSM.percolator_workflow = 'msbooster'` and nonempty `protloom_pt_order` and `protloom_pc_order`. The current parent protein handoff for ProtLoom is incomplete; see [Current limitations](#current-limitations) before selecting this route.
+
+## Parameters
+
+Set shared values once at the root of the run config. `methods.setup()` derives the child-specific database and decoy settings before writing child parameter JSON files. Settings specific to one child belong in its namespace. Values passed by the metapipeline's child-call processes should not be repeated in a run config.
+
+| Root parameter | Default | Purpose |
+| --- | --- | --- |
+| `input_csv` | Required | Sample-to-mzML CSV. |
+| `decoy_database` | Required | Target-decoy FASTA. |
+| `experiment_type` | `LFQ` | Selects `LFQ` or `TMT` peptide quantitation. |
+| `channel_csv` | Required for TMT | Reporter-channel manifest. |
+| `msfragger_executable` | Required for MSFragger | Search-engine JAR. |
+| `output_dir` | Required | Root directory for published results and logs. |
+| `dataset_id` | `cohort` | Cohort result directory and child project name. |
+| `decoy_string` / `decoy_position` | `DECOY_` / `prefix` | Shared decoy accession marker. MSFragger requires a prefix. |
+| `contam_string` / `contam_position` | `CONTAMINANT_` / `prefix` | Contaminant marker, also checked against the ProtLoom YAML. |
+| `child_profile` | `standard` | Container-runtime profile passed to each child. |
+| `compute_profile` | None | Node budget selected by `-profile pines`, `-profile boutroslab_aws`, or directly. |
+| `additional_resource_profile_dir` | None | Optional PATH-style list of external resource-profile directories. |
+
+### `search_ProteomicMSMS` — database search
+
+| Parameter | Default | Purpose |
+| --- | --- | --- |
+| `search_engines` | `['MSFragger']` | Any nonempty combination of `Comet`, `Sage`, and `MSFragger`. |
+| `CometAdapter`, `SageAdapter`, `MSFraggerAdapter` | Child defaults | Engine-specific tolerances, enzymes, modifications, and other OpenMS adapter settings. |
+| `reindex_mzml` | `false` | Must remain false because reindexed mzML files are not passed to validation and quantitation. |
+| `export_mzTab` | `false` | Optional search-stage mzTab export. |
+
+The root `decoy_string` and `decoy_position` are copied into each selected adapter's `PeptideIndexing` settings; Sage also receives its `decoy_prefix`. See the [search pipeline configuration](external/search-ProteomicMSMS/config/template.config) and [schema](external/search-ProteomicMSMS/config/schema.yaml) for adapter options. Search results are merged per sample and engine before validation.
+
+### `validate_ProteomicPSM` — PSM validation
+
+| Parameter | Default | Purpose |
+| --- | --- | --- |
+| `run_percolator` | `true` | Produce PEP-scored identifications for ProteinProphet. |
+| `percolator_workflow` | `openms` | Use `openms` or `msbooster`; the latter adds MSBooster features before direct Percolator scoring. |
+| `msbooster_params` | Child bundled file | Optional override for MSBooster prediction settings. |
+| `merge_consensus` | `false`; enabled automatically for multiple engines | Produce one validated consensus idXML per sample for peptide quantitation. |
+| `fractionated` | `false` | Must remain false because search already merges fractions per sample. |
+| `run_protloom` | `false` | Enable ProtLoom inference; currently blocked by the parent protein handoff. |
+| `protloom_project_yaml` | None | Base project YAML required with ProtLoom. |
+| `protloom_pt_order` / `protloom_pc_order` | Empty | Required ordering settings when ProtLoom is enabled. |
+| `export_easypqp_reports` | Child default: `false` | DDA does not need EasyPQP reports. |
+
+The parent passes the search idXML manifest, original mzML manifest, and target-decoy FASTA to validation. MSBooster uses the mzML manifest already supplied by the parent. The child publishes per-engine filtered idXML and unfiltered PEP-scored idXML; multiple engines also produce a filtered consensus idXML. See the [validation pipeline parameters](external/validate-ProteomicPSM/README.md#config) for filtering and inference options.
+
+### `quantitate_ProteomicTMT` — isobaric quantitation
+
+| Parameter | Default | Purpose |
+| --- | --- | --- |
+| `plex_type` | `tmt10plex` | Reporter-label set. |
+| `tmt_normalization_method` | Child default | Select the TMT normalization route, such as `mad`. |
+| `consensusXML_entrypoint` | `false` | The metapipeline supplies mzML, idXML, and channel manifests. |
+
+The TMT child receives one validated idXML per plex and all mzML fractions in that plex. Channel labels come from `channel_csv`. See the [TMT pipeline parameters](external/quantitate-ProteomicTMT/README.md) for correction matrices, normalization, and reporter-channel options.
+
+### `quantitate_ProteomicLFQ` — label-free quantitation
+
+| Parameter | Default | Purpose |
+| --- | --- | --- |
+| `algorithm` | `FFId` | FeatureFinderIdentification route used by this metapipeline. |
+| `fractionated` | `false` | Set true when each LFQ sample has multiple mzML fractions. |
+| `ffid_strategy` | Child default: `merged` | Identification strategy within FeatureFinderIdentification. |
+| `merge_featureXML` | Child default: `true` | Produce consensusXML for protein quantitation. |
+
+The LFQ child receives one validated idXML per sample and the sample-to-fraction mzML manifest. See the [LFQ pipeline parameters](external/quantitate-ProteomicLFQ/README.md) for feature finding, alignment, and linking options.
+
+### `quantitate_ProteomicProtein` — protein quantitation
+
+| Parameter | Default | Purpose |
+| --- | --- | --- |
+| `protein_grouping_algorithm` | `ProteinProphet` | `ProteinProphet` or `ProteinInferencer`. |
+| `merge_consensus` | `true` | Combine the peptide consensusXML files before protein quantitation. |
+| `protein_fdr_cutoff` | `0.01` | Protein FDR cutoff when the selected child workflow enables protein FDR filtering. |
+
+ProteinProphet also receives the per-engine, PEP-scored idXML files from validation. See the [protein pipeline parameters](external/quantitate-ProteomicProtein/README.md) for inference and filtering controls. Root-level `decoy_database` and `decoy_string` are passed to this child.
+
+See [config/template.config](config/template.config) for an editable run configuration and [config/schema.yaml](config/schema.yaml) for root parameter validation.
 
 ## Pipeline steps and outputs
 
-The parent output layout follows the DIA metapipeline:
+1. `search-ProteomicMSMS` searches each mzML with the selected engines and merges fractions into one idXML per sample and engine.
+2. `validate-ProteomicPSM` scores and filters PSMs. When several engines are selected, it produces a per-sample consensus idXML for peptide quantitation.
+3. `quantitate-ProteomicTMT` or `quantitate-ProteomicLFQ` quantifies peptides according to `experiment_type`.
+4. `quantitate-ProteomicProtein` uses peptide consensusXML and, for ProteinProphet, unfiltered PEP-scored idXML to quantify proteins.
+
+Versioned child pipeline directories and handoff manifests are published at:
 
 ```text
 <output_dir>/metapipeline-ProteomicDDA-1.0.0/<dataset_id>/
@@ -48,43 +171,27 @@ The parent output layout follows the DIA metapipeline:
 │   ├── quantitate-ProteomicProtein-<version>/
 │   └── manifests/
 └── log-metapipeline-ProteomicDDA-1.0.0-<timestamp>/
-    └── nextflow-log/
 ```
 
-The `manifests/` directory contains `search.csv`, `validation.csv`,
-`validation-mzml.csv`, `quant-idxml.csv`, `quant-mzml.csv`,
-`protein-unfiltered.csv`, and `protein-consensus.csv`. ProtLoom runs also
-publish `protloom-project.generated.yaml`. These are the handoff files used
-by the child pipelines. The parent log directory contains the Nextflow trace,
-timeline, report, and effective `params.json`.
+`manifests/` contains `search.csv`, `validation.csv`, `validation-mzml.csv`, `quant-idxml.csv`, `quant-mzml.csv`, `protein-unfiltered.csv`, and `protein-consensus.csv`. ProtLoom runs also publish `protloom-project.generated.yaml`. Each child directory contains its scientific results and its own logs. The timestamped metapipeline log directory contains the parent Nextflow trace, timeline, report, and effective parameters.
 
-Each child keeps its native output hierarchy. Search and validation publish
-per-sample results under `<sample_name>/OpenMS-<version>/output/` (or
-`<sample_name>/ProtLoom-<version>/output/` for ProtLoom validation). TMT
-publishes per-plex results under `OpenMS-<version>/output/<plex_id>/`.
-LFQ and protein quantitation use
-`<dataset_id>/OpenMS-<version>/output/`. These differences come from the
-component pipelines; the parent directories and versioned stage names follow
-the DIA layout.
+## Testing
 
-## Integration tests
+The NFTest cases exercise MSFragger LFQ, MSFragger TMT, and Sage LFQ. From the repository root, inside a Slurm job, copy `.env-template` to `.env`, set `TEST_DATA_DIR`, and run:
 
-See `test/README.md`. Run a named case with `test/run-nftest.sh CASE` inside a
-Slurm job after setting `.env` and providing test data. The `.env` file is local
-and ignored by Git.
+```bash
+zsh test/run-nftest.sh test_integration_MSFragger_LFQ_Protein
+zsh test/run-nftest.sh test_integration_MSFragger_TMT_Protein
+zsh test/run-nftest.sh test_integration_Sage_LFQ_Protein
+```
 
-## Pinned child revisions
+The test runner uses `/scratch/$SLURM_JOB_ID/<test-case>` for its work and output. Test CSVs expand `$TEST_DATA_DIR` through [test/csv_environment_expander.groovy](test/csv_environment_expander.groovy). See [test/README.md](test/README.md) for the expected mzML, FASTA, channel CSV, and MSFragger JAR files.
 
-The component submodules are pinned to the revisions below. The Protein
-quantitation child was updated to release `v1.1.0` on 2026-10-25:
+## Current limitations
 
-| Pipeline | Commit |
-| --- | --- |
-| search-ProteomicMSMS | `2df53f041d77c3dead9d15188610a2a35019b2d8` |
-| validate-ProteomicPSM | `6697d95c705836a87053748df56d3ed1d2af910f` |
-| quantitate-ProteomicTMT | `b35383753c4d9dc414451e62528b89cb4b0161ec` |
-| quantitate-ProteomicLFQ | `a022a1bb035b50fa31de95447e571535698a7657` |
-| quantitate-ProteomicProtein (`v1.1.0`) | `c8af440a4a83c4cc84b5a3ea8dfc9e8995c5d1c5` |
+- ProtLoom validation requires MSBooster and additional project settings, and its current output does not satisfy the parent protein-stage idXML handoff. Keep `run_protloom = false` for complete metapipeline runs.
+- Fractionated LFQ with only one sample produces a different consensusXML path than the parent currently selects. Use at least two samples for the fractionated LFQ integration route until this handoff is corrected.
 
-The shared Nextflow config, module, and lib submodules follow the DIA
-metapipeline's pinned revisions.
+## License
+
+This pipeline is licensed under GNU GPL version 2. See [LICENSE](LICENSE).
