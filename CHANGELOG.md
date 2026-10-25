@@ -1,69 +1,23 @@
 # Changelog
-All notable changes to the pipeline-name pipeline.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+All notable changes to metapipeline-ProteomicDDA are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [1.0.0] - 2026-10-25
 
----
-
-## [Unreleased]
 ### Added
-- Add external `indexFile`
-- Add `sample_id` extraction from BAM
-- Add template input YAMLs
-- Add `pipeline-Nexflow-config` as submodule and redirect `set_resources_allocation`
-- Add `pipeline-Nextflow-module` as submodule
-- Additional out of memory exit code
-- Pipeline release action
-- Template for NFTest testing results in PR template
-- Enable dependabot
-- Add example PlantUML image to README
-- Add workflow to build documentation
-- Add workflows to run Nextflow configuration tests
-- Add `CODEOWNERS` set to `nextflow-wg`
-- Add standard workflows for documentation and tests
-- Add schema example with custom types
-### Changed
-- Switch resource limit checks to external scripts
-- Update links in on-prem `Confluence` to point to cloud-based `Confluence`
-- Fix `CODEOWNERS` file
-- Use `schema.check_path` for `workDir` validation
-- Add `Discussions` and `Contributors` to the Table of Contents in `README.md`
-- Update from DSL1 to DSL2
-- Standardize config structure
-- Restructure repo so main script is `main.nf`
-- Reorganize contributors and metadata
-- Reorganize PR template so description is at top
-- Update automatic node detection to allow for `F2` detection
-- Update `ISSUE_TEMPLATE`
-- Standardize input/output/parameter structure in `README.md`
-- Avoid modification of input parameter `output_dir`
-- Create default docker container registry parameter for tools
-- Use `methods.setup_process_afterscript()` to capture log files
-- Use metadata-as-input rather than `addParams`
 
----
-
-## [1.0.0] - YYYY-MM-DD
-### Added
-- For new features.
-- Added item 1.
+- Add a Nextflow DSL2 DDA metapipeline that runs `search-ProteomicMSMS`, `validate-ProteomicPSM`, TMT or LFQ peptide quantitation, and `quantitate-ProteomicProtein`. Each child is launched by a separate process in `module/`.
+- Add Comet, Sage, and MSFragger search selection. Merge multiple search-engine results through validation consensus before peptide quantitation, while retaining per-engine PEP-scored idXML for ProteinProphet.
+- Add sample- and fraction-aware input handling, optional ProtLoom annotation IDs, child parameter namespaces, shared target-decoy settings, and CSV manifests for the child handoffs.
+- Add versioned child output directories, process logs, resource profiles, schema validation, and local template configuration following the DIA metapipeline layout.
+- Add NFTest integration cases for MSFragger LFQ, MSFragger TMT, and Sage LFQ, with a Slurm scratch-directory runner and environment-variable expansion for test inputs.
+- Add pipeline documentation and an SVG workflow schematic.
 
 ### Changed
-- For changes in existing functionality.
-- Changed item 1.
 
-### Deprecated
-- For soon-to-be removed features.
-
-### Removed
-- For now removed features.
-- Removed item 1.
+- Update the protein quantitation child to release `v1.1.0`, including ProteinProphet as the default grouping algorithm.
 
 ### Fixed
-- For any bug fixes.
-- Fixed item 1.
 
-### Security
-- In case of vulnerabilities.
+- Allow Sage-only and Comet-only searches without an MSFragger JAR, while requiring an existing JAR when MSFragger is selected.
+- Support multiple mzML fractions per TMT plex and LFQ sample in the parent handoffs.
