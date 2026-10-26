@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Parameters - metapipeline-ProteomicDDA</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Parameters";
+        var mkdocs_page_input_path = "parameters.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> metapipeline-ProteomicDDA
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../quick-start/">Quick start</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../inputs/">Inputs</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Parameters</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#search_proteomicmsms-database-search">search_ProteomicMSMS — database search</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#validate_proteomicpsm-psm-validation">validate_ProteomicPSM — PSM validation</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#quantitate_proteomictmt-isobaric-quantitation">quantitate_ProteomicTMT — isobaric quantitation</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#quantitate_proteomiclfq-label-free-quantitation">quantitate_ProteomicLFQ — label-free quantitation</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#quantitate_proteomicprotein-protein-quantitation">quantitate_ProteomicProtein — protein quantitation</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#qc_proteomicdda-quality-control">qc_ProteomicDDA — quality control</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../pipeline-steps-and-outputs/">Pipeline steps and outputs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../testing/">Testing</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../current-limitations/">Current limitations</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../license/">License</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">metapipeline-ProteomicDDA</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Parameters</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/v1.1.0/README.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h2 id="parameters">Parameters</h2>
+<p>Set shared values once at the root of the run config. <code>methods.setup()</code> derives the child-specific database and decoy settings before writing child parameter JSON files. Settings specific to one child belong in its namespace. Values passed by the metapipeline's child-call processes should not be repeated in a run config.</p>
+<table>
+<thead>
+<tr>
+<th>Root parameter</th>
+<th>Default</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>input_csv</code></td>
+<td>Required</td>
+<td>Sample-to-mzML CSV.</td>
+</tr>
+<tr>
+<td><code>decoy_database</code></td>
+<td>Required</td>
+<td>Target-decoy FASTA.</td>
+</tr>
+<tr>
+<td><code>experiment_type</code></td>
+<td><code>LFQ</code></td>
+<td>Selects <code>LFQ</code> or <code>TMT</code> peptide quantitation.</td>
+</tr>
+<tr>
+<td><code>channel_csv</code></td>
+<td>Required for TMT</td>
+<td>Reporter-channel manifest.</td>
+</tr>
+<tr>
+<td><code>msfragger_executable</code></td>
+<td>Required for MSFragger</td>
+<td>Search-engine JAR.</td>
+</tr>
+<tr>
+<td><code>output_dir</code></td>
+<td>Required</td>
+<td>Root directory for published results and logs.</td>
+</tr>
+<tr>
+<td><code>dataset_id</code></td>
+<td><code>cohort</code></td>
+<td>Cohort result directory and child project name.</td>
+</tr>
+<tr>
+<td><code>decoy_string</code> / <code>decoy_position</code></td>
+<td><code>DECOY_</code> / <code>prefix</code></td>
+<td>Shared decoy accession marker. MSFragger requires a prefix.</td>
+</tr>
+<tr>
+<td><code>contam_string</code> / <code>contam_position</code></td>
+<td><code>CONTAMINANT_</code> / <code>prefix</code></td>
+<td>Contaminant marker, also checked against the ProtLoom YAML.</td>
+</tr>
+<tr>
+<td><code>child_profile</code></td>
+<td><code>standard</code></td>
+<td>Container-runtime profile passed to each child.</td>
+</tr>
+<tr>
+<td><code>compute_profile</code></td>
+<td>None</td>
+<td>Node budget selected by <code>-profile pines</code>, <code>-profile boutroslab_aws</code>, or directly.</td>
+</tr>
+<tr>
+<td><code>additional_resource_profile_dir</code></td>
+<td>None</td>
+<td>Optional PATH-style list of external resource-profile directories.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="search_proteomicmsms-database-search"><code>search_ProteomicMSMS</code> — database search</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>search_engines</code></td>
+<td><code>['MSFragger']</code></td>
+<td>Any nonempty combination of <code>Comet</code>, <code>Sage</code>, and <code>MSFragger</code>.</td>
+</tr>
+<tr>
+<td><code>CometAdapter</code>, <code>SageAdapter</code>, <code>MSFraggerAdapter</code></td>
+<td>Child defaults</td>
+<td>Engine-specific tolerances, enzymes, modifications, and other OpenMS adapter settings.</td>
+</tr>
+<tr>
+<td><code>reindex_mzml</code></td>
+<td><code>false</code></td>
+<td>Must remain false because reindexed mzML files are not passed to validation and quantitation.</td>
+</tr>
+<tr>
+<td><code>export_mzTab</code></td>
+<td><code>false</code></td>
+<td>Optional search-stage mzTab export.</td>
+</tr>
+</tbody>
+</table>
+<p>The root <code>decoy_string</code> and <code>decoy_position</code> are copied into each selected adapter's <code>PeptideIndexing</code> settings; Sage also receives its <code>decoy_prefix</code>. See the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/da1698e12ec24e7205ed5d65c2ee60e7b2f25e10/external/search-ProteomicMSMS/config/template.config">search pipeline configuration</a> and <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/da1698e12ec24e7205ed5d65c2ee60e7b2f25e10/external/search-ProteomicMSMS/config/schema.yaml">schema</a> for adapter options. Search results are merged per sample and engine before validation.</p>
+<h3 id="validate_proteomicpsm-psm-validation"><code>validate_ProteomicPSM</code> — PSM validation</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>run_percolator</code></td>
+<td><code>true</code></td>
+<td>Produce PEP-scored identifications for ProteinProphet.</td>
+</tr>
+<tr>
+<td><code>percolator_workflow</code></td>
+<td><code>openms</code></td>
+<td>Use <code>openms</code> or <code>msbooster</code>; the latter adds MSBooster features before direct Percolator scoring.</td>
+</tr>
+<tr>
+<td><code>msbooster_params</code></td>
+<td>Child bundled file</td>
+<td>Optional override for MSBooster prediction settings.</td>
+</tr>
+<tr>
+<td><code>merge_consensus</code></td>
+<td><code>false</code>; enabled automatically for multiple engines</td>
+<td>Produce one validated consensus idXML per sample for peptide quantitation.</td>
+</tr>
+<tr>
+<td><code>fractionated</code></td>
+<td><code>false</code></td>
+<td>Must remain false because search already merges fractions per sample.</td>
+</tr>
+<tr>
+<td><code>run_protloom</code></td>
+<td><code>false</code></td>
+<td>Enable ProtLoom inference; currently blocked by the parent protein handoff.</td>
+</tr>
+<tr>
+<td><code>protloom_project_yaml</code></td>
+<td>None</td>
+<td>Base project YAML required with ProtLoom.</td>
+</tr>
+<tr>
+<td><code>protloom_pt_order</code> / <code>protloom_pc_order</code></td>
+<td>Empty</td>
+<td>Required ordering settings when ProtLoom is enabled.</td>
+</tr>
+<tr>
+<td><code>export_easypqp_reports</code></td>
+<td>Child default: <code>false</code></td>
+<td>DDA does not need EasyPQP reports.</td>
+</tr>
+</tbody>
+</table>
+<p>The parent passes the search idXML manifest, original mzML manifest, and target-decoy FASTA to validation. MSBooster uses the mzML manifest already supplied by the parent. The child publishes per-engine filtered idXML and unfiltered PEP-scored idXML; multiple engines also produce a filtered consensus idXML. See the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/da1698e12ec24e7205ed5d65c2ee60e7b2f25e10/external/validate-ProteomicPSM/README.md#config">validation pipeline parameters</a> for filtering and inference options.</p>
+<h3 id="quantitate_proteomictmt-isobaric-quantitation"><code>quantitate_ProteomicTMT</code> — isobaric quantitation</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>plex_type</code></td>
+<td><code>tmt10plex</code></td>
+<td>Reporter-label set.</td>
+</tr>
+<tr>
+<td><code>tmt_normalization_method</code></td>
+<td>Child default</td>
+<td>Select the TMT normalization route, such as <code>mad</code>.</td>
+</tr>
+<tr>
+<td><code>consensusXML_entrypoint</code></td>
+<td><code>false</code></td>
+<td>The metapipeline supplies mzML, idXML, and channel manifests.</td>
+</tr>
+</tbody>
+</table>
+<p>The TMT child receives one validated idXML per plex and all mzML fractions in that plex. Channel labels come from <code>channel_csv</code>. See the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/da1698e12ec24e7205ed5d65c2ee60e7b2f25e10/external/quantitate-ProteomicTMT/README.md">TMT pipeline parameters</a> for correction matrices, normalization, and reporter-channel options.</p>
+<h3 id="quantitate_proteomiclfq-label-free-quantitation"><code>quantitate_ProteomicLFQ</code> — label-free quantitation</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>algorithm</code></td>
+<td><code>FFId</code></td>
+<td>FeatureFinderIdentification route used by this metapipeline.</td>
+</tr>
+<tr>
+<td><code>fractionated</code></td>
+<td><code>false</code></td>
+<td>Set true when each LFQ sample has multiple mzML fractions.</td>
+</tr>
+<tr>
+<td><code>ffid_strategy</code></td>
+<td>Child default: <code>merged</code></td>
+<td>Identification strategy within FeatureFinderIdentification.</td>
+</tr>
+<tr>
+<td><code>merge_featureXML</code></td>
+<td>Child default: <code>true</code></td>
+<td>Produce consensusXML for protein quantitation.</td>
+</tr>
+</tbody>
+</table>
+<p>The LFQ child receives one validated idXML per sample and the sample-to-fraction mzML manifest. See the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/da1698e12ec24e7205ed5d65c2ee60e7b2f25e10/external/quantitate-ProteomicLFQ/README.md">LFQ pipeline parameters</a> for feature finding, alignment, and linking options.</p>
+<h3 id="quantitate_proteomicprotein-protein-quantitation"><code>quantitate_ProteomicProtein</code> — protein quantitation</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>protein_grouping_algorithm</code></td>
+<td><code>ProteinProphet</code></td>
+<td><code>ProteinProphet</code> or <code>ProteinInferencer</code>.</td>
+</tr>
+<tr>
+<td><code>merge_consensus</code></td>
+<td><code>true</code></td>
+<td>Combine the peptide consensusXML files before protein quantitation.</td>
+</tr>
+<tr>
+<td><code>protein_fdr_cutoff</code></td>
+<td><code>0.01</code></td>
+<td>Protein FDR cutoff when the selected child workflow enables protein FDR filtering.</td>
+</tr>
+</tbody>
+</table>
+<p>ProteinProphet also receives the per-engine, PEP-scored idXML files from validation. See the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/da1698e12ec24e7205ed5d65c2ee60e7b2f25e10/external/quantitate-ProteomicProtein/README.md">protein pipeline parameters</a> for inference and filtering controls. Root-level <code>decoy_database</code> and <code>decoy_string</code> are passed to this child.</p>
+<h3 id="qc_proteomicdda-quality-control"><code>qc_ProteomicDDA</code> — quality control</h3>
+<p>The QC child runs after protein quantitation. It uses the original mzML fractions, the published unfiltered search and final filtered identification manifests, the final ProteinProphet idXML or ProteinInferencer consensusXML, and both ProteinQuantifier abundance tables. Set optional QC-specific parameters in <code>qc_ProteomicDDA</code>; see the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/da1698e12ec24e7205ed5d65c2ee60e7b2f25e10/external/qc-ProteomicDDA/README.md">QC pipeline parameters</a>. The parent supplies all required input paths, <code>dataset_id</code>, and <code>inference_route</code>.</p>
+<p>See <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/da1698e12ec24e7205ed5d65c2ee60e7b2f25e10/config/template.config">config/template.config</a> for an editable run configuration and <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/da1698e12ec24e7205ed5d65c2ee60e7b2f25e10/config/schema.yaml">config/schema.yaml</a> for root parameter validation.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../inputs/" class="btn btn-neutral float-left" title="Inputs"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../pipeline-steps-and-outputs/" class="btn btn-neutral float-right" title="Pipeline steps and outputs">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/tree/v1.1.0" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../inputs/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../pipeline-steps-and-outputs/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../js/version-select.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
