@@ -4,6 +4,8 @@ All notable changes to metapipeline-ProteomicDDA are documented here. The format
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-10-25
+
 ### Changed
 
 - Update `quantitate-ProteomicProtein` to release `v1.1.1`, which fixes the ProteinQuantifier `include_all` flag mapping.
@@ -27,3 +29,7 @@ All notable changes to metapipeline-ProteomicDDA are documented here. The format
 
 - Allow Sage-only and Comet-only searches without an MSFragger JAR, while requiring an existing JAR when MSFragger is selected.
 - Support multiple mzML fractions per TMT plex and LFQ sample in the parent handoffs.
+
+[1.0.0]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/releases/tag/v1.0.0
+[1.0.1]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.0.0...v1.0.1
+[unreleased]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.0.1...HEAD
