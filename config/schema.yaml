@@ -18,3 +18,4 @@ validate_ProteomicPSM: {type: 'Namespace', required: true}
 quantitate_ProteomicTMT: {type: 'Namespace', required: true}
 quantitate_ProteomicLFQ: {type: 'Namespace', required: true}
 quantitate_ProteomicProtein: {type: 'Namespace', required: true}
+qc_ProteomicDDA: {type: 'Namespace', required: true}

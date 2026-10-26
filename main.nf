@@ -12,6 +12,8 @@ include { call_quantitate_tmt } from './module/call_quantitate_tmt.nf'
 include { call_quantitate_lfq } from './module/call_quantitate_lfq.nf'
 include { create_protein_inputs } from './module/create_protein_inputs.nf'
 include { call_quantitate_protein } from './module/call_quantitate_protein.nf'
+include { create_qc_inputs } from './module/create_qc_inputs.nf'
+include { call_qc_dda } from './module/call_qc_dda.nf'
 
 // Search and quantitation accept multiple mzML fractions per sample or plex.
 def readMzMLCsv(String inputCsv) {
@@ -89,7 +91,8 @@ workflow {
         ['validate_ProteomicPSM', params.validate_ProteomicPSM, []],
         ['quantitate_ProteomicTMT', params.quantitate_ProteomicTMT, []],
         ['quantitate_ProteomicLFQ', params.quantitate_ProteomicLFQ, []],
-        ['quantitate_ProteomicProtein', params.quantitate_ProteomicProtein, []]
+        ['quantitate_ProteomicProtein', params.quantitate_ProteomicProtein, []],
+        ['qc_ProteomicDDA', params.qc_ProteomicDDA, []]
     )
     create_config_json(configs)
     searchConfig = create_config_json.out.config.filter { n, c, r -> n == 'search_ProteomicMSMS' }.map { n, c, r -> [c, r] }
@@ -97,6 +100,7 @@ workflow {
     tmtConfig = create_config_json.out.config.filter { n, c, r -> n == 'quantitate_ProteomicTMT' }.map { n, c, r -> [c, r] }
     lfqConfig = create_config_json.out.config.filter { n, c, r -> n == 'quantitate_ProteomicLFQ' }.map { n, c, r -> [c, r] }
     proteinConfig = create_config_json.out.config.filter { n, c, r -> n == 'quantitate_ProteomicProtein' }.map { n, c, r -> [c, r] }
+    qcConfig = create_config_json.out.config.filter { n, c, r -> n == 'qc_ProteomicDDA' }.map { n, c, r -> [c, r] }
 
     create_search_csv(samples)
     searchInput = create_search_csv.out.input.combine(searchConfig)
@@ -129,4 +133,13 @@ workflow {
     create_protein_inputs(quantResult)
     proteinInput = create_protein_inputs.out.input.combine(proteinConfig)
     call_quantitate_protein(proteinInput, file(params.decoy_database))
+
+    qcSearch = create_validation_csv.out.input.map { records, searchCsv, mzmlCsv -> [records, searchCsv] }
+    qcFiltered = create_quant_inputs.out.input.map { records, validationDir, filteredCsv, mzmlCsv, unfilteredCsv -> filteredCsv }
+    qcInput = qcSearch.combine(qcFiltered).combine(call_quantitate_protein.out.result)
+        .map { records, searchCsv, filteredCsv, proteinDir ->
+            tuple(records, searchCsv, filteredCsv, proteinDir)
+        }
+    create_qc_inputs(qcInput)
+    call_qc_dda(create_qc_inputs.out.input.combine(qcConfig))
 }

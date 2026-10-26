@@ -22,3 +22,6 @@
 [submodule "external/quantitate-ProteomicProtein"]
 	path = external/quantitate-ProteomicProtein
 	url = https://github.com/TheBoutrosLab/pipeline-quantitate-ProteomicProtein.git
+[submodule "external/qc-ProteomicDDA"]
+	path = external/qc-ProteomicDDA
+	url = https://github.com/TheBoutrosLab/pipeline-qc-ProteomicDDA.git

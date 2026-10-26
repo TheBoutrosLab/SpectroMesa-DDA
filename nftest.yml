@@ -6,19 +6,19 @@ global:
   clean_logs: true
 cases:
   - name: test_integration_MSFragger_LFQ_Protein
-    message: DDA search, PSM validation, LFQ, and protein quantitation
+    message: DDA search, PSM validation, LFQ, protein quantitation, and QC
     nf_script: main.nf
     nf_config: test/test_integration_MSFragger_LFQ_Protein/test.config
     skip: false
     verbose: true
   - name: test_integration_Sage_LFQ_Protein
-    message: Sage search, PSM validation, LFQ, and protein quantitation
+    message: Sage search, PSM validation, LFQ, protein quantitation, and QC
     nf_script: main.nf
     nf_config: test/test_integration_Sage_LFQ_Protein/test.config
     skip: false
     verbose: true
   - name: test_integration_MSFragger_TMT_Protein
-    message: DDA search, PSM validation, TMT, and protein quantitation
+    message: DDA search, PSM validation, TMT, protein quantitation, and QC
     nf_script: main.nf
     nf_config: test/test_integration_MSFragger_TMT_Protein/test.config
     skip: false
