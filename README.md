@@ -1,6 +1,6 @@
 # metapipeline-ProteomicDDA
 
-This Boutros Lab metapipeline searches DDA mzML files with Comet, Sage, or MSFragger, validates peptide-spectrum matches (PSMs), quantifies peptides with TMT or label-free quantitation (LFQ), and quantifies proteins with ProteinProphet or ProteinInferencer.
+This Boutros Lab metapipeline searches DDA mzML files with Comet, Sage, or MSFragger, validates peptide-spectrum matches (PSMs), quantifies peptides with TMT or label-free quantitation (LFQ), quantifies proteins with ProteinProphet or ProteinInferencer, and runs DDA quality control.
 
 ![DDA metapipeline schematic](docs/pipeline-flow.svg)
 
@@ -150,6 +150,10 @@ The LFQ child receives one validated idXML per sample and the sample-to-fraction
 
 ProteinProphet also receives the per-engine, PEP-scored idXML files from validation. See the [protein pipeline parameters](external/quantitate-ProteomicProtein/README.md) for inference and filtering controls. Root-level `decoy_database` and `decoy_string` are passed to this child.
 
+### `qc_ProteomicDDA` — quality control
+
+The QC child runs after protein quantitation. It uses the original mzML fractions, the published unfiltered search and final filtered identification manifests, the final ProteinProphet idXML or ProteinInferencer consensusXML, and both ProteinQuantifier abundance tables. Set optional QC-specific parameters in `qc_ProteomicDDA`; see the [QC pipeline parameters](external/qc-ProteomicDDA/README.md). The parent supplies all required input paths, `dataset_id`, and `inference_route`.
+
 See [config/template.config](config/template.config) for an editable run configuration and [config/schema.yaml](config/schema.yaml) for root parameter validation.
 
 ## Pipeline steps and outputs
@@ -158,26 +162,28 @@ See [config/template.config](config/template.config) for an editable run configu
 2. `validate-ProteomicPSM` scores and filters PSMs. When several engines are selected, it produces a per-sample consensus idXML for peptide quantitation.
 3. `quantitate-ProteomicTMT` or `quantitate-ProteomicLFQ` quantifies peptides according to `experiment_type`.
 4. `quantitate-ProteomicProtein` uses peptide consensusXML and, for ProteinProphet, unfiltered PEP-scored idXML to quantify proteins.
+5. `qc-ProteomicDDA` summarizes acquisition, search, validated identifications, protein groups, and abundance, and creates per-fraction interactive MS1 plots.
 
 Versioned child pipeline directories and handoff manifests are published at:
 
 ```text
-<output_dir>/metapipeline-ProteomicDDA-1.0.0/<dataset_id>/
+<output_dir>/metapipeline-ProteomicDDA-<version>/<dataset_id>/
 ├── main_workflow/
 │   ├── search-ProteomicMSMS-<version>/
 │   ├── validate-ProteomicPSM-<version>/
 │   ├── quantitate-ProteomicTMT-<version>/       # TMT runs only
 │   ├── quantitate-ProteomicLFQ-<version>/       # LFQ runs only
 │   ├── quantitate-ProteomicProtein-<version>/
+│   ├── qc-ProteomicDDA-1.0.0/
 │   └── manifests/
-└── log-metapipeline-ProteomicDDA-1.0.0-<timestamp>/
+└── log-metapipeline-ProteomicDDA-<version>-<timestamp>/
 ```
 
-`manifests/` contains `search.csv`, `validation.csv`, `validation-mzml.csv`, `quant-idxml.csv`, `quant-mzml.csv`, `protein-unfiltered.csv`, and `protein-consensus.csv`. ProtLoom runs also publish `protloom-project.generated.yaml`. Each child directory contains its scientific results and its own logs. The timestamped metapipeline log directory contains the parent Nextflow trace, timeline, report, and effective parameters.
+`manifests/` contains `search.csv`, `validation.csv`, `validation-mzml.csv`, `quant-idxml.csv`, `quant-mzml.csv`, `protein-unfiltered.csv`, `protein-consensus.csv`, and `qc-mzml.csv`. ProtLoom runs also publish `protloom-project.generated.yaml`. The QC child writes `<dataset_id>_QC_metrics.tsv` and per-stage metrics and plots under its versioned output directory. Each child directory contains its scientific results and its own logs. The timestamped metapipeline log directory contains the parent Nextflow trace, timeline, report, and effective parameters.
 
 ## Testing
 
-The NFTest cases exercise MSFragger LFQ, MSFragger TMT, and Sage LFQ. From the repository root, inside a Slurm job, copy `.env-template` to `.env`, set `TEST_DATA_DIR`, and run:
+The NFTest cases exercise MSFragger LFQ, MSFragger TMT, and Sage LFQ, including the QC child. From the repository root, inside a Slurm job, copy `.env-template` to `.env`, set `TEST_DATA_DIR`, and run:
 
 ```bash
 zsh test/run-nftest.sh test_integration_MSFragger_LFQ_Protein

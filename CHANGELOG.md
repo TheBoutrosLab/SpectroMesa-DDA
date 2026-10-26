@@ -4,6 +4,15 @@ All notable changes to metapipeline-ProteomicDDA are documented here. The format
 
 ## [Unreleased]
 
+### Added
+
+- Run `qc-ProteomicDDA` release `v1.0.0` after protein quantitation to summarize acquisition, identification, protein grouping, and abundance quality metrics.
+- Restore the DDA workflow schematic and include the QC stage.
+
+### Changed
+
+- Update `quantitate-ProteomicProtein` to release `v1.1.2`, which publishes the final ProteinProphet grouping files.
+
 ## [1.0.1] - 2026-10-25
 
 ### Changed
