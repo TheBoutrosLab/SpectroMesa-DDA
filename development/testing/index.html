@@ -86,7 +86,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Testing</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/83d9202e795dee2fdf65f6338e5f67f6f2a39428/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/70633b83bf40951a58e1c5470b94f03a9e3e0c92/README.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -95,12 +95,12 @@
             <div class="section" itemprop="articleBody">
               
                 <h2 id="testing">Testing</h2>
-<p>The NFTest cases exercise MSFragger LFQ, MSFragger TMT, and Sage LFQ. From the repository root, inside a Slurm job, copy <code>.env-template</code> to <code>.env</code>, set <code>TEST_DATA_DIR</code>, and run:</p>
+<p>The NFTest cases exercise MSFragger LFQ, MSFragger TMT, and Sage LFQ, including the QC child. From the repository root, inside a Slurm job, copy <code>.env-template</code> to <code>.env</code>, set <code>TEST_DATA_DIR</code>, and run:</p>
 <pre><code class="language-bash">zsh test/run-nftest.sh test_integration_MSFragger_LFQ_Protein
 zsh test/run-nftest.sh test_integration_MSFragger_TMT_Protein
 zsh test/run-nftest.sh test_integration_Sage_LFQ_Protein
 </code></pre>
-<p>The test runner uses <code>/scratch/$SLURM_JOB_ID/&lt;test-case&gt;</code> for its work and output. Test CSVs expand <code>$TEST_DATA_DIR</code> through <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/83d9202e795dee2fdf65f6338e5f67f6f2a39428/test/csv_environment_expander.groovy">test/csv_environment_expander.groovy</a>. See <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/83d9202e795dee2fdf65f6338e5f67f6f2a39428/test/README.md">test/README.md</a> for the expected mzML, FASTA, channel CSV, and MSFragger JAR files.</p>
+<p>The test runner uses <code>/scratch/$SLURM_JOB_ID/&lt;test-case&gt;</code> for its work and output. Test CSVs expand <code>$TEST_DATA_DIR</code> through <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/70633b83bf40951a58e1c5470b94f03a9e3e0c92/test/csv_environment_expander.groovy">test/csv_environment_expander.groovy</a>. See <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/70633b83bf40951a58e1c5470b94f03a9e3e0c92/test/README.md">test/README.md</a> for the expected mzML, FASTA, channel CSV, and MSFragger JAR files.</p>
               
             </div>
           </div><footer>
