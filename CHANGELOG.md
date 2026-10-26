@@ -2,6 +2,12 @@
 
 All notable changes to metapipeline-ProteomicDDA are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- Update `quantitate-ProteomicProtein` to release `v1.1.1`, which fixes the ProteinQuantifier `include_all` flag mapping.
+
 ## [1.0.0] - 2026-10-25
 
 ### Added
