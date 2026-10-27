@@ -86,7 +86,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Pipeline steps and outputs</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/da1698e12ec24e7205ed5d65c2ee60e7b2f25e10/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/7f0341f029a2ab4a65fa0260c1d5a3f85c089fde/README.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -100,7 +100,7 @@
 <li><code>validate-ProteomicPSM</code> scores and filters PSMs. When several engines are selected, it produces a per-sample consensus idXML for peptide quantitation.</li>
 <li><code>quantitate-ProteomicTMT</code> or <code>quantitate-ProteomicLFQ</code> quantifies peptides according to <code>experiment_type</code>.</li>
 <li><code>quantitate-ProteomicProtein</code> uses peptide consensusXML and, for ProteinProphet, unfiltered PEP-scored idXML to quantify proteins.</li>
-<li><code>qc-ProteomicDDA</code> summarizes acquisition, search, validated identifications, protein groups, and abundance, and creates per-fraction interactive MS1 plots.</li>
+<li><code>qc-ProteomicDDA</code> summarizes acquisition, search, PSM features, validated identifications, protein groups, and abundance, and creates per-fraction interactive MS1 plots.</li>
 </ol>
 <p>Versioned child pipeline directories and handoff manifests are published at:</p>
 <pre><code class="language-text">&lt;output_dir&gt;/metapipeline-ProteomicDDA-&lt;version&gt;/&lt;dataset_id&gt;/
@@ -110,11 +110,11 @@
 │   ├── quantitate-ProteomicTMT-&lt;version&gt;/       # TMT runs only
 │   ├── quantitate-ProteomicLFQ-&lt;version&gt;/       # LFQ runs only
 │   ├── quantitate-ProteomicProtein-&lt;version&gt;/
-│   ├── qc-ProteomicDDA-1.0.0/
+│   ├── qc-ProteomicDDA-1.1.0/
 │   └── manifests/
 └── log-metapipeline-ProteomicDDA-&lt;version&gt;-&lt;timestamp&gt;/
 </code></pre>
-<p><code>manifests/</code> contains <code>search.csv</code>, <code>validation.csv</code>, <code>validation-mzml.csv</code>, <code>quant-idxml.csv</code>, <code>quant-mzml.csv</code>, <code>protein-unfiltered.csv</code>, <code>protein-consensus.csv</code>, and <code>qc-mzml.csv</code>. ProtLoom runs also publish <code>protloom-project.generated.yaml</code>. The QC child writes <code>&lt;dataset_id&gt;_QC_metrics.tsv</code> and per-stage metrics and plots under its versioned output directory. Each child directory contains its scientific results and its own logs. The timestamped metapipeline log directory contains the parent Nextflow trace, timeline, report, and effective parameters.</p>
+<p><code>manifests/</code> contains <code>search.csv</code>, <code>validation.csv</code>, <code>validation-mzml.csv</code>, <code>quant-idxml.csv</code>, <code>quant-mzml.csv</code>, <code>protein-unfiltered.csv</code>, <code>protein-consensus.csv</code>, <code>qc-mzml.csv</code>, and <code>qc-psm-features.csv</code>. The feature manifest has a header but no data rows when validation publishes no feature files. ProtLoom runs also publish <code>protloom-project.generated.yaml</code>. The QC child writes <code>&lt;dataset_id&gt;_QC_metrics.tsv</code> and per-stage metrics and plots under its versioned output directory. Each child directory contains its scientific results and its own logs. The timestamped metapipeline log directory contains the parent Nextflow trace, timeline, report, and effective parameters.</p>
               
             </div>
           </div><footer>
