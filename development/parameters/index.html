@@ -98,7 +98,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Parameters</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/4de128ab0058833fa846accb586f2aa192cee3f0/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/76283388478613a782610299f0bbcc8dbaaf5271/README.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -211,7 +211,7 @@
 </tr>
 </tbody>
 </table>
-<p>The root <code>decoy_string</code> and <code>decoy_position</code> are copied into each selected adapter's <code>PeptideIndexing</code> settings; Sage also receives its <code>decoy_prefix</code>. See the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/4de128ab0058833fa846accb586f2aa192cee3f0/external/search-ProteomicMSMS/config/template.config">search pipeline configuration</a> and <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/4de128ab0058833fa846accb586f2aa192cee3f0/external/search-ProteomicMSMS/config/schema.yaml">schema</a> for adapter options. Search results are merged per sample and engine before validation.</p>
+<p>The root <code>decoy_string</code> and <code>decoy_position</code> are copied into each selected adapter's <code>PeptideIndexing</code> settings; Sage also receives its <code>decoy_prefix</code>. See the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/76283388478613a782610299f0bbcc8dbaaf5271/external/search-ProteomicMSMS/config/template.config">search pipeline configuration</a> and <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/76283388478613a782610299f0bbcc8dbaaf5271/external/search-ProteomicMSMS/config/schema.yaml">schema</a> for adapter options. Search results are merged per sample and engine before validation.</p>
 <h3 id="validate_proteomicpsm-psm-validation"><code>validate_ProteomicPSM</code> — PSM validation</h3>
 <table>
 <thead>
@@ -269,7 +269,7 @@
 </tr>
 </tbody>
 </table>
-<p>The parent passes the search idXML manifest, original mzML manifest, and target-decoy FASTA to validation. MSBooster uses the mzML manifest already supplied by the parent. The child publishes per-engine filtered idXML and unfiltered PEP-scored idXML; multiple engines also produce a filtered consensus idXML. See the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/4de128ab0058833fa846accb586f2aa192cee3f0/external/validate-ProteomicPSM/README.md#config">validation pipeline parameters</a> for filtering and inference options.</p>
+<p>The parent passes the search idXML manifest, original mzML manifest, and target-decoy FASTA to validation. MSBooster uses the mzML manifest already supplied by the parent. The child publishes per-engine filtered idXML and unfiltered PEP-scored idXML; multiple engines also produce a filtered consensus idXML. See the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/76283388478613a782610299f0bbcc8dbaaf5271/external/validate-ProteomicPSM/README.md#config">validation pipeline parameters</a> for filtering and inference options.</p>
 <h3 id="quantitate_proteomictmt-isobaric-quantitation"><code>quantitate_ProteomicTMT</code> — isobaric quantitation</h3>
 <table>
 <thead>
@@ -297,7 +297,7 @@
 </tr>
 </tbody>
 </table>
-<p>The TMT child receives one validated idXML per plex and all mzML fractions in that plex. Channel labels come from <code>channel_csv</code>. See the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/4de128ab0058833fa846accb586f2aa192cee3f0/external/quantitate-ProteomicTMT/README.md">TMT pipeline parameters</a> for correction matrices, normalization, and reporter-channel options.</p>
+<p>The TMT child receives one validated idXML per plex and all mzML fractions in that plex. Channel labels come from <code>channel_csv</code>. See the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/76283388478613a782610299f0bbcc8dbaaf5271/external/quantitate-ProteomicTMT/README.md">TMT pipeline parameters</a> for correction matrices, normalization, and reporter-channel options.</p>
 <h3 id="quantitate_proteomiclfq-label-free-quantitation"><code>quantitate_ProteomicLFQ</code> — label-free quantitation</h3>
 <table>
 <thead>
@@ -330,7 +330,7 @@
 </tr>
 </tbody>
 </table>
-<p>The LFQ child receives one validated idXML per sample and the sample-to-fraction mzML manifest. See the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/4de128ab0058833fa846accb586f2aa192cee3f0/external/quantitate-ProteomicLFQ/README.md">LFQ pipeline parameters</a> for feature finding, alignment, and linking options.</p>
+<p>The LFQ child receives one validated idXML per sample and the sample-to-fraction mzML manifest. See the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/76283388478613a782610299f0bbcc8dbaaf5271/external/quantitate-ProteomicLFQ/README.md">LFQ pipeline parameters</a> for feature finding, alignment, and linking options.</p>
 <h3 id="quantitate_proteomicprotein-protein-quantitation"><code>quantitate_ProteomicProtein</code> — protein quantitation</h3>
 <table>
 <thead>
@@ -358,10 +358,10 @@
 </tr>
 </tbody>
 </table>
-<p>ProteinProphet also receives the per-engine, PEP-scored idXML files from validation. See the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/4de128ab0058833fa846accb586f2aa192cee3f0/external/quantitate-ProteomicProtein/README.md">protein pipeline parameters</a> for inference and filtering controls. Root-level <code>decoy_database</code> and <code>decoy_string</code> are passed to this child.</p>
+<p>ProteinProphet also receives the per-engine, PEP-scored idXML files from validation. See the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/76283388478613a782610299f0bbcc8dbaaf5271/external/quantitate-ProteomicProtein/README.md">protein pipeline parameters</a> for inference and filtering controls. Root-level <code>decoy_database</code> and <code>decoy_string</code> are passed to this child.</p>
 <h3 id="qc_proteomicdda-quality-control"><code>qc_ProteomicDDA</code> — quality control</h3>
-<p>The QC child runs after protein quantitation. It uses the original mzML fractions, the published unfiltered search and final filtered identification manifests, available PSMFeatureExtractor idXML and MSBooster PIN files from validation, the final ProteinProphet idXML or ProteinInferencer consensusXML, and both ProteinQuantifier abundance tables. Set optional QC-specific parameters in <code>qc_ProteomicDDA</code>; see the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/4de128ab0058833fa846accb586f2aa192cee3f0/external/qc-ProteomicDDA/README.md">QC pipeline parameters</a>. The parent supplies all required input paths, <code>dataset_id</code>, and <code>inference_route</code>.</p>
-<p>See <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/4de128ab0058833fa846accb586f2aa192cee3f0/config/template.config">config/template.config</a> for an editable run configuration and <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/4de128ab0058833fa846accb586f2aa192cee3f0/config/schema.yaml">config/schema.yaml</a> for root parameter validation.</p>
+<p>The QC child runs after protein quantitation. It uses the original mzML fractions, the published unfiltered search and final filtered identification manifests, available PSMFeatureExtractor idXML and MSBooster PIN files from validation, the final ProteinProphet idXML or ProteinInferencer consensusXML, and both ProteinQuantifier abundance tables. Set optional QC-specific parameters in <code>qc_ProteomicDDA</code>; see the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/76283388478613a782610299f0bbcc8dbaaf5271/external/qc-ProteomicDDA/README.md">QC pipeline parameters</a>. The parent supplies all required input paths, <code>dataset_id</code>, and <code>inference_route</code>.</p>
+<p>See <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/76283388478613a782610299f0bbcc8dbaaf5271/config/template.config">config/template.config</a> for an editable run configuration and <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/76283388478613a782610299f0bbcc8dbaaf5271/config/schema.yaml">config/schema.yaml</a> for root parameter validation.</p>
               
             </div>
           </div><footer>
