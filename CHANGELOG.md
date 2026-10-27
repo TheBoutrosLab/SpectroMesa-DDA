@@ -4,6 +4,8 @@ All notable changes to metapipeline-ProteomicDDA are documented here. The format
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-10-27
+
 ### Changed
 
 - Update `qc-ProteomicDDA` to release `v1.1.0` and pass published PSMFeatureExtractor idXML and MSBooster PIN files into feature QC.
@@ -49,4 +51,5 @@ All notable changes to metapipeline-ProteomicDDA are documented here. The format
 [1.0.0]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/releases/tag/v1.0.0
 [1.0.1]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.0.0...v1.0.1
 [1.1.0]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.0.1...v1.1.0
-[unreleased]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.1.0...HEAD
+[1.2.0]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.1.0...v1.2.0
+[unreleased]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.0...HEAD
