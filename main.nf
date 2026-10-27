@@ -135,10 +135,12 @@ workflow {
     call_quantitate_protein(proteinInput, file(params.decoy_database))
 
     qcSearch = create_validation_csv.out.input.map { records, searchCsv, mzmlCsv -> [records, searchCsv] }
-    qcFiltered = create_quant_inputs.out.input.map { records, validationDir, filteredCsv, mzmlCsv, unfilteredCsv -> filteredCsv }
+    qcFiltered = create_quant_inputs.out.input.map { records, validationDir, filteredCsv, mzmlCsv, unfilteredCsv ->
+        [filteredCsv, validationDir]
+    }
     qcInput = qcSearch.combine(qcFiltered).combine(call_quantitate_protein.out.result)
-        .map { records, searchCsv, filteredCsv, proteinDir ->
-            tuple(records, searchCsv, filteredCsv, proteinDir)
+        .map { records, searchCsv, filteredCsv, validationDir, proteinDir ->
+            tuple(records, searchCsv, filteredCsv, validationDir, proteinDir)
         }
     create_qc_inputs(qcInput)
     call_qc_dda(create_qc_inputs.out.input.combine(qcConfig))
