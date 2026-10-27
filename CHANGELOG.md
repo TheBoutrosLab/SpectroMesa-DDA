@@ -4,6 +4,8 @@ All notable changes to metapipeline-ProteomicDDA are documented here. The format
 
 ## [Unreleased]
 
+## [1.2.1] - 2026-10-27
+
 ### Changed
 
 - Update `validate-ProteomicPSM` to release `v2.3.2`, which fixes MSBooster calibration scores for MSFragger, Comet, and Sage.
@@ -56,4 +58,5 @@ All notable changes to metapipeline-ProteomicDDA are documented here. The format
 [1.0.1]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.0.0...v1.0.1
 [1.1.0]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.0.1...v1.1.0
 [1.2.0]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.1.0...v1.2.0
-[unreleased]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.0...HEAD
+[1.2.1]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.0...v1.2.1
+[unreleased]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.1...HEAD
