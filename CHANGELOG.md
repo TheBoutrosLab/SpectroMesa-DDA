@@ -11,6 +11,8 @@ All notable changes to metapipeline-ProteomicDDA are documented here. The format
 
 ### Changed
 
+- Update `qc-ProteomicDDA` to release `v1.1.0` and pass published PSMFeatureExtractor idXML and MSBooster PIN files into feature QC.
+- Update `validate-ProteomicPSM` to release `v2.3.1`, which repairs ProteinProphet pepXML termini and publishes Percolator feature files for downstream QC.
 - Update `quantitate-ProteomicProtein` to release `v1.1.2`, which publishes the final ProteinProphet grouping files.
 
 ## [1.0.1] - 2026-10-25

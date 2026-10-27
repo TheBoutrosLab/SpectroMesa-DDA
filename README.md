@@ -152,7 +152,7 @@ ProteinProphet also receives the per-engine, PEP-scored idXML files from validat
 
 ### `qc_ProteomicDDA` — quality control
 
-The QC child runs after protein quantitation. It uses the original mzML fractions, the published unfiltered search and final filtered identification manifests, the final ProteinProphet idXML or ProteinInferencer consensusXML, and both ProteinQuantifier abundance tables. Set optional QC-specific parameters in `qc_ProteomicDDA`; see the [QC pipeline parameters](external/qc-ProteomicDDA/README.md). The parent supplies all required input paths, `dataset_id`, and `inference_route`.
+The QC child runs after protein quantitation. It uses the original mzML fractions, the published unfiltered search and final filtered identification manifests, available PSMFeatureExtractor idXML and MSBooster PIN files from validation, the final ProteinProphet idXML or ProteinInferencer consensusXML, and both ProteinQuantifier abundance tables. Set optional QC-specific parameters in `qc_ProteomicDDA`; see the [QC pipeline parameters](external/qc-ProteomicDDA/README.md). The parent supplies all required input paths, `dataset_id`, and `inference_route`.
 
 See [config/template.config](config/template.config) for an editable run configuration and [config/schema.yaml](config/schema.yaml) for root parameter validation.
 
@@ -162,7 +162,7 @@ See [config/template.config](config/template.config) for an editable run configu
 2. `validate-ProteomicPSM` scores and filters PSMs. When several engines are selected, it produces a per-sample consensus idXML for peptide quantitation.
 3. `quantitate-ProteomicTMT` or `quantitate-ProteomicLFQ` quantifies peptides according to `experiment_type`.
 4. `quantitate-ProteomicProtein` uses peptide consensusXML and, for ProteinProphet, unfiltered PEP-scored idXML to quantify proteins.
-5. `qc-ProteomicDDA` summarizes acquisition, search, validated identifications, protein groups, and abundance, and creates per-fraction interactive MS1 plots.
+5. `qc-ProteomicDDA` summarizes acquisition, search, PSM features, validated identifications, protein groups, and abundance, and creates per-fraction interactive MS1 plots.
 
 Versioned child pipeline directories and handoff manifests are published at:
 
@@ -174,12 +174,12 @@ Versioned child pipeline directories and handoff manifests are published at:
 │   ├── quantitate-ProteomicTMT-<version>/       # TMT runs only
 │   ├── quantitate-ProteomicLFQ-<version>/       # LFQ runs only
 │   ├── quantitate-ProteomicProtein-<version>/
-│   ├── qc-ProteomicDDA-1.0.0/
+│   ├── qc-ProteomicDDA-1.1.0/
 │   └── manifests/
 └── log-metapipeline-ProteomicDDA-<version>-<timestamp>/
 ```
 
-`manifests/` contains `search.csv`, `validation.csv`, `validation-mzml.csv`, `quant-idxml.csv`, `quant-mzml.csv`, `protein-unfiltered.csv`, `protein-consensus.csv`, and `qc-mzml.csv`. ProtLoom runs also publish `protloom-project.generated.yaml`. The QC child writes `<dataset_id>_QC_metrics.tsv` and per-stage metrics and plots under its versioned output directory. Each child directory contains its scientific results and its own logs. The timestamped metapipeline log directory contains the parent Nextflow trace, timeline, report, and effective parameters.
+`manifests/` contains `search.csv`, `validation.csv`, `validation-mzml.csv`, `quant-idxml.csv`, `quant-mzml.csv`, `protein-unfiltered.csv`, `protein-consensus.csv`, `qc-mzml.csv`, and `qc-psm-features.csv`. The feature manifest has a header but no data rows when validation publishes no feature files. ProtLoom runs also publish `protloom-project.generated.yaml`. The QC child writes `<dataset_id>_QC_metrics.tsv` and per-stage metrics and plots under its versioned output directory. Each child directory contains its scientific results and its own logs. The timestamped metapipeline log directory contains the parent Nextflow trace, timeline, report, and effective parameters.
 
 ## Testing
 

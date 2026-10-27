@@ -2,7 +2,7 @@ process call_qc_dda {
     publishDir "${params.final_output_dir}", mode: 'copy', pattern: 'qc-ProteomicDDA-*'
 
     input:
-        tuple path(mzmlCsv), path(searchCsv), path(filteredCsv),
+        tuple path(mzmlCsv), path(searchCsv), path(filteredCsv), path(featuresCsv),
             path(proteinGroups), path(proteinQuant), path(peptideQuant),
             path(configJson), path(resourceConfig)
 
@@ -20,6 +20,7 @@ process call_qc_dda {
             --mzml_csv \$(realpath ${mzmlCsv}) \\
             --search_idxml_csv \$(realpath ${searchCsv}) \\
             --filtered_idxml_csv \$(realpath ${filteredCsv}) \\
+            --psm_features_csv \$(realpath ${featuresCsv}) \\
             --protein_groups \$(realpath ${proteinGroups}) \\
             --protein_quant_csv \$(realpath ${proteinQuant}) \\
             --peptide_quant_csv \$(realpath ${peptideQuant}) \\
