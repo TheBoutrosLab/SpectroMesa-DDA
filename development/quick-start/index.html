@@ -88,7 +88,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Quick start</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/76283388478613a782610299f0bbcc8dbaaf5271/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/99a1e80893e4d9a72d1a00af30a8c02181977cfb/README.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -104,10 +104,10 @@
    git submodule update --init --recursive</code></p>
 <ol>
 <li>
-<p>Prepare the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/76283388478613a782610299f0bbcc8dbaaf5271/input/input.csv">mzML input CSV</a> and a target-decoy FASTA. Obtain the MSFragger JAR separately if MSFragger is selected. For TMT, prepare a channel CSV with the format required by <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/76283388478613a782610299f0bbcc8dbaaf5271/external/quantitate-ProteomicTMT/README.md">quantitate-ProteomicTMT</a>.</p>
+<p>Prepare the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/99a1e80893e4d9a72d1a00af30a8c02181977cfb/input/input.csv">mzML input CSV</a> and a target-decoy FASTA. Obtain the MSFragger JAR separately if MSFragger is selected. For TMT, prepare a channel CSV with the format required by <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/99a1e80893e4d9a72d1a00af30a8c02181977cfb/external/quantitate-ProteomicTMT/README.md">quantitate-ProteomicTMT</a>.</p>
 </li>
 <li>
-<p>Copy <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/76283388478613a782610299f0bbcc8dbaaf5271/config/template.config">config/template.config</a> to a run-specific file. Set <code>input_csv</code>, <code>decoy_database</code>, <code>output_dir</code>, <code>dataset_id</code>, <code>experiment_type</code>, and the selected search engines. Set <code>channel_csv</code> for TMT and <code>msfragger_executable</code> when using MSFragger. Keep the template's <code>includeConfig</code> lines and final <code>methods.setup()</code> call.</p>
+<p>Copy <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/99a1e80893e4d9a72d1a00af30a8c02181977cfb/config/template.config">config/template.config</a> to a run-specific file. Set <code>input_csv</code>, <code>decoy_database</code>, <code>output_dir</code>, <code>dataset_id</code>, <code>experiment_type</code>, and the selected search engines. Set <code>channel_csv</code> for TMT and <code>msfragger_executable</code> when using MSFragger. Keep the template's <code>includeConfig</code> lines and final <code>methods.setup()</code> call.</p>
 </li>
 <li>
 <p>Run with Nextflow 24.10.6 and its v1 syntax parser. Choose a work directory with enough space for the mzML files and child pipeline work:</p>
@@ -141,8 +141,8 @@
 </tr>
 </tbody>
 </table>
-<p>Parent CSV and configuration tasks request 1 CPU and 2 GB; parent child-launch tasks request 2 CPUs and 4 GB from <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/76283388478613a782610299f0bbcc8dbaaf5271/config/resources.json">config/resources.json</a>. The bundled JSON profiles set <code>max_cpus</code> and <code>max_memory</code> for the parent and children. Their <code>children</code> process-allocation entries are <strong>not applied</strong> by the current DDA metapipeline; each child uses its own resource defaults unless its namespace supplies <code>base_resource_update</code>. These profiles describe node budgets; they do not select a Slurm partition or change the local executor.</p>
-<p>For a profile outside the repository, copy <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/76283388478613a782610299f0bbcc8dbaaf5271/config/resource_profiles/pines.json">pines.json</a> or <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/76283388478613a782610299f0bbcc8dbaaf5271/config/resource_profiles/boutroslab_aws.json">boutroslab_aws.json</a> to a directory you control, rename it <code>&lt;name&gt;.json</code>, and edit its <code>max_cpus</code> and <code>max_memory</code>. Set these values in the run config:</p>
+<p>Parent CSV and configuration tasks request 1 CPU and 2 GB; parent child-launch tasks request 2 CPUs and 4 GB from <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/99a1e80893e4d9a72d1a00af30a8c02181977cfb/config/resources.json">config/resources.json</a>. The bundled JSON profiles set <code>max_cpus</code> and <code>max_memory</code> for the parent and children. Their <code>children</code> process-allocation entries are <strong>not applied</strong> by the current DDA metapipeline; each child uses its own resource defaults unless its namespace supplies <code>base_resource_update</code>. These profiles describe node budgets; they do not select a Slurm partition or change the local executor.</p>
+<p>For a profile outside the repository, copy <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/99a1e80893e4d9a72d1a00af30a8c02181977cfb/config/resource_profiles/pines.json">pines.json</a> or <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/99a1e80893e4d9a72d1a00af30a8c02181977cfb/config/resource_profiles/boutroslab_aws.json">boutroslab_aws.json</a> to a directory you control, rename it <code>&lt;name&gt;.json</code>, and edit its <code>max_cpus</code> and <code>max_memory</code>. Set these values in the run config:</p>
 <pre><code class="language-groovy">params.compute_profile = 'my_cluster'
 params.additional_resource_profile_dir = '/path/to/resource_profiles'
 </code></pre>
