@@ -4,6 +4,10 @@ All notable changes to metapipeline-ProteomicDDA are documented here. The format
 
 ## [Unreleased]
 
+### Changed
+
+- Update `qc-ProteomicDDA` to release `v1.1.1`, which counts MSBooster PSMs by missed cleavages, cleavage specificity, and precursor charge.
+
 ## [1.2.1] - 2026-10-27
 
 ### Changed

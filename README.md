@@ -174,7 +174,7 @@ Versioned child pipeline directories and handoff manifests are published at:
 │   ├── quantitate-ProteomicTMT-<version>/       # TMT runs only
 │   ├── quantitate-ProteomicLFQ-<version>/       # LFQ runs only
 │   ├── quantitate-ProteomicProtein-<version>/
-│   ├── qc-ProteomicDDA-1.1.0/
+│   ├── qc-ProteomicDDA-<version>/
 │   └── manifests/
 └── log-metapipeline-ProteomicDDA-<version>-<timestamp>/
 ```
