@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="720" viewBox="0 0 1600 720" role="img" aria-labelledby="figure-title figure-description">
   <title id="figure-title">DDA metapipeline workflow</title>
-  <desc id="figure-description">The DDA metapipeline supports Comet, Sage, and MSFragger search, individually or together. mzML fractions pass through search and PSM validation. Depending on experiment type, validated idXML and mzML files enter either TMT or LFQ quantitation. ConsensusXML and unfiltered PEP-scored idXML pass to protein quantitation. DDA quality control summarizes the mzML, search, PSM feature, validation, protein grouping, and abundance outputs. A target-decoy FASTA is shared by search, validation, and protein quantitation.</desc>
+  <desc id="figure-description">Optional convert-MSData turns vendor or other supported mass spectrometry files into mzML before DDA search. Comet, Sage, and MSFragger search can run individually or together. mzML fractions pass through search and PSM validation. Depending on experiment type, validated idXML and mzML files enter either TMT or LFQ quantitation. ConsensusXML and unfiltered PEP-scored idXML pass to protein quantitation. DDA quality control summarizes the mzML, search, PSM feature, validation, protein grouping, and abundance outputs. A target-decoy FASTA is shared by search, validation, and protein quantitation.</desc>
   <defs>
     <style>
       text { font-family: Arial, Helvetica, sans-serif; fill: #183044; }
@@ -21,11 +21,20 @@
   </defs>
   <rect width="1600" height="720" fill="#f7fafb"/>
 
-  <rect x="50" y="34" width="1500" height="96" rx="16" class="card"/>
+  <rect x="50" y="34" width="780" height="96" rx="16" class="card"/>
   <rect x="50" y="34" width="9" height="96" rx="4" fill="#159a89"/>
-  <text x="78" y="73" class="name">Sample or plex mzML fractions</text>
-  <text x="78" y="102" class="tool">Input CSV: sample_name, fraction_id, path  ·  annotation_id only for ProtLoom</text>
+  <text x="78" y="70" class="name">Sample or plex MS data fractions</text>
+  <text x="78" y="97" class="tool">Input CSV: sample_name, fraction_id, path  ·  annotation_id only for ProtLoom</text>
+  <path d="M830 82 H930" class="arrow"/>
+  <text x="842" y="68" class="handoff">non-mzML</text>
+  <rect x="940" y="34" width="610" height="96" rx="16" class="card"/>
+  <rect x="940" y="34" width="610" height="9" rx="4" fill="#3174a4"/>
+  <text x="962" y="76" class="name">Convert MS data</text>
+  <text x="962" y="103" class="tool">convert-MSData · vendor RAW or supported format → mzML</text>
   <path d="M195 130 V183 H1000" class="bus"/>
+  <path d="M1000 130 V183" class="bus"/>
+  <text x="258" y="151" class="handoff" style="fill:#158675">direct mzML</text>
+  <text x="1012" y="151" class="handoff" style="fill:#158675">converted mzML</text>
   <path d="M195 183 V235" class="input"/>
   <path d="M550 183 V235" class="input"/>
   <path d="M1000 183 V235" class="input"/>

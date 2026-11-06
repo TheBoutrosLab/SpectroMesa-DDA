@@ -1,6 +1,6 @@
 # metapipeline-ProteomicDDA
 
-This Boutros Lab metapipeline searches DDA mzML files with Comet, Sage, or MSFragger, validates peptide-spectrum matches (PSMs), quantifies peptides with TMT or label-free quantitation (LFQ), quantifies proteins with ProteinProphet or ProteinInferencer, and runs DDA quality control.
+This Boutros Lab metapipeline optionally converts vendor RAW or other supported MS data to mzML, searches DDA mzML files with Comet, Sage, or MSFragger, validates peptide-spectrum matches (PSMs), quantifies peptides with TMT or label-free quantitation (LFQ), quantifies proteins with ProteinProphet or ProteinInferencer, and runs DDA quality control.
 
 ![DDA metapipeline schematic](docs/pipeline-flow.svg)
 
@@ -12,7 +12,7 @@ This Boutros Lab metapipeline searches DDA mzML files with Comet, Sage, or MSFra
    git submodule update --init --recursive
    ```
 
-2. Prepare the [mzML input CSV](input/input.csv) and a target-decoy FASTA. Obtain the MSFragger JAR separately if MSFragger is selected. For TMT, prepare a channel CSV with the format required by [quantitate-ProteomicTMT](external/quantitate-ProteomicTMT/README.md).
+2. Prepare the [input CSV](input/input.csv) and a target-decoy FASTA. All input files must have the same format. Non-mzML input automatically runs through `convert-MSData`. Obtain the MSFragger JAR separately if MSFragger is selected. For TMT, prepare a channel CSV with the format required by [quantitate-ProteomicTMT](external/quantitate-ProteomicTMT/README.md).
 3. Copy [config/template.config](config/template.config) to a run-specific file. Set `input_csv`, `decoy_database`, `output_dir`, `dataset_id`, `experiment_type`, and the selected search engines. Set `channel_csv` for TMT and `msfragger_executable` when using MSFragger. Keep the template's `includeConfig` lines and final `methods.setup()` call.
 4. Run with Nextflow 24.10.6 and its v1 syntax parser. Choose a work directory with enough space for the mzML files and child pipeline work:
 
@@ -45,7 +45,7 @@ A matching Nextflow `-profile` entry is not required when `compute_profile` is s
 
 ## Inputs
 
-The input CSV has these required columns; `annotation_id` is needed only when ProtLoom is enabled:
+The input CSV has these required columns; `annotation_id` is needed only when ProtLoom is enabled. When all paths have the same non-mzML extension, the input is sent to the selected converter; `scan` is an optional column required for WIFF files:
 
 ```csv
 sample_name,fraction_id,path
@@ -59,7 +59,8 @@ sample_02,2,/data/sample_02_fraction_2.mzML
 | --- | --- |
 | `sample_name` | Sample name for LFQ, or plex ID for TMT. A name may appear in multiple rows when its `fraction_id` differs. |
 | `fraction_id` | Required identifier unique within each sample or plex. LFQ samples must have the same set of fraction IDs. |
-| `path` | Existing mzML file. Relative paths resolve from the input CSV's directory. Paths and basenames must be unique; basenames cannot contain another dot before `.mzML`. |
+| `path` | Existing mzML or a format supported by the selected converter. Relative paths resolve from the input CSV's directory. All rows must have the same file extension; mixed formats are rejected. Conversion inputs must have basenames without additional dots. |
+| `scan` | Optional conversion input column; required for WIFF scan companion files. Relative paths resolve from the input CSV's directory. |
 | `annotation_id` | Optional column for ordinary runs. Required with ProtLoom; all fractions of a sample must have the same ID, which must occur in the ProtLoom project YAML. |
 | `decoy_database` | Existing target-decoy FASTA shared by search, validation, and protein quantitation. |
 | `msfragger_executable` | Separately obtained MSFragger JAR, required only when `MSFragger` is selected. |
@@ -79,7 +80,7 @@ Set shared values once at the root of the run config. `methods.setup()` derives 
 
 | Root parameter | Default | Purpose |
 | --- | --- | --- |
-| `input_csv` | Required | Sample-to-mzML CSV. |
+| `input_csv` | Required | Sample-to-fraction MS data CSV. |
 | `decoy_database` | Required | Target-decoy FASTA. |
 | `experiment_type` | `LFQ` | Selects `LFQ` or `TMT` peptide quantitation. |
 | `channel_csv` | Required for TMT | Reporter-channel manifest. |
@@ -91,6 +92,10 @@ Set shared values once at the root of the run config. `methods.setup()` derives 
 | `child_profile` | `standard` | Container-runtime profile passed to each child. |
 | `compute_profile` | None | Node budget selected by `-profile pines`, `-profile boutroslab_aws`, or directly. |
 | `additional_resource_profile_dir` | None | Optional PATH-style list of external resource-profile directories. |
+
+### `convert_MSData` — optional MS data conversion
+
+An input CSV containing uniform non-mzML paths runs [convert-MSData v1.1.0](external/convert-MSData/README.md) once for all input samples and fractions. The child writes mzML files under its versioned directory; the parent generates `conversion.csv` and `converted-input.csv` manifests and uses the converted mzML for search, validation, quantitation, and QC. Keep `output_format = 'mzML'`. Select `convert_algorithm = 'ProteoWizard'` for supported vendor formats or `OpenMS` for supported open formats. Peak picking, indexing, and `pwiz_extra_args` are configured in `convert_MSData`; see the [conversion parameters](external/convert-MSData/README.md#config). The conversion child uses the same `child_profile` and compute budget as the other children.
 
 ### `search_ProteomicMSMS` — database search
 
@@ -158,17 +163,19 @@ See [config/template.config](config/template.config) for an editable run configu
 
 ## Pipeline steps and outputs
 
-1. `search-ProteomicMSMS` searches each mzML with the selected engines and merges fractions into one idXML per sample and engine.
-2. `validate-ProteomicPSM` scores and filters PSMs. When several engines are selected, it produces a per-sample consensus idXML for peptide quantitation.
-3. `quantitate-ProteomicTMT` or `quantitate-ProteomicLFQ` quantifies peptides according to `experiment_type`.
-4. `quantitate-ProteomicProtein` uses peptide consensusXML and, for ProteinProphet, unfiltered PEP-scored idXML to quantify proteins.
-5. `qc-ProteomicDDA` summarizes acquisition, search, PSM features, validated identifications, protein groups, and abundance, and creates per-fraction interactive MS1 plots.
+1. For uniform non-mzML input, `convert-MSData` converts all input files to mzML and passes the resulting files to the remaining stages.
+2. `search-ProteomicMSMS` searches each mzML with the selected engines and merges fractions into one idXML per sample and engine.
+3. `validate-ProteomicPSM` scores and filters PSMs. When several engines are selected, it produces a per-sample consensus idXML for peptide quantitation.
+4. `quantitate-ProteomicTMT` or `quantitate-ProteomicLFQ` quantifies peptides according to `experiment_type`.
+5. `quantitate-ProteomicProtein` uses peptide consensusXML and, for ProteinProphet, unfiltered PEP-scored idXML to quantify proteins.
+6. `qc-ProteomicDDA` summarizes acquisition, search, PSM features, validated identifications, protein groups, and abundance, and creates per-fraction interactive MS1 plots.
 
 Versioned child pipeline directories and handoff manifests are published at:
 
 ```text
 <output_dir>/metapipeline-ProteomicDDA-<version>/<dataset_id>/
 ├── main_workflow/
+│   ├── convert-MSData-<version>/              # conversion runs only
 │   ├── search-ProteomicMSMS-<version>/
 │   ├── validate-ProteomicPSM-<version>/
 │   ├── quantitate-ProteomicTMT-<version>/       # TMT runs only
@@ -179,16 +186,17 @@ Versioned child pipeline directories and handoff manifests are published at:
 └── log-metapipeline-ProteomicDDA-<version>-<timestamp>/
 ```
 
-`manifests/` contains `search.csv`, `validation.csv`, `validation-mzml.csv`, `quant-idxml.csv`, `quant-mzml.csv`, `protein-unfiltered.csv`, `protein-consensus.csv`, `qc-mzml.csv`, and `qc-psm-features.csv`. The feature manifest has a header but no data rows when validation publishes no feature files. ProtLoom runs also publish `protloom-project.generated.yaml`. The QC child writes `<dataset_id>_QC_metrics.tsv` and per-stage metrics and plots under its versioned output directory. Each child directory contains its scientific results and its own logs. The timestamped metapipeline log directory contains the parent Nextflow trace, timeline, report, and effective parameters.
+`manifests/` contains `search.csv`, `validation.csv`, `validation-mzml.csv`, `quant-idxml.csv`, `quant-mzml.csv`, `protein-unfiltered.csv`, `protein-consensus.csv`, `qc-mzml.csv`, and `qc-psm-features.csv`. Conversion runs also publish `conversion.csv` and `converted-input.csv`. The feature manifest has a header but no data rows when validation publishes no feature files. ProtLoom runs also publish `protloom-project.generated.yaml`. The QC child writes `<dataset_id>_QC_metrics.tsv` and per-stage metrics and plots under its versioned output directory. Each child directory contains its scientific results and its own logs. The timestamped metapipeline log directory contains the parent Nextflow trace, timeline, report, and effective parameters.
 
 ## Testing
 
-The NFTest cases exercise MSFragger LFQ, MSFragger TMT, and Sage LFQ, including the QC child. From the repository root, inside a Slurm job, copy `.env-template` to `.env`, set `TEST_DATA_DIR`, and run:
+The NFTest cases exercise MSFragger LFQ, MSFragger TMT, and Sage LFQ, including the QC child. The RAW TMT case uses two E. coli TMT RAW files under `TEST_DATA_DIR`. From the repository root, inside a Slurm job, copy `.env-template` to `.env`, set `TEST_DATA_DIR`, and run:
 
 ```bash
 zsh test/run-nftest.sh test_integration_MSFragger_LFQ_Protein
 zsh test/run-nftest.sh test_integration_MSFragger_TMT_Protein
 zsh test/run-nftest.sh test_integration_Sage_LFQ_Protein
+zsh test/run-nftest.sh test_integration_MSFragger_TMT_RAW
 ```
 
 The test runner uses `/scratch/$SLURM_JOB_ID/<test-case>` for its work and output. Test CSVs expand `$TEST_DATA_DIR` through [test/csv_environment_expander.groovy](test/csv_environment_expander.groovy). See [test/README.md](test/README.md) for the expected mzML, FASTA, channel CSV, and MSFragger JAR files.

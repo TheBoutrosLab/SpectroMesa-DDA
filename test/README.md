@@ -13,3 +13,4 @@ The input CSV uses `sample_name,fraction_id,path`; ProtLoom runs also need `anno
 The TMT sample names must match the `plex_id` values in `channel.csv`.
 
 `test_integration_Sage_LFQ_Protein` uses the same LFQ fixture with Sage search settings from the ecoli_lfq benchmark. It needs no MSFragger JAR.
+`test_integration_MSFragger_TMT_RAW` starts with ProteoWizard conversion of Thermo RAW files, then uses the existing MSFragger TMT search and quantitation settings. Its `input.csv` names one RAW file for each of the two E. coli TMT plexes. Keep the `sample_name` values aligned with `channel.csv` (`Ecoli_12prot_spike_Fr1` and `Ecoli_12prot_spike_Fr2`). The copied channel manifest can be edited if different plexes are used.

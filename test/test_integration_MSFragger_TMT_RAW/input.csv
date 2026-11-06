@@ -1,0 +1,3 @@
+sample_name,fraction_id,annotation_id,path
+Ecoli_12prot_spike_Fr1,1,ecoli,$TEST_DATA_DIR/ecoli_tmt/Raw/151107_Ecoli_12prot_spike_MS2_Fr1.raw
+Ecoli_12prot_spike_Fr2,1,ecoli,$TEST_DATA_DIR/ecoli_tmt/Raw/151107_Ecoli_12prot_spike_MS2_Fr2.raw
