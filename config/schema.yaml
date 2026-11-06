@@ -1,5 +1,6 @@
 ---
 input_csv: {type: 'Path', mode: 'r', required: true}
+convert_MSData: {type: 'Namespace', required: true}
 decoy_database: {type: 'Path', mode: 'r', required: true}
 msfragger_executable: {type: 'String', required: false, allow_empty: true}
 output_dir: {type: 'Path', mode: 'w', required: true}

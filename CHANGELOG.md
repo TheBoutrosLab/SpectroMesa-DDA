@@ -4,6 +4,11 @@ All notable changes to metapipeline-ProteomicDDA are documented here. The format
 
 ## [Unreleased]
 
+### Added
+
+- Add automatic `convert-MSData` v1.1.0 conversion before DDA search when the input CSV contains vendor RAW or another non-mzML format, while preserving direct mzML input.
+- Add a TMT integration case for RAW conversion with one RAW file for each E. coli TMT plex.
+
 ## [1.2.2] - 2026-10-28
 
 ### Changed
