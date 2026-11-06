@@ -86,7 +86,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Pipeline steps and outputs</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/3f13e392c1033f60b2ac128969c738d383b40cce/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/a4ea34536aa9aabd6294a318bc00b620db86f070/README.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -96,6 +96,7 @@
               
                 <h2 id="pipeline-steps-and-outputs">Pipeline steps and outputs</h2>
 <ol>
+<li>For uniform non-mzML input, <code>convert-MSData</code> converts all input files to mzML and passes the resulting files to the remaining stages.</li>
 <li><code>search-ProteomicMSMS</code> searches each mzML with the selected engines and merges fractions into one idXML per sample and engine.</li>
 <li><code>validate-ProteomicPSM</code> scores and filters PSMs. When several engines are selected, it produces a per-sample consensus idXML for peptide quantitation.</li>
 <li><code>quantitate-ProteomicTMT</code> or <code>quantitate-ProteomicLFQ</code> quantifies peptides according to <code>experiment_type</code>.</li>
@@ -105,6 +106,7 @@
 <p>Versioned child pipeline directories and handoff manifests are published at:</p>
 <pre><code class="language-text">&lt;output_dir&gt;/metapipeline-ProteomicDDA-&lt;version&gt;/&lt;dataset_id&gt;/
 ├── main_workflow/
+│   ├── convert-MSData-&lt;version&gt;/              # conversion runs only
 │   ├── search-ProteomicMSMS-&lt;version&gt;/
 │   ├── validate-ProteomicPSM-&lt;version&gt;/
 │   ├── quantitate-ProteomicTMT-&lt;version&gt;/       # TMT runs only
@@ -114,7 +116,7 @@
 │   └── manifests/
 └── log-metapipeline-ProteomicDDA-&lt;version&gt;-&lt;timestamp&gt;/
 </code></pre>
-<p><code>manifests/</code> contains <code>search.csv</code>, <code>validation.csv</code>, <code>validation-mzml.csv</code>, <code>quant-idxml.csv</code>, <code>quant-mzml.csv</code>, <code>protein-unfiltered.csv</code>, <code>protein-consensus.csv</code>, <code>qc-mzml.csv</code>, and <code>qc-psm-features.csv</code>. The feature manifest has a header but no data rows when validation publishes no feature files. ProtLoom runs also publish <code>protloom-project.generated.yaml</code>. The QC child writes <code>&lt;dataset_id&gt;_QC_metrics.tsv</code> and per-stage metrics and plots under its versioned output directory. Each child directory contains its scientific results and its own logs. The timestamped metapipeline log directory contains the parent Nextflow trace, timeline, report, and effective parameters.</p>
+<p><code>manifests/</code> contains <code>search.csv</code>, <code>validation.csv</code>, <code>validation-mzml.csv</code>, <code>quant-idxml.csv</code>, <code>quant-mzml.csv</code>, <code>protein-unfiltered.csv</code>, <code>protein-consensus.csv</code>, <code>qc-mzml.csv</code>, and <code>qc-psm-features.csv</code>. Conversion runs also publish <code>conversion.csv</code> and <code>converted-input.csv</code>. The feature manifest has a header but no data rows when validation publishes no feature files. ProtLoom runs also publish <code>protloom-project.generated.yaml</code>. The QC child writes <code>&lt;dataset_id&gt;_QC_metrics.tsv</code> and per-stage metrics and plots under its versioned output directory. Each child directory contains its scientific results and its own logs. The timestamped metapipeline log directory contains the parent Nextflow trace, timeline, report, and effective parameters.</p>
               
             </div>
           </div><footer>
