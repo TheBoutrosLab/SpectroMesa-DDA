@@ -4,6 +4,10 @@ All notable changes to metapipeline-ProteomicDDA are documented here. The format
 
 ## [Unreleased]
 
+### Changed
+
+- Update `convert-MSData` to v1.1.1 and follow its preserved or fraction-suffixed output names when creating the downstream mzML manifest.
+
 ### Fixed
 
 - Pass search-reindexed mzML files with their fraction mapping through PSM validation and peptide quantitation, enabling spectrum reindexing for fractionated TMT plexes.

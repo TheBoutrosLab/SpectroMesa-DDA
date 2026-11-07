@@ -79,9 +79,9 @@ def readMzMLCsv(inputCsv) {
             if (!mzml.isFile() || !mzml.name.toLowerCase().endsWith('.mzml')) {
                 error "Missing or invalid mzML for ${sample}: ${mzml}"
             }
-            if (mzml.baseName.contains('.') || !seenNames.add(mzml.name.toLowerCase()) ||
+            if (mzml.baseName.contains('.') || !seenNames.add([sample, mzml.name.toLowerCase()]) ||
                 !seenPaths.add(mzml.toRealPath().toString())) {
-                error "mzML basenames and paths must be unique, with no dots before .mzML: ${mzml}"
+                error "mzML basenames must be unique within each sample, paths must be unique, and basenames cannot contain dots: ${mzml}"
             }
             tuple(sample, fraction, mzml.toRealPath().toString(), annotation)
         }
@@ -122,7 +122,6 @@ def readRawCsv(String inputCsv) {
             error 'ProtLoom requires annotation_id in the input CSV'
         }
         def seen = [] as Set
-        def seenConvertedNames = [] as Set
         def seenPaths = [] as Set
         rows.collect { row ->
             def sample = row.sample_name?.trim()
@@ -138,8 +137,7 @@ def readRawCsv(String inputCsv) {
             if (!raw) error "Missing MS data path for ${sample}/${fraction}"
             def input = file(raw.startsWith('/') ? raw : "${csv.parent}/${raw}")
             if (!input.isFile() || input.baseName.contains('.') || input.toString().contains(',') ||
-                !seenPaths.add(input.toRealPath().toString()) ||
-                !seenConvertedNames.add("${fraction}_${input.baseName}".toLowerCase())) {
+                !seenPaths.add(input.toRealPath().toString())) {
                 error "Missing or invalid MS data for ${sample}/${fraction}: ${input}"
             }
             def scanRaw = row.scan?.trim()
