@@ -1,6 +1,6 @@
 process create_quant_inputs {
     publishDir "${params.final_output_dir}/manifests", mode: 'copy', pattern: '*.csv'
-    input: tuple val(records), path(validationDir)
+    input: tuple val(records), path(validationDir), path(mzmlCsv)
     output:
         tuple val(records), path(validationDir), path('quant-idxml.csv'), path('quant-mzml.csv'), path('protein-unfiltered.csv'), emit: input
     script:
@@ -20,18 +20,14 @@ process create_quant_inputs {
             ${unfilteredRows}
             """
         }.join('\n')
-        def mzmlRows = records.collect { s, f, m, a ->
-            params.experiment_type == 'TMT' ?
-                "printf '%s,%s\\n' '${s}' '${m}' >> quant-mzml.csv" :
-                "printf '%s,%s,%s\\n' '${s}' '${f}' '${m}' >> quant-mzml.csv"
-        }.join('\n')
+        def mzmlColumns = params.experiment_type == 'TMT' ? '\$1 "," \$3' : '\$1 "," \$2 "," \$3'
         """
         set -euo pipefail
         printf '${params.experiment_type == 'TMT' ? 'plex_id' : 'sample_name'},idXML\\n' > quant-idxml.csv
         printf '${params.experiment_type == 'TMT' ? 'plex_id' : 'sample_name,fraction_id'},mzML\\n' > quant-mzml.csv
         printf 'path\\n' > protein-unfiltered.csv
         ${idRows}
-        ${mzmlRows}
+        awk -F, 'NR > 1 { print ${mzmlColumns} }' ${mzmlCsv} >> quant-mzml.csv
         if [ '${params.quantitate_ProteomicProtein.protein_grouping_algorithm}' = 'ProteinProphet' ]; then
             test \$(wc -l < protein-unfiltered.csv) -eq \$((${sampleNames.size()} * ${engines.size()} + 1)) || { echo 'Missing unfiltered PEP idXML for ProteinProphet' >&2; exit 1; }
         fi
