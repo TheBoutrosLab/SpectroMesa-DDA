@@ -12,8 +12,18 @@ process create_validation_csv {
             """
             }
         }.join('\n')
+        // The search child numbers reindexed files in search.csv order within each sample.
+        def fractionIndex = [:].withDefault { 0 }
         def mzmlRows = records.collect { s, f, m, a ->
-            "printf '%s,%s,%s\\n' '${s}' '${f}' '${m}' >> validation-mzml.csv"
+            if (!params.search_ProteomicMSMS.reindex_mzml) {
+                return "printf '%s,%s,%s\\n' '${s}' '${f}' '${m}' >> validation-mzml.csv"
+            }
+            def index = ++fractionIndex[s]
+            """
+            mzml=\$(find '${searchDir}/${s}' -type f -path '*/output/reindex_mzml/${s}_reindex_${index}.mzML' -print -quit)
+            test -n "\$mzml" || { echo 'Missing reindexed mzML for ${s} fraction ${f} (input ${index})' >&2; exit 1; }
+            printf '%s,%s,%s\\n' '${s}' '${f}' "\$(realpath "\$mzml")" >> validation-mzml.csv
+            """
         }.join('\n')
         """
         set -euo pipefail

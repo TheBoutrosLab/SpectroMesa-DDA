@@ -4,6 +4,10 @@ All notable changes to metapipeline-ProteomicDDA are documented here. The format
 
 ## [Unreleased]
 
+### Fixed
+
+- Pass search-reindexed mzML files with their fraction mapping through PSM validation and peptide quantitation, enabling spectrum reindexing for fractionated TMT plexes.
+
 ## [1.3.0-rc.1] - 2026-11-06
 
 ### Added
