@@ -4,6 +4,8 @@ All notable changes to metapipeline-ProteomicDDA are documented here. The format
 
 ## [Unreleased]
 
+## [1.2.3] - 2026-11-07
+
 ### Changed
 
 - Update `convert-MSData` to v1.1.1 and follow its preserved or fraction-suffixed output names when creating the downstream mzML manifest.
@@ -81,5 +83,6 @@ All notable changes to metapipeline-ProteomicDDA are documented here. The format
 [1.2.0]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.1.0...v1.2.0
 [1.2.1]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.0...v1.2.1
 [1.2.2]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.1...v1.2.2
+[1.2.3]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.3.0-rc.1...v1.2.3
 [1.3.0-rc.1]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.2...v1.3.0-rc.1
-[unreleased]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.3.0-rc.1...HEAD
+[unreleased]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.3...HEAD
