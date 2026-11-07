@@ -4,7 +4,7 @@ process call_validate_psm {
         tuple val(records), path(inputCsv), path(mzmlCsv), path(configJson), path(resourceConfig), path(projectYaml)
         path database
     output:
-        tuple val(records), path('validate-ProteomicPSM-*'), emit: result
+        tuple val(records), path('validate-ProteomicPSM-*'), path('validation-mzml.csv'), emit: result
     script:
         def projectArgument = params.validate_ProteomicPSM.run_protloom ?
             "--protloom_project_yaml \$(realpath ${projectYaml})" : ''

@@ -103,7 +103,7 @@ An input CSV containing uniform non-mzML paths runs [convert-MSData v1.1.1](exte
 | --- | --- | --- |
 | `search_engines` | `['MSFragger']` | Any nonempty combination of `Comet`, `Sage`, and `MSFragger`. |
 | `CometAdapter`, `SageAdapter`, `MSFraggerAdapter` | Child defaults | Engine-specific tolerances, enzymes, modifications, and other OpenMS adapter settings. |
-| `reindex_mzml` | `false` | Must remain false because reindexed mzML files are not passed to validation and quantitation. |
+| `reindex_mzml` | `false` | Set true to assign unique native scan IDs across a sample's fractions. The reindexed mzML files are passed to validation and peptide quantitation. |
 | `export_mzTab` | `false` | Optional search-stage mzTab export. |
 
 The root `decoy_string` and `decoy_position` are copied into each selected adapter's `PeptideIndexing` settings; Sage also receives its `decoy_prefix`. See the [search pipeline configuration](external/search-ProteomicMSMS/config/template.config) and [schema](external/search-ProteomicMSMS/config/schema.yaml) for adapter options. Search results are merged per sample and engine before validation.
@@ -122,7 +122,7 @@ The root `decoy_string` and `decoy_position` are copied into each selected adapt
 | `protloom_pt_order` / `protloom_pc_order` | Empty | Required ordering settings when ProtLoom is enabled. |
 | `export_easypqp_reports` | Child default: `false` | DDA does not need EasyPQP reports. |
 
-The parent passes the search idXML manifest, original mzML manifest, and target-decoy FASTA to validation. MSBooster uses the mzML manifest already supplied by the parent. The child publishes per-engine filtered idXML and unfiltered PEP-scored idXML; multiple engines also produce a filtered consensus idXML. See the [validation pipeline parameters](external/validate-ProteomicPSM/README.md#config) for filtering and inference options.
+The parent passes the search idXML manifest, the mzML files used for search, and target-decoy FASTA to validation. When search reindexing is enabled, it maps each reindexed file back to its fraction by input CSV order. MSBooster uses the same mzML manifest. The child publishes per-engine filtered idXML and unfiltered PEP-scored idXML; multiple engines also produce a filtered consensus idXML. See the [validation pipeline parameters](external/validate-ProteomicPSM/README.md#config) for filtering and inference options.
 
 ### `quantitate_ProteomicTMT` — isobaric quantitation
 
@@ -132,7 +132,7 @@ The parent passes the search idXML manifest, original mzML manifest, and target-
 | `tmt_normalization_method` | Child default | Select the TMT normalization route, such as `mad`. |
 | `consensusXML_entrypoint` | `false` | The metapipeline supplies mzML, idXML, and channel manifests. |
 
-The TMT child receives one validated idXML per plex and all mzML fractions in that plex. Channel labels come from `channel_csv`. See the [TMT pipeline parameters](external/quantitate-ProteomicTMT/README.md) for correction matrices, normalization, and reporter-channel options.
+The TMT child receives one validated idXML per plex and the same mzML fractions supplied to validation, including reindexed files when enabled. Channel labels come from `channel_csv`. See the [TMT pipeline parameters](external/quantitate-ProteomicTMT/README.md) for correction matrices, normalization, and reporter-channel options.
 
 ### `quantitate_ProteomicLFQ` — label-free quantitation
 
@@ -190,11 +190,12 @@ Versioned child pipeline directories and handoff manifests are published at:
 
 ## Testing
 
-The NFTest cases exercise MSFragger LFQ, MSFragger TMT, and Sage LFQ, including the QC child. The RAW TMT case uses two E. coli TMT RAW files under `TEST_DATA_DIR`. From the repository root, inside a Slurm job, copy `.env-template` to `.env`, set `TEST_DATA_DIR`, and run:
+The NFTest cases exercise MSFragger LFQ, MSFragger TMT with and without spectrum reindexing, and Sage LFQ, including the QC child. The RAW TMT case uses two E. coli TMT RAW files under `TEST_DATA_DIR`. From the repository root, inside a Slurm job, copy `.env-template` to `.env`, set `TEST_DATA_DIR`, and run:
 
 ```bash
 zsh test/run-nftest.sh test_integration_MSFragger_LFQ_Protein
 zsh test/run-nftest.sh test_integration_MSFragger_TMT_Protein
+zsh test/run-nftest.sh test_integration_MSFragger_TMT_Reindexed
 zsh test/run-nftest.sh test_integration_Sage_LFQ_Protein
 zsh test/run-nftest.sh test_integration_MSFragger_TMT_RAW
 ```
