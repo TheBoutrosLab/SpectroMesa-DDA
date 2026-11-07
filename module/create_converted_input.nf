@@ -5,10 +5,16 @@ process create_converted_input {
     output: path('converted-input.csv'), emit: input
 
     script:
+        // convert-MSData v1.1.1 suffixes every fraction only when a sample has
+        // duplicate input basenames; otherwise it preserves each basename.
+        def basenameCounts = records.countBy { row -> [row[0], file(row[2]).baseName] }
+        def suffixFractions = basenameCounts.values().any { it > 1 }
         def rows = records.collect { s, f, m, a, scan ->
+            def basename = file(m).baseName
+            def outputName = "${basename}${suffixFractions ? "_${f}" : ''}.mzML"
             """
-            matches=( '${convertDir}/${s}'/*/output/${f}_*.mzML )
-            test \${#matches[@]} -eq 1 || { echo 'Expected one converted mzML for ${s}/${f}; found '\${#matches[@]} >&2; exit 1; }
+            matches=( '${convertDir}/${s}'/*/output/'${outputName}' )
+            test \${#matches[@]} -eq 1 || { echo 'Expected ${outputName} for ${s}/${f}; found '\${#matches[@]} >&2; exit 1; }
             printf '%s,%s,%s,%s\\n' '${s}' '${f}' "\$(realpath "\${matches[0]}")" '${a}' >> converted-input.csv
             """
         }.join('\n')
