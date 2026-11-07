@@ -4,6 +4,8 @@ All notable changes to metapipeline-ProteomicDDA are documented here. The format
 
 ## [Unreleased]
 
+## [1.3.0-rc.1] - 2026-11-06
+
 ### Added
 
 - Add automatic `convert-MSData` v1.1.0 conversion before DDA search when the input CSV contains vendor RAW or another non-mzML format, while preserving direct mzML input.
@@ -71,4 +73,5 @@ All notable changes to metapipeline-ProteomicDDA are documented here. The format
 [1.2.0]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.1.0...v1.2.0
 [1.2.1]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.0...v1.2.1
 [1.2.2]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.1...v1.2.2
-[unreleased]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.2...HEAD
+[1.3.0-rc.1]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.2...v1.3.0-rc.1
+[unreleased]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.3.0-rc.1...HEAD
