@@ -100,7 +100,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Parameters</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/da7664444fe468c117ee3d2c1706ab430a963071/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/a140feec102bc00bc93a78270a176a6eb25a8b22/README.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -182,7 +182,7 @@
 </tbody>
 </table>
 <h3 id="convert_msdata-optional-ms-data-conversion"><code>convert_MSData</code> — optional MS data conversion</h3>
-<p>An input CSV containing uniform non-mzML paths runs <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/da7664444fe468c117ee3d2c1706ab430a963071/external/convert-MSData/README.md">convert-MSData v1.1.0</a> once for all input samples and fractions. The child writes mzML files under its versioned directory; the parent generates <code>conversion.csv</code> and <code>converted-input.csv</code> manifests and uses the converted mzML for search, validation, quantitation, and QC. Keep <code>output_format = 'mzML'</code>. Select <code>convert_algorithm = 'ProteoWizard'</code> for supported vendor formats or <code>OpenMS</code> for supported open formats. Peak picking, indexing, and <code>pwiz_extra_args</code> are configured in <code>convert_MSData</code>; see the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/da7664444fe468c117ee3d2c1706ab430a963071/external/convert-MSData/README.md#config">conversion parameters</a>. The conversion child uses the same <code>child_profile</code> and compute budget as the other children.</p>
+<p>An input CSV containing uniform non-mzML paths runs <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/a140feec102bc00bc93a78270a176a6eb25a8b22/external/convert-MSData/README.md">convert-MSData v1.1.0</a> once for all input samples and fractions. The child writes mzML files under its versioned directory; the parent generates <code>conversion.csv</code> and <code>converted-input.csv</code> manifests and uses the converted mzML for search, validation, quantitation, and QC. Keep <code>output_format = 'mzML'</code>. Select <code>convert_algorithm = 'ProteoWizard'</code> for supported vendor formats or <code>OpenMS</code> for supported open formats. Peak picking, indexing, and <code>pwiz_extra_args</code> are configured in <code>convert_MSData</code>; see the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/a140feec102bc00bc93a78270a176a6eb25a8b22/external/convert-MSData/README.md#config">conversion parameters</a>. The conversion child uses the same <code>child_profile</code> and compute budget as the other children.</p>
 <h3 id="search_proteomicmsms-database-search"><code>search_ProteomicMSMS</code> — database search</h3>
 <table>
 <thead>
@@ -206,7 +206,7 @@
 <tr>
 <td><code>reindex_mzml</code></td>
 <td><code>false</code></td>
-<td>Must remain false because reindexed mzML files are not passed to validation and quantitation.</td>
+<td>Set true to assign unique native scan IDs across a sample's fractions. The reindexed mzML files are passed to validation and peptide quantitation.</td>
 </tr>
 <tr>
 <td><code>export_mzTab</code></td>
@@ -215,7 +215,7 @@
 </tr>
 </tbody>
 </table>
-<p>The root <code>decoy_string</code> and <code>decoy_position</code> are copied into each selected adapter's <code>PeptideIndexing</code> settings; Sage also receives its <code>decoy_prefix</code>. See the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/da7664444fe468c117ee3d2c1706ab430a963071/external/search-ProteomicMSMS/config/template.config">search pipeline configuration</a> and <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/da7664444fe468c117ee3d2c1706ab430a963071/external/search-ProteomicMSMS/config/schema.yaml">schema</a> for adapter options. Search results are merged per sample and engine before validation.</p>
+<p>The root <code>decoy_string</code> and <code>decoy_position</code> are copied into each selected adapter's <code>PeptideIndexing</code> settings; Sage also receives its <code>decoy_prefix</code>. See the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/a140feec102bc00bc93a78270a176a6eb25a8b22/external/search-ProteomicMSMS/config/template.config">search pipeline configuration</a> and <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/a140feec102bc00bc93a78270a176a6eb25a8b22/external/search-ProteomicMSMS/config/schema.yaml">schema</a> for adapter options. Search results are merged per sample and engine before validation.</p>
 <h3 id="validate_proteomicpsm-psm-validation"><code>validate_ProteomicPSM</code> — PSM validation</h3>
 <table>
 <thead>
@@ -273,7 +273,7 @@
 </tr>
 </tbody>
 </table>
-<p>The parent passes the search idXML manifest, original mzML manifest, and target-decoy FASTA to validation. MSBooster uses the mzML manifest already supplied by the parent. The child publishes per-engine filtered idXML and unfiltered PEP-scored idXML; multiple engines also produce a filtered consensus idXML. See the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/da7664444fe468c117ee3d2c1706ab430a963071/external/validate-ProteomicPSM/README.md#config">validation pipeline parameters</a> for filtering and inference options.</p>
+<p>The parent passes the search idXML manifest, the mzML files used for search, and target-decoy FASTA to validation. When search reindexing is enabled, it maps each reindexed file back to its fraction by input CSV order. MSBooster uses the same mzML manifest. The child publishes per-engine filtered idXML and unfiltered PEP-scored idXML; multiple engines also produce a filtered consensus idXML. See the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/a140feec102bc00bc93a78270a176a6eb25a8b22/external/validate-ProteomicPSM/README.md#config">validation pipeline parameters</a> for filtering and inference options.</p>
 <h3 id="quantitate_proteomictmt-isobaric-quantitation"><code>quantitate_ProteomicTMT</code> — isobaric quantitation</h3>
 <table>
 <thead>
@@ -301,7 +301,7 @@
 </tr>
 </tbody>
 </table>
-<p>The TMT child receives one validated idXML per plex and all mzML fractions in that plex. Channel labels come from <code>channel_csv</code>. See the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/da7664444fe468c117ee3d2c1706ab430a963071/external/quantitate-ProteomicTMT/README.md">TMT pipeline parameters</a> for correction matrices, normalization, and reporter-channel options.</p>
+<p>The TMT child receives one validated idXML per plex and the same mzML fractions supplied to validation, including reindexed files when enabled. Channel labels come from <code>channel_csv</code>. See the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/a140feec102bc00bc93a78270a176a6eb25a8b22/external/quantitate-ProteomicTMT/README.md">TMT pipeline parameters</a> for correction matrices, normalization, and reporter-channel options.</p>
 <h3 id="quantitate_proteomiclfq-label-free-quantitation"><code>quantitate_ProteomicLFQ</code> — label-free quantitation</h3>
 <table>
 <thead>
@@ -334,7 +334,7 @@
 </tr>
 </tbody>
 </table>
-<p>The LFQ child receives one validated idXML per sample and the sample-to-fraction mzML manifest. See the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/da7664444fe468c117ee3d2c1706ab430a963071/external/quantitate-ProteomicLFQ/README.md">LFQ pipeline parameters</a> for feature finding, alignment, and linking options.</p>
+<p>The LFQ child receives one validated idXML per sample and the sample-to-fraction mzML manifest. See the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/a140feec102bc00bc93a78270a176a6eb25a8b22/external/quantitate-ProteomicLFQ/README.md">LFQ pipeline parameters</a> for feature finding, alignment, and linking options.</p>
 <h3 id="quantitate_proteomicprotein-protein-quantitation"><code>quantitate_ProteomicProtein</code> — protein quantitation</h3>
 <table>
 <thead>
@@ -362,10 +362,10 @@
 </tr>
 </tbody>
 </table>
-<p>ProteinProphet also receives the per-engine, PEP-scored idXML files from validation. See the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/da7664444fe468c117ee3d2c1706ab430a963071/external/quantitate-ProteomicProtein/README.md">protein pipeline parameters</a> for inference and filtering controls. Root-level <code>decoy_database</code> and <code>decoy_string</code> are passed to this child.</p>
+<p>ProteinProphet also receives the per-engine, PEP-scored idXML files from validation. See the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/a140feec102bc00bc93a78270a176a6eb25a8b22/external/quantitate-ProteomicProtein/README.md">protein pipeline parameters</a> for inference and filtering controls. Root-level <code>decoy_database</code> and <code>decoy_string</code> are passed to this child.</p>
 <h3 id="qc_proteomicdda-quality-control"><code>qc_ProteomicDDA</code> — quality control</h3>
-<p>The QC child runs after protein quantitation. It uses the original mzML fractions, the published unfiltered search and final filtered identification manifests, available PSMFeatureExtractor idXML and MSBooster PIN files from validation, the final ProteinProphet idXML or ProteinInferencer consensusXML, and both ProteinQuantifier abundance tables. Set optional QC-specific parameters in <code>qc_ProteomicDDA</code>; see the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/da7664444fe468c117ee3d2c1706ab430a963071/external/qc-ProteomicDDA/README.md">QC pipeline parameters</a>. The parent supplies all required input paths, <code>dataset_id</code>, and <code>inference_route</code>.</p>
-<p>See <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/da7664444fe468c117ee3d2c1706ab430a963071/config/template.config">config/template.config</a> for an editable run configuration and <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/da7664444fe468c117ee3d2c1706ab430a963071/config/schema.yaml">config/schema.yaml</a> for root parameter validation.</p>
+<p>The QC child runs after protein quantitation. It uses the original mzML fractions, the published unfiltered search and final filtered identification manifests, available PSMFeatureExtractor idXML and MSBooster PIN files from validation, the final ProteinProphet idXML or ProteinInferencer consensusXML, and both ProteinQuantifier abundance tables. Set optional QC-specific parameters in <code>qc_ProteomicDDA</code>; see the <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/a140feec102bc00bc93a78270a176a6eb25a8b22/external/qc-ProteomicDDA/README.md">QC pipeline parameters</a>. The parent supplies all required input paths, <code>dataset_id</code>, and <code>inference_route</code>.</p>
+<p>See <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/a140feec102bc00bc93a78270a176a6eb25a8b22/config/template.config">config/template.config</a> for an editable run configuration and <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/a140feec102bc00bc93a78270a176a6eb25a8b22/config/schema.yaml">config/schema.yaml</a> for root parameter validation.</p>
               
             </div>
           </div><footer>
