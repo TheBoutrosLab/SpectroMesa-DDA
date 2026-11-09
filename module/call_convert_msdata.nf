@@ -10,9 +10,13 @@ process call_convert_msdata {
     script:
         """
         set -euo pipefail
-        NXF_WORK=\$(pwd)/child-work nextflow run ${projectDir}/external/convert-MSData/main.nf \\
+        NXF_WORK=\$(pwd)/child-work \\
+        nextflow run ${projectDir}/external/convert-MSData/main.nf \\
             -c ${projectDir}/external/convert-MSData/config/template_pwiz.config \\
-            -c ${resourceConfig} -profile ${params.child_profile} -params-file ${configJson} \\
-            --input_csv \$(realpath ${inputCsv}) --output_dir \$(pwd)
+            -c ${resourceConfig} \\
+            -profile ${params.child_profile} \\
+            -params-file ${configJson} \\
+            --input_csv \$(realpath ${inputCsv}) \\
+            --output_dir \$(pwd)
         """
 }

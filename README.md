@@ -129,10 +129,11 @@ The parent passes the search idXML manifest, the mzML files used for search, and
 | Parameter | Default | Purpose |
 | --- | --- | --- |
 | `plex_type` | `tmt10plex` | Reporter-label set. |
+| `tmt_workflow` | `scan_based` | Select reporter-scan quantitation or the experimental `feature_based` MS1 workflow. |
 | `tmt_normalization_method` | Child default | Select the TMT normalization route, such as `mad`. |
 | `consensusXML_entrypoint` | `false` | The metapipeline supplies mzML, idXML, and channel manifests. |
 
-The TMT child receives one validated idXML per plex and the same mzML fractions supplied to validation, including reindexed files when enabled. Channel labels come from `channel_csv`. See the [TMT pipeline parameters](external/quantitate-ProteomicTMT/README.md) for correction matrices, normalization, and reporter-channel options.
+The TMT v2.0.0 child receives one validated idXML per plex and the same mzML fractions supplied to validation, including reindexed files when enabled. Channel labels come from `channel_csv`. For `feature_based`, give every plex the same set of `fraction_id` values and set `tmt_normalization_method = 'mad'` when normalization is enabled. Both TMT workflows publish one dataset-level consensusXML and peptide CSV. See the [TMT pipeline parameters](external/quantitate-ProteomicTMT/README.md) for correction matrices, normalization, and reporter-channel options.
 
 ### `quantitate_ProteomicLFQ` — label-free quantitation
 
@@ -190,7 +191,7 @@ Versioned child pipeline directories and handoff manifests are published at:
 
 ## Testing
 
-The NFTest cases exercise MSFragger LFQ, MSFragger TMT with and without spectrum reindexing, and Sage LFQ, including the QC child. The RAW TMT case uses two E. coli TMT RAW files under `TEST_DATA_DIR`. From the repository root, inside a Slurm job, copy `.env-template` to `.env`, set `TEST_DATA_DIR`, and run:
+The NFTest cases exercise MSFragger LFQ, scan-based and feature-based MSFragger TMT, TMT spectrum reindexing, and Sage LFQ, including the QC child. The RAW TMT case uses two E. coli TMT RAW files under `TEST_DATA_DIR`. From the repository root, inside a Slurm job, copy `.env-template` to `.env`, set `TEST_DATA_DIR`, and run:
 
 ```bash
 zsh test/run-nftest.sh test_integration_MSFragger_LFQ_Protein

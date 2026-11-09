@@ -4,6 +4,11 @@ All notable changes to metapipeline-ProteomicDDA are documented here. The format
 
 ## [Unreleased]
 
+### Changed
+
+- Update `quantitate-ProteomicTMT` to v2.0.0, pass fraction IDs for its feature-based workflow, and hand its dataset-level consensusXML to protein quantitation.
+- Switch the existing MSFragger TMT integration case to feature-based quantitation.
+
 ## [1.2.3] - 2026-11-07
 
 ### Changed

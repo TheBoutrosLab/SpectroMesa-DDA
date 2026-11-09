@@ -9,14 +9,12 @@ process create_protein_inputs {
         tuple path('protein-consensus.csv'), path(unfilteredCsv), emit: input
 
     script:
-        def tmtRows = records.collect { it[0] }.unique().collect { sample ->
-            """
+        def tmtRows = """
             consensus=\$(find "\$(realpath '${quantDir}')" -type f \
-                -path '*/output/*/${sample}_IDConflictResolver.consensusXML' -print -quit)
-            test -n "\$consensus" || { echo 'Missing final consensusXML for ${sample}' >&2; exit 1; }
+                -path '*/output/${params.dataset_id}_IDConflictResolver.consensusXML' -print -quit)
+            test -n "\$consensus" || { echo 'Missing final TMT consensusXML for ${params.dataset_id}' >&2; exit 1; }
             printf '%s\\n' "\$(realpath "\$consensus")" >> protein-consensus.csv
-            """.stripIndent()
-        }.join('\n')
+        """.stripIndent()
         def lfqPattern = params.quantitate_ProteomicLFQ.fractionated ?
             '*/output/FileMerger/*_FileMerger.consensusXML' :
             '*/output/MSPtools_ConsensusXML_setColumnHeaders/*_setColumnHeaders.consensusXML'

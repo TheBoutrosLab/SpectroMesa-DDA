@@ -20,11 +20,15 @@ process create_quant_inputs {
             ${unfilteredRows}
             """
         }.join('\n')
-        def mzmlColumns = params.experiment_type == 'TMT' ? '\$1 "," \$3' : '\$1 "," \$2 "," \$3'
+        def mzmlColumns = params.experiment_type == 'TMT' && params.quantitate_ProteomicTMT.tmt_workflow != 'feature_based' ?
+            '\$1 "," \$3' : '\$1 "," \$2 "," \$3'
+        def mzmlHeader = params.experiment_type == 'TMT' ?
+            (params.quantitate_ProteomicTMT.tmt_workflow == 'feature_based' ? 'plex_id,fraction_id,mzML' : 'plex_id,mzML') :
+            'sample_name,fraction_id,mzML'
         """
         set -euo pipefail
         printf '${params.experiment_type == 'TMT' ? 'plex_id' : 'sample_name'},idXML\\n' > quant-idxml.csv
-        printf '${params.experiment_type == 'TMT' ? 'plex_id' : 'sample_name,fraction_id'},mzML\\n' > quant-mzml.csv
+        printf '${mzmlHeader}\\n' > quant-mzml.csv
         printf 'path\\n' > protein-unfiltered.csv
         ${idRows}
         awk -F, 'NR > 1 { print ${mzmlColumns} }' ${mzmlCsv} >> quant-mzml.csv

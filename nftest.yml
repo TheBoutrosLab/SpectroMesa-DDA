@@ -30,7 +30,7 @@ cases:
     skip: false
     verbose: true
   - name: test_integration_MSFragger_TMT_Protein
-    message: DDA search, PSM validation, TMT, protein quantitation, and QC
+    message: DDA search, PSM validation, feature-based TMT, protein quantitation, and QC
     nf_script: main.nf
     nf_config: test/test_integration_MSFragger_TMT_Protein/test.config
     skip: false
