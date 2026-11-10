@@ -4,6 +4,8 @@ All notable changes to metapipeline-ProteomicDDA are documented here. The format
 
 ## [Unreleased]
 
+## [1.2.5] - 2026-11-10
+
 ### Changed
 
 - Infer validation and LFQ fractionation from input rows and reject datasets mixing single-fraction and multi-fraction samples.
@@ -102,5 +104,6 @@ All notable changes to metapipeline-ProteomicDDA are documented here. The format
 [1.2.2]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.1...v1.2.2
 [1.2.3]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.3.0-rc.1...v1.2.3
 [1.2.4]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.3...v1.2.4
+[1.2.5]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.4...v1.2.5
 [1.3.0-rc.1]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.2...v1.3.0-rc.1
-[unreleased]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.4...HEAD
+[unreleased]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.5...HEAD
