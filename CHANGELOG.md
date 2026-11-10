@@ -4,6 +4,11 @@ All notable changes to metapipeline-ProteomicDDA are documented here. The format
 
 ## [Unreleased]
 
+### Changed
+
+- Infer validation and LFQ fractionation from input rows and reject datasets mixing single-fraction and multi-fraction samples.
+- Select the LFQ protein handoff for a single fractionated sample from its published consensusXML.
+
 ## [1.2.4] - 2026-11-10
 
 ### Added
