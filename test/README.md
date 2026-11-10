@@ -12,6 +12,7 @@ named in its input CSV, the same FASTA, and `MSFragger-4.4.1.jar` under
 The input CSV uses `sample_name,fraction_id,path`; ProtLoom runs also need `annotation_id`.
 The TMT sample names must match the `plex_id` values in `channel.csv`.
 `test_integration_MSFragger_TMT_Protein` selects feature-based TMT quantitation with MAD normalization.
+All complete LFQ and TMT cases build `<dataset_id>.proteovault.duckdb` under the versioned metapipeline output directory after QC.
 
 `test_integration_MSFragger_TMT_Reindexed` uses two mzML fractions per E. coli TMT plex with `reindex_mzml = true`. It checks the complete search-to-validation-to-TMT handoff, including reporter extraction and identification mapping after scan IDs are made unique within each plex. Its input uses the same mzML fixtures, FASTA, and MSFragger JAR as the standard TMT case.
 

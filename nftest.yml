@@ -6,31 +6,31 @@ global:
   clean_logs: true
 cases:
   - name: test_integration_MSFragger_TMT_Reindexed
-    message: Reindexed two-fraction TMT search, validation, reporter quantitation, protein quantitation, and QC
+    message: Reindexed two-fraction TMT search, validation, reporter quantitation, protein quantitation, QC, and ProteoVault
     nf_script: main.nf
     nf_config: test/test_integration_MSFragger_TMT_Reindexed/test.config
     skip: false
     verbose: true
   - name: test_integration_MSFragger_TMT_RAW
-    message: Thermo RAW conversion, MSFragger search, PSM validation, TMT, protein quantitation, and QC
+    message: Thermo RAW conversion, MSFragger search, PSM validation, TMT, protein quantitation, QC, and ProteoVault
     nf_script: main.nf
     nf_config: test/test_integration_MSFragger_TMT_RAW/test.config
     skip: false
     verbose: true
   - name: test_integration_MSFragger_LFQ_Protein
-    message: DDA search, PSM validation, LFQ, protein quantitation, and QC
+    message: DDA search, PSM validation, LFQ, protein quantitation, QC, and ProteoVault
     nf_script: main.nf
     nf_config: test/test_integration_MSFragger_LFQ_Protein/test.config
     skip: false
     verbose: true
   - name: test_integration_Sage_LFQ_Protein
-    message: Sage search, PSM validation, LFQ, protein quantitation, and QC
+    message: Sage search, PSM validation, LFQ, protein quantitation, QC, and ProteoVault
     nf_script: main.nf
     nf_config: test/test_integration_Sage_LFQ_Protein/test.config
     skip: false
     verbose: true
   - name: test_integration_MSFragger_TMT_Protein
-    message: DDA search, PSM validation, feature-based TMT, protein quantitation, and QC
+    message: DDA search, PSM validation, feature-based TMT, protein quantitation, QC, and ProteoVault
     nf_script: main.nf
     nf_config: test/test_integration_MSFragger_TMT_Protein/test.config
     skip: false

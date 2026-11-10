@@ -17,6 +17,7 @@ include { create_protein_inputs } from './module/create_protein_inputs.nf'
 include { call_quantitate_protein } from './module/call_quantitate_protein.nf'
 include { create_qc_inputs } from './module/create_qc_inputs.nf'
 include { call_qc_dda } from './module/call_qc_dda.nf'
+include { build_proteovault } from './module/build_proteovault.nf'
 
 // Search and quantitation accept multiple mzML fractions per sample or plex.
 def needsMSDataConversion(String inputCsv) {
@@ -223,4 +224,18 @@ workflow {
         }
     create_qc_inputs(qcInput)
     call_qc_dda(create_qc_inputs.out.input.combine(qcConfig))
+
+    if (!params.validate_ProteomicPSM.run_protloom) {
+        build_proteovault(
+            call_search_msms.out.result.map { records, dir -> dir },
+            call_validate_psm.out.result.map { records, dir -> dir },
+            quantResult.map { records, dir, unfilteredCsv -> dir },
+            call_quantitate_protein.out.result,
+            call_qc_dda.out.result,
+            create_qc_inputs.out.input.map { mzmlCsv, searchCsv, filteredCsv, featuresCsv,
+                proteinGroups, proteinQuant, peptideQuant -> mzmlCsv },
+            file(params.decoy_database),
+            file(params.experiment_type == 'TMT' ? params.channel_csv : params.input_csv)
+        )
+    }
 }

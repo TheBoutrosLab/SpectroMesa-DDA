@@ -4,6 +4,10 @@ All notable changes to metapipeline-ProteomicDDA are documented here. The format
 
 ## [Unreleased]
 
+### Added
+
+- Build and validate a ProteoVault v0.2.0 database after DDA quality control for LFQ and TMT analyses.
+
 ### Changed
 
 - Update `quantitate-ProteomicTMT` to v2.0.0, pass fraction IDs for its feature-based workflow, and hand its dataset-level consensusXML to protein quantitation.

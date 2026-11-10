@@ -1,6 +1,6 @@
 # metapipeline-ProteomicDDA
 
-This Boutros Lab metapipeline optionally converts vendor RAW or other supported MS data to mzML, searches DDA mzML files with Comet, Sage, or MSFragger, validates peptide-spectrum matches (PSMs), quantifies peptides with TMT or label-free quantitation (LFQ), quantifies proteins with ProteinProphet or ProteinInferencer, and runs DDA quality control.
+This Boutros Lab metapipeline optionally converts vendor RAW or other supported MS data to mzML, searches DDA mzML files with Comet, Sage, or MSFragger, validates peptide-spectrum matches (PSMs), quantifies peptides with TMT or label-free quantitation (LFQ), quantifies proteins with ProteinProphet or ProteinInferencer, runs DDA quality control, and builds a ProteoVault database.
 
 ![DDA metapipeline schematic](docs/pipeline-flow.svg)
 
@@ -23,7 +23,7 @@ This Boutros Lab metapipeline optionally converts vendor RAW or other supported 
    nextflow run main.nf -c /path/to/run.config -profile pines
    ```
 
-The scratch path is an example for a Slurm job; use another suitable work directory outside Slurm. Select `-profile pines` for a 64 CPU, 500 GB node or `-profile boutroslab_aws` for a 32 CPU, 128 GB node. `child_profile` (`standard` by default) selects the container runtime in each child; make sure that runtime is available. Nextflow's `-c` option adds the run configuration to the project's configuration; see the [Nextflow configuration documentation](https://www.nextflow.io/docs/latest/config.html).
+The scratch path is an example for a Slurm job; use another suitable work directory outside Slurm. Select `pines` for a 64 CPU, 500 GB node or `boutroslab_aws` for a 32 CPU, 128 GB node. Add `standard` or `docker` for Docker, `apptainer` for Apptainer, or `singularity` for Singularity, for example `-profile pines,apptainer`. The runtime profile configures the parent ProteoVault process and passes the matching `child_profile` to each child. `standard` uses Docker by default when no runtime profile is selected. Nextflow's `-c` option adds the run configuration to the project's configuration; see the [Nextflow configuration documentation](https://www.nextflow.io/docs/latest/config.html).
 
 ### Resource profiles
 
@@ -32,7 +32,7 @@ The scratch path is an example for a Slurm job; use another suitable work direct
 | `pines` | 64 CPUs, 500 GB | 2 CPUs, 4 GB per launcher. |
 | `boutroslab_aws` | 32 CPUs, 128 GB | 2 CPUs, 4 GB per launcher. |
 
-Parent CSV and configuration tasks request 1 CPU and 2 GB; parent child-launch tasks request 2 CPUs and 4 GB from [config/resources.json](config/resources.json). The bundled JSON profiles set `max_cpus` and `max_memory` for the parent and children. Their `children` process-allocation entries are **not applied** by the current DDA metapipeline; each child uses its own resource defaults unless its namespace supplies `base_resource_update`. These profiles describe node budgets; they do not select a Slurm partition or change the local executor.
+Parent CSV and configuration tasks request 1 CPU and 2 GB; parent child-launch tasks request 2 CPUs and 4 GB, and ProteoVault requests up to 8 CPUs and 64 GB from [config/resources.json](config/resources.json). The bundled JSON profiles set `max_cpus` and `max_memory` for the parent and children. Their `children` process-allocation entries are **not applied** by the current DDA metapipeline; each child uses its own resource defaults unless its namespace supplies `base_resource_update`. These profiles describe node budgets; they do not select a Slurm partition or change the local executor.
 
 For a profile outside the repository, copy [pines.json](config/resource_profiles/pines.json) or [boutroslab_aws.json](config/resource_profiles/boutroslab_aws.json) to a directory you control, rename it `<name>.json`, and edit its `max_cpus` and `max_memory`. Set these values in the run config:
 
@@ -90,6 +90,8 @@ Set shared values once at the root of the run config. `methods.setup()` derives 
 | `decoy_string` / `decoy_position` | `DECOY_` / `prefix` | Shared decoy accession marker. MSFragger requires a prefix. |
 | `contam_string` / `contam_position` | `CONTAMINANT_` / `prefix` | Contaminant marker, also checked against the ProtLoom YAML. |
 | `child_profile` | `standard` | Container-runtime profile passed to each child. |
+| `proteovault_version` | `0.2.0` | Version used for the ProteoVault image. |
+| `docker_image_proteovault` | `ghcr.io/theboutroslab/proteovault:${params.proteovault_version}` | Container image for the parent ProteoVault process. |
 | `compute_profile` | None | Node budget selected by `-profile pines`, `-profile boutroslab_aws`, or directly. |
 | `additional_resource_profile_dir` | None | Optional PATH-style list of external resource-profile directories. |
 
@@ -160,6 +162,10 @@ ProteinProphet also receives the per-engine, PEP-scored idXML files from validat
 
 The QC child runs after protein quantitation. It uses the original mzML fractions, the published unfiltered search and final filtered identification manifests, available PSMFeatureExtractor idXML and MSBooster PIN files from validation, the final ProteinProphet idXML or ProteinInferencer consensusXML, and both ProteinQuantifier abundance tables. Set optional QC-specific parameters in `qc_ProteomicDDA`; see the [QC pipeline parameters](external/qc-ProteomicDDA/README.md). The parent supplies all required input paths, `dataset_id`, and `inference_route`.
 
+### ProteoVault — cohort database
+
+After QC, the metapipeline builds and validates a ProteoVault v0.2.0 DuckDB database from the published search, validation, TMT or LFQ, protein quantitation, and QC outputs. It supplies the acquisition manifest, target-decoy FASTA, and the channel CSV for TMT. The database includes core quantities, identified TMT reporter observations when available, protein inference, and QC metrics. ProteoVault is skipped when `validate_ProteomicPSM.run_protloom = true`, because that route does not complete the current protein handoff. The database is published at the versioned metapipeline output root. It records paths from the build work directory; after relocating the result, use `proteovault update-paths` to update stored source paths. See the [ProteoVault v0.2.0 CLI guide](https://github.com/TheBoutrosLab/package-ProteoVault/blob/v0.2.0/docs/cli.md).
+
 See [config/template.config](config/template.config) for an editable run configuration and [config/schema.yaml](config/schema.yaml) for root parameter validation.
 
 ## Pipeline steps and outputs
@@ -170,28 +176,31 @@ See [config/template.config](config/template.config) for an editable run configu
 4. `quantitate-ProteomicTMT` or `quantitate-ProteomicLFQ` quantifies peptides according to `experiment_type`.
 5. `quantitate-ProteomicProtein` uses peptide consensusXML and, for ProteinProphet, unfiltered PEP-scored idXML to quantify proteins.
 6. `qc-ProteomicDDA` summarizes acquisition, search, PSM features, validated identifications, protein groups, and abundance, and creates per-fraction interactive MS1 plots.
+7. ProteoVault builds and validates a DuckDB database from the completed DDA results.
 
 Versioned child pipeline directories and handoff manifests are published at:
 
 ```text
-<output_dir>/metapipeline-ProteomicDDA-<version>/<dataset_id>/
-├── main_workflow/
-│   ├── convert-MSData-<version>/              # conversion runs only
-│   ├── search-ProteomicMSMS-<version>/
-│   ├── validate-ProteomicPSM-<version>/
-│   ├── quantitate-ProteomicTMT-<version>/       # TMT runs only
-│   ├── quantitate-ProteomicLFQ-<version>/       # LFQ runs only
-│   ├── quantitate-ProteomicProtein-<version>/
-│   ├── qc-ProteomicDDA-<version>/
-│   └── manifests/
-└── log-metapipeline-ProteomicDDA-<version>-<timestamp>/
+<output_dir>/metapipeline-ProteomicDDA-<version>/
+├── <dataset_id>.proteovault.duckdb
+└── <dataset_id>/
+    ├── main_workflow/
+    │   ├── convert-MSData-<version>/            # conversion runs only
+    │   ├── search-ProteomicMSMS-<version>/
+    │   ├── validate-ProteomicPSM-<version>/
+    │   ├── quantitate-ProteomicTMT-<version>/   # TMT runs only
+    │   ├── quantitate-ProteomicLFQ-<version>/   # LFQ runs only
+    │   ├── quantitate-ProteomicProtein-<version>/
+    │   ├── qc-ProteomicDDA-<version>/
+    │   └── manifests/
+    └── log-metapipeline-ProteomicDDA-<version>-<timestamp>/
 ```
 
-`manifests/` contains `search.csv`, `validation.csv`, `validation-mzml.csv`, `quant-idxml.csv`, `quant-mzml.csv`, `protein-unfiltered.csv`, `protein-consensus.csv`, `qc-mzml.csv`, and `qc-psm-features.csv`. Conversion runs also publish `conversion.csv` and `converted-input.csv`. The feature manifest has a header but no data rows when validation publishes no feature files. ProtLoom runs also publish `protloom-project.generated.yaml`. The QC child writes `<dataset_id>_QC_metrics.tsv` and per-stage metrics and plots under its versioned output directory. Each child directory contains its scientific results and its own logs. The timestamped metapipeline log directory contains the parent Nextflow trace, timeline, report, and effective parameters.
+`manifests/` contains `search.csv`, `validation.csv`, `validation-mzml.csv`, `quant-idxml.csv`, `quant-mzml.csv`, `protein-unfiltered.csv`, `protein-consensus.csv`, `qc-mzml.csv`, and `qc-psm-features.csv`. Conversion runs also publish `conversion.csv` and `converted-input.csv`. The feature manifest has a header but no data rows when validation publishes no feature files. ProtLoom runs also publish `protloom-project.generated.yaml`. The QC child writes `<dataset_id>_QC_metrics.tsv` and per-stage metrics and plots under its versioned output directory. Each child directory contains its scientific results and its own logs. The ProteoVault database records source paths from its build work directory; publishing does not rewrite paths inside it. The timestamped metapipeline log directory contains the parent Nextflow trace, timeline, report, and effective parameters.
 
 ## Testing
 
-The NFTest cases exercise MSFragger LFQ, scan-based and feature-based MSFragger TMT, TMT spectrum reindexing, and Sage LFQ, including the QC child. The RAW TMT case uses two E. coli TMT RAW files under `TEST_DATA_DIR`. From the repository root, inside a Slurm job, copy `.env-template` to `.env`, set `TEST_DATA_DIR`, and run:
+The NFTest cases exercise MSFragger LFQ, scan-based and feature-based MSFragger TMT, TMT spectrum reindexing, and Sage LFQ, including QC and ProteoVault. The RAW TMT case uses two E. coli TMT RAW files under `TEST_DATA_DIR`. From the repository root, inside a Slurm job, copy `.env-template` to `.env`, set `TEST_DATA_DIR`, and run:
 
 ```bash
 zsh test/run-nftest.sh test_integration_MSFragger_LFQ_Protein
