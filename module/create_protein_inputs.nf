@@ -13,9 +13,11 @@ process create_protein_inputs {
         tuple path('protein-cohort.consensusXML'), path(unfilteredCsv), emit: input
 
     script:
+        def sampleCount = records.collect { it[0] }.unique().size()
+        def fractionated = records.count { it[0] == records[0][0] } > 1
         def pattern = params.experiment_type == 'TMT' ?
             "*/output/${params.dataset_id}_IDConflictResolver.consensusXML" :
-            (params.quantitate_ProteomicLFQ.fractionated ?
+            (fractionated && sampleCount > 1 ?
                 '*/output/FileMerger/*_FileMerger.consensusXML' :
                 '*/output/MSPtools_ConsensusXML_setColumnHeaders/*_setColumnHeaders.consensusXML')
         """

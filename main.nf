@@ -2,6 +2,7 @@
 nextflow.enable.dsl = 2
 
 include { create_config_json } from './module/create_config_json.nf'
+include { create_config_json as create_fractionated_config_json } from './module/create_config_json.nf'
 include { create_conversion_csv } from './module/create_conversion_csv.nf'
 include { call_convert_msdata } from './module/call_convert_msdata.nf'
 include { create_converted_input } from './module/create_converted_input.nf'
@@ -39,6 +40,19 @@ def needsMSDataConversion(String inputCsv) {
     }.toSet()
     if (formats.size() != 1) error "Input CSV mixes MS data formats: ${formats.sort().join(', ')}"
     return formats.first() != 'mzml'
+}
+
+def checkFractionLayout(List records) {
+    def fractionSets = records.groupBy { it[0] }.collectEntries { sample, rows ->
+        [(sample): rows.collect { it[1] }.toSet()]
+    }
+    def multiFraction = fractionSets.findAll { sample, fractions -> fractions.size() > 1 }
+    if (multiFraction && multiFraction.size() != fractionSets.size()) {
+        error "All samples must have multiple fractions or all must have one: ${fractionSets}"
+    }
+    if (params.experiment_type == 'LFQ' && fractionSets.values().toSet().size() > 1) {
+        error "LFQ samples must have the same fraction IDs: ${fractionSets}"
+    }
 }
 
 def readMzMLCsv(inputCsv) {
@@ -94,17 +108,7 @@ def readMzMLCsv(inputCsv) {
                 error "ProtLoom fractions of a sample need the same annotation_id: ${annotations}"
             }
         }
-        if (params.experiment_type == 'LFQ') {
-            def fractionSets = parsed.groupBy { it[0] }.collectEntries { sample, rows ->
-                [(sample): rows.collect { it[1] }.toSet()]
-            }
-            if (fractionSets.values().toSet().size() > 1) {
-                error "LFQ samples must have the same fraction IDs: ${fractionSets}"
-            }
-            if (fractionSets.values().first().size() > 1 && !params.quantitate_ProteomicLFQ.fractionated) {
-                error 'Multiple LFQ fractions require quantitate_ProteomicLFQ.fractionated = true'
-            }
-        }
+        checkFractionLayout(parsed)
         parsed
     }
 }
@@ -124,7 +128,7 @@ def readRawCsv(String inputCsv) {
         }
         def seen = [] as Set
         def seenPaths = [] as Set
-        rows.collect { row ->
+        def parsed = rows.collect { row ->
             def sample = row.sample_name?.trim()
             def fraction = row.fraction_id?.trim()
             def annotation = row.annotation_id?.trim() ?: ''
@@ -150,6 +154,8 @@ def readRawCsv(String inputCsv) {
             tuple(sample, fraction, input.toRealPath().toString(), annotation,
                 scan ? scan.toRealPath().toString() : '')
         }
+        checkFractionLayout(parsed)
+        parsed
     }
 }
 
@@ -157,18 +163,14 @@ workflow {
     configs = Channel.of(
         ['convert_MSData', params.convert_MSData, []],
         ['search_ProteomicMSMS', params.search_ProteomicMSMS, []],
-        ['validate_ProteomicPSM', params.validate_ProteomicPSM, []],
         ['quantitate_ProteomicTMT', params.quantitate_ProteomicTMT, []],
-        ['quantitate_ProteomicLFQ', params.quantitate_ProteomicLFQ, []],
         ['quantitate_ProteomicProtein', params.quantitate_ProteomicProtein, []],
         ['qc_ProteomicDDA', params.qc_ProteomicDDA, []]
     )
     create_config_json(configs)
     convertConfig = create_config_json.out.config.filter { n, c, r -> n == 'convert_MSData' }.map { n, c, r -> [c, r] }
     searchConfig = create_config_json.out.config.filter { n, c, r -> n == 'search_ProteomicMSMS' }.map { n, c, r -> [c, r] }
-    validationConfig = create_config_json.out.config.filter { n, c, r -> n == 'validate_ProteomicPSM' }.map { n, c, r -> [c, r] }
     tmtConfig = create_config_json.out.config.filter { n, c, r -> n == 'quantitate_ProteomicTMT' }.map { n, c, r -> [c, r] }
-    lfqConfig = create_config_json.out.config.filter { n, c, r -> n == 'quantitate_ProteomicLFQ' }.map { n, c, r -> [c, r] }
     proteinConfig = create_config_json.out.config.filter { n, c, r -> n == 'quantitate_ProteomicProtein' }.map { n, c, r -> [c, r] }
     qcConfig = create_config_json.out.config.filter { n, c, r -> n == 'qc_ProteomicDDA' }.map { n, c, r -> [c, r] }
 
@@ -181,6 +183,19 @@ workflow {
     } else {
         samples = readMzMLCsv(Channel.fromPath(params.input_csv))
     }
+
+    fractionatedConfigs = samples.flatMap { records ->
+        def fractionated = records.count { it[0] == records[0][0] } > 1
+        [
+            ['validate_ProteomicPSM', params.validate_ProteomicPSM + [fractionated: fractionated], []],
+            ['quantitate_ProteomicLFQ', params.quantitate_ProteomicLFQ + [fractionated: fractionated], []]
+        ]
+    }
+    create_fractionated_config_json(fractionatedConfigs)
+    validationConfig = create_fractionated_config_json.out.config
+        .filter { n, c, r -> n == 'validate_ProteomicPSM' }.map { n, c, r -> [c, r] }
+    lfqConfig = create_fractionated_config_json.out.config
+        .filter { n, c, r -> n == 'quantitate_ProteomicLFQ' }.map { n, c, r -> [c, r] }
 
     create_search_csv(samples)
     searchInput = create_search_csv.out.input.combine(searchConfig)

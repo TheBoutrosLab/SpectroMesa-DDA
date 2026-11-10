@@ -66,7 +66,7 @@ sample_02,2,/data/sample_02_fraction_2.mzML
 | `msfragger_executable` | Separately obtained MSFragger JAR, required only when `MSFragger` is selected. |
 | `channel_csv` | Required for TMT. Its `plex_id` values must match the input CSV's `sample_name` values. |
 
-A TMT plex may contain several mzML fractions. For fractionated LFQ, set `quantitate_ProteomicLFQ.fractionated = true`; all LFQ samples must have the same fraction IDs. A single fractionated LFQ sample currently cannot complete the protein handoff; see [Current limitations](#current-limitations).
+A TMT plex may contain several mzML fractions. The metapipeline infers fractionation from the input CSV and sets the validation and LFQ child options automatically. Either every sample or plex must have multiple fractions, or every one must have a single fraction; mixed layouts are rejected. LFQ samples must also have the same fraction IDs.
 
 ### ProtLoom project YAML
 
@@ -118,7 +118,7 @@ The root `decoy_string` and `decoy_position` are copied into each selected adapt
 | `percolator_workflow` | `openms` | Use `openms` or `msbooster`; the latter adds MSBooster features before direct Percolator scoring. |
 | `msbooster_params` | Child bundled file | Optional override for MSBooster prediction settings. |
 | `merge_consensus` | `false`; enabled automatically for multiple engines | Produce one validated consensus idXML per sample for peptide quantitation. |
-| `fractionated` | `false` | Must remain false because search already merges fractions per sample. |
+| `fractionated` | Inferred from input CSV | Split each search engine's idXML by fraction before consensus merging when enabled. |
 | `run_protloom` | `false` | Enable ProtLoom inference; currently blocked by the parent protein handoff. |
 | `protloom_project_yaml` | None | Base project YAML required with ProtLoom. |
 | `protloom_pt_order` / `protloom_pc_order` | Empty | Required ordering settings when ProtLoom is enabled. |
@@ -142,7 +142,7 @@ The TMT v2.0.0 child receives one validated idXML per plex and the same mzML fra
 | Parameter | Default | Purpose |
 | --- | --- | --- |
 | `algorithm` | `FFId` | FeatureFinderIdentification route used by this metapipeline. |
-| `fractionated` | `false` | Set true when each LFQ sample has multiple mzML fractions. |
+| `fractionated` | Inferred from input CSV | Use the fractionated LFQ workflow when each sample has multiple mzML fractions. |
 | `ffid_strategy` | Child default: `merged` | Identification strategy within FeatureFinderIdentification. |
 | `merge_featureXML` | Child default: `true` | Produce consensusXML for protein quantitation. |
 
@@ -214,7 +214,6 @@ The test runner uses `/scratch/$SLURM_JOB_ID/<test-case>` for its work and outpu
 ## Current limitations
 
 - ProtLoom validation requires MSBooster and additional project settings, and its current output does not satisfy the parent protein-stage idXML handoff. Keep `run_protloom = false` for complete metapipeline runs.
-- Fractionated LFQ with only one sample produces a different consensusXML path than the parent currently selects. Use at least two samples for the fractionated LFQ integration route until this handoff is corrected.
 
 ## License
 
