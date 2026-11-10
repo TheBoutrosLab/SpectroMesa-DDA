@@ -228,7 +228,7 @@ workflow {
     if (!params.validate_ProteomicPSM.run_protloom) {
         build_proteovault(
             call_search_msms.out.result.map { records, dir -> dir },
-            call_validate_psm.out.result.map { records, dir -> dir },
+            call_validate_psm.out.result.map { records, dir, mzmlCsv -> dir },
             quantResult.map { records, dir, unfilteredCsv -> dir },
             call_quantitate_protein.out.result,
             call_qc_dda.out.result,
