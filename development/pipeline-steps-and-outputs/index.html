@@ -86,7 +86,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Pipeline steps and outputs</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/ff20cf4d6165480b181caa6681230455faead2f0/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/ed392f2aff85a04b050883420f3faa2a39ced5cf/README.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -119,7 +119,7 @@
     │   └── manifests/
     └── log-metapipeline-ProteomicDDA-&lt;version&gt;-&lt;timestamp&gt;/
 </code></pre>
-<p><code>manifests/</code> contains <code>search.csv</code>, <code>validation.csv</code>, <code>validation-mzml.csv</code>, <code>quant-idxml.csv</code>, <code>quant-mzml.csv</code>, <code>protein-unfiltered.csv</code>, <code>protein-consensus.csv</code>, <code>qc-mzml.csv</code>, and <code>qc-psm-features.csv</code>. Conversion runs also publish <code>conversion.csv</code> and <code>converted-input.csv</code>. The feature manifest has a header but no data rows when validation publishes no feature files. ProtLoom runs also publish <code>protloom-project.generated.yaml</code>. The QC child writes <code>&lt;dataset_id&gt;_QC_metrics.tsv</code> and per-stage metrics and plots under its versioned output directory. Each child directory contains its scientific results and its own logs. The ProteoVault database records source paths from its build work directory; publishing does not rewrite paths inside it. The timestamped metapipeline log directory contains the parent Nextflow trace, timeline, report, and effective parameters.</p>
+<p><code>manifests/</code> contains <code>search.csv</code>, <code>validation.csv</code>, <code>validation-mzml.csv</code>, <code>quant-idxml.csv</code>, <code>quant-mzml.csv</code>, <code>protein-unfiltered.csv</code>, <code>qc-mzml.csv</code>, and <code>qc-psm-features.csv</code>. LFQ runs also publish the merged <code>protein-cohort.consensusXML</code> there. Conversion runs also publish <code>conversion.csv</code> and <code>converted-input.csv</code>. The feature manifest has a header but no data rows when validation publishes no feature files. ProtLoom runs also publish <code>protloom-project.generated.yaml</code>. The QC child writes <code>&lt;dataset_id&gt;_QC_metrics.tsv</code> and per-stage metrics and plots under its versioned output directory. Each child directory contains its scientific results and its own logs. The ProteoVault database records source paths from its build work directory; publishing does not rewrite paths inside it. The timestamped metapipeline log directory contains the parent Nextflow trace, timeline, report, and effective parameters.</p>
               
             </div>
           </div><footer>
