@@ -88,7 +88,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Inputs</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/55141fb8952db1aa064d205b04f9230010ec6583/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/c05e28fac17f1ead72520f913bd1e8a339283474/README.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -146,7 +146,7 @@ sample_02,2,/data/sample_02_fraction_2.mzML
 </tr>
 </tbody>
 </table>
-<p>A TMT plex may contain several mzML fractions. For fractionated LFQ, set <code>quantitate_ProteomicLFQ.fractionated = true</code>; all LFQ samples must have the same fraction IDs. A single fractionated LFQ sample currently cannot complete the protein handoff; see <a href="../current-limitations/#current-limitations">Current limitations</a>.</p>
+<p>A TMT plex may contain several mzML fractions. The metapipeline infers fractionation from the input CSV and sets the validation and LFQ child options automatically. Either every sample or plex must have multiple fractions, or every one must have a single fraction; mixed layouts are rejected. LFQ samples must also have the same fraction IDs.</p>
 <h3 id="protloom-project-yaml">ProtLoom project YAML</h3>
 <p>The validation child accepts a project YAML with <code>schema_version: 1</code>, <code>annotations</code> containing unique <code>annotation_id</code> values and existing GTF files, and <code>database.output_fasta</code> and <code>database.output_entries_tsv</code> pointing to existing files. Database decoy and contaminant markers must match the root run settings. The metapipeline generates the <code>samples</code> section from the input CSV, writes <code>protloom-project.generated.yaml</code> under <code>manifests/</code>, and resolves relative database, GTF, and FASTA source paths against the original YAML location.</p>
 <p>ProtLoom also requires <code>validate_ProteomicPSM.percolator_workflow = 'msbooster'</code> and nonempty <code>protloom_pt_order</code> and <code>protloom_pc_order</code>. The current parent protein handoff for ProtLoom is incomplete; see <a href="../current-limitations/#current-limitations">Current limitations</a> before selecting this route.</p>
