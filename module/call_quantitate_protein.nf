@@ -2,7 +2,7 @@ process call_quantitate_protein {
     publishDir "${params.final_output_dir}", mode: 'copy', pattern: 'quantitate-ProteomicProtein-*'
 
     input:
-        tuple path(consensusCsv), path(unfilteredCsv), path(configJson), path(resourceConfig)
+        tuple path(consensusXML), path(unfilteredCsv), path(configJson), path(resourceConfig)
         path database
 
     output: path('quantitate-ProteomicProtein-*'), emit: result
@@ -16,7 +16,7 @@ process call_quantitate_protein {
             -c ${resourceConfig} \\
             -profile ${params.child_profile} \\
             -params-file ${configJson} \\
-            --input_consensusXML \$(realpath ${consensusCsv}) \\
+            --input_consensusXML \$(realpath ${consensusXML}) \\
             --unfiltered_idXML \$(realpath ${unfilteredCsv}) \\
             --decoy_database \$(realpath ${database}) \\
             --project_name ${params.dataset_id} \\

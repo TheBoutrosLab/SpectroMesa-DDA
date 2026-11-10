@@ -1,35 +1,43 @@
 process create_protein_inputs {
+    container(params.quantitate_ProteomicProtein.docker_image_openms ?:
+        "ghcr.io/theboutroslab/openms-thirdparty:${params.quantitate_ProteomicProtein.openms_version ?: '3.5.0'}")
+
     publishDir "${params.final_output_dir}/manifests", mode: 'copy',
-        pattern: 'protein-consensus.csv'
+        pattern: 'protein-cohort.consensusXML',
+        enabled: params.experiment_type == 'LFQ'
 
     input:
         tuple val(records), path(quantDir), path(unfilteredCsv)
 
     output:
-        tuple path('protein-consensus.csv'), path(unfilteredCsv), emit: input
+        tuple path('protein-cohort.consensusXML'), path(unfilteredCsv), emit: input
 
     script:
-        def tmtRows = """
-            consensus=\$(find "\$(realpath '${quantDir}')" -type f \
-                -path '*/output/${params.dataset_id}_IDConflictResolver.consensusXML' -print -quit)
-            test -n "\$consensus" || { echo 'Missing final TMT consensusXML for ${params.dataset_id}' >&2; exit 1; }
-            printf '%s\\n' "\$(realpath "\$consensus")" >> protein-consensus.csv
-        """.stripIndent()
-        def lfqPattern = params.quantitate_ProteomicLFQ.fractionated ?
-            '*/output/FileMerger/*_FileMerger.consensusXML' :
-            '*/output/MSPtools_ConsensusXML_setColumnHeaders/*_setColumnHeaders.consensusXML'
-        def lfqRows = """
-            consensus_files=\$(find "\$(realpath '${quantDir}')" -type f \
-                -path '${lfqPattern}' \
-                -print | sort)
-            test -n "\$consensus_files" || { echo 'Missing final LFQ consensusXML files' >&2; exit 1; }
-            while IFS= read -r consensus; do
-                printf '%s\\n' "\$(realpath "\$consensus")" >> protein-consensus.csv
-            done <<< "\$consensus_files"
-        """.stripIndent()
+        def pattern = params.experiment_type == 'TMT' ?
+            "*/output/${params.dataset_id}_IDConflictResolver.consensusXML" :
+            (params.quantitate_ProteomicLFQ.fractionated ?
+                '*/output/FileMerger/*_FileMerger.consensusXML' :
+                '*/output/MSPtools_ConsensusXML_setColumnHeaders/*_setColumnHeaders.consensusXML')
         """
         set -euo pipefail
-        printf 'path\\n' > protein-consensus.csv
-        ${params.experiment_type == 'TMT' ? tmtRows : lfqRows}
+        consensus_files=()
+        while IFS= read -r consensus; do
+            consensus_files+=("\$consensus")
+        done < <(find "\$(realpath '${quantDir}')" \\
+            -type f -path '${pattern}' -print | sort)
+        test \${#consensus_files[@]} -gt 0 || { echo 'Missing final ${params.experiment_type} consensusXML' >&2; exit 1; }
+        if [ '${params.experiment_type}' = 'TMT' ]; then
+            test \${#consensus_files[@]} -eq 1 || { echo 'Expected one final TMT consensusXML' >&2; exit 1; }
+        fi
+        if [ \${#consensus_files[@]} -eq 1 ]; then
+            ln -s "\$(realpath "\${consensus_files[0]}")" protein-cohort.consensusXML
+        else
+            FileMerger \\
+                -in "\${consensus_files[@]}" \\
+                -in_type consensusXML \\
+                -append_method append_cols \\
+                -out protein-cohort.consensusXML \\
+                -threads ${task.cpus}
+        fi
         """
 }

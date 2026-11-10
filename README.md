@@ -90,7 +90,7 @@ Set shared values once at the root of the run config. `methods.setup()` derives 
 | `decoy_string` / `decoy_position` | `DECOY_` / `prefix` | Shared decoy accession marker. MSFragger requires a prefix. |
 | `contam_string` / `contam_position` | `CONTAMINANT_` / `prefix` | Contaminant marker, also checked against the ProtLoom YAML. |
 | `child_profile` | `standard` | Container-runtime profile passed to each child. |
-| `proteovault_version` | `0.2.0` | Version used for the ProteoVault image. |
+| `proteovault_version` | `0.2.1` | Version used for the ProteoVault image. |
 | `docker_image_proteovault` | `ghcr.io/theboutroslab/proteovault:${params.proteovault_version}` | Container image for the parent ProteoVault process. |
 | `compute_profile` | None | Node budget selected by `-profile pines`, `-profile boutroslab_aws`, or directly. |
 | `additional_resource_profile_dir` | None | Optional PATH-style list of external resource-profile directories. |
@@ -153,10 +153,9 @@ The LFQ child receives one validated idXML per sample and the sample-to-fraction
 | Parameter | Default | Purpose |
 | --- | --- | --- |
 | `protein_grouping_algorithm` | `ProteinProphet` | `ProteinProphet` or `ProteinInferencer`. |
-| `merge_consensus` | `true` | Combine the peptide consensusXML files before protein quantitation. |
 | `protein_fdr_cutoff` | `0.01` | Protein FDR cutoff when the selected child workflow enables protein FDR filtering. |
 
-ProteinProphet also receives the per-engine, PEP-scored idXML files from validation. See the [protein pipeline parameters](external/quantitate-ProteomicProtein/README.md) for inference and filtering controls. Root-level `decoy_database` and `decoy_string` are passed to this child.
+The metapipeline merges LFQ sample consensusXML files into one cohort file before protein quantitation; TMT already supplies one dataset-level file. ProteinProphet also receives the per-engine, PEP-scored idXML files from validation. The v1.2.0 protein child labels its protein abundance columns from the quantified consensusXML without changing the values. See the [protein pipeline parameters](external/quantitate-ProteomicProtein/README.md) for inference and filtering controls. Root-level `decoy_database` and `decoy_string` are passed to this child.
 
 ### `qc_ProteomicDDA` — quality control
 
@@ -164,7 +163,7 @@ The QC child runs after protein quantitation. It uses the original mzML fraction
 
 ### ProteoVault — cohort database
 
-After QC, the metapipeline builds and validates a ProteoVault v0.2.0 DuckDB database from the published search, validation, TMT or LFQ, protein quantitation, and QC outputs. It supplies the acquisition manifest, target-decoy FASTA, and the channel CSV for TMT. The database includes core quantities, identified TMT reporter observations when available, protein inference, and QC metrics. ProteoVault is skipped when `validate_ProteomicPSM.run_protloom = true`, because that route does not complete the current protein handoff. The database is published at the versioned metapipeline output root. It records paths from the build work directory; after relocating the result, use `proteovault update-paths` to update stored source paths. See the [ProteoVault v0.2.0 CLI guide](https://github.com/TheBoutrosLab/package-ProteoVault/blob/v0.2.0/docs/cli.md).
+After QC, the metapipeline builds and validates a ProteoVault v0.2.1 DuckDB database from the published search, validation, TMT or LFQ, protein quantitation, and QC outputs. It supplies the acquisition manifest, target-decoy FASTA, and the channel CSV for TMT. The database includes core quantities, identified TMT reporter observations when available, protein inference, and QC metrics. ProteoVault is skipped when `validate_ProteomicPSM.run_protloom = true`, because that route does not complete the current protein handoff. The database is published at the versioned metapipeline output root. It records paths from the build work directory; after relocating the result, use `proteovault update-paths` to update stored source paths. See the [ProteoVault v0.2.1 CLI guide](https://github.com/TheBoutrosLab/package-ProteoVault/blob/v0.2.1/docs/cli.md).
 
 See [config/template.config](config/template.config) for an editable run configuration and [config/schema.yaml](config/schema.yaml) for root parameter validation.
 
@@ -196,7 +195,7 @@ Versioned child pipeline directories and handoff manifests are published at:
     └── log-metapipeline-ProteomicDDA-<version>-<timestamp>/
 ```
 
-`manifests/` contains `search.csv`, `validation.csv`, `validation-mzml.csv`, `quant-idxml.csv`, `quant-mzml.csv`, `protein-unfiltered.csv`, `protein-consensus.csv`, `qc-mzml.csv`, and `qc-psm-features.csv`. Conversion runs also publish `conversion.csv` and `converted-input.csv`. The feature manifest has a header but no data rows when validation publishes no feature files. ProtLoom runs also publish `protloom-project.generated.yaml`. The QC child writes `<dataset_id>_QC_metrics.tsv` and per-stage metrics and plots under its versioned output directory. Each child directory contains its scientific results and its own logs. The ProteoVault database records source paths from its build work directory; publishing does not rewrite paths inside it. The timestamped metapipeline log directory contains the parent Nextflow trace, timeline, report, and effective parameters.
+`manifests/` contains `search.csv`, `validation.csv`, `validation-mzml.csv`, `quant-idxml.csv`, `quant-mzml.csv`, `protein-unfiltered.csv`, `qc-mzml.csv`, and `qc-psm-features.csv`. LFQ runs also publish the merged `protein-cohort.consensusXML` there. Conversion runs also publish `conversion.csv` and `converted-input.csv`. The feature manifest has a header but no data rows when validation publishes no feature files. ProtLoom runs also publish `protloom-project.generated.yaml`. The QC child writes `<dataset_id>_QC_metrics.tsv` and per-stage metrics and plots under its versioned output directory. Each child directory contains its scientific results and its own logs. The ProteoVault database records source paths from its build work directory; publishing does not rewrite paths inside it. The timestamped metapipeline log directory contains the parent Nextflow trace, timeline, report, and effective parameters.
 
 ## Testing
 
