@@ -4,6 +4,8 @@ All notable changes to metapipeline-ProteomicDDA are documented here. The format
 
 ## [Unreleased]
 
+## [1.2.6] - 2026-11-10
+
 ### Changed
 
 - Update `search-ProteomicMSMS` to v1.1.1 so MSFragger PSMs retain their source spectrum FAIMS compensation voltage.
@@ -109,5 +111,6 @@ All notable changes to metapipeline-ProteomicDDA are documented here. The format
 [1.2.3]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.3.0-rc.1...v1.2.3
 [1.2.4]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.3...v1.2.4
 [1.2.5]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.4...v1.2.5
+[1.2.6]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.5...v1.2.6
 [1.3.0-rc.1]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.2...v1.3.0-rc.1
-[unreleased]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.5...HEAD
+[unreleased]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.6...HEAD
