@@ -4,6 +4,8 @@ All notable changes to metapipeline-ProteomicDDA are documented here. The format
 
 ## [Unreleased]
 
+## [1.2.7] - 2026-11-12
+
 ### Changed
 
 - Update `quantitate-ProteomicTMT` to v2.1.0 for OpenMS 3.6.0 quantitation and align its integration fixture fraction IDs.
@@ -118,5 +120,6 @@ All notable changes to metapipeline-ProteomicDDA are documented here. The format
 [1.2.4]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.3...v1.2.4
 [1.2.5]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.4...v1.2.5
 [1.2.6]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.5...v1.2.6
+[1.2.7]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.6...v1.2.7
 [1.3.0-rc.1]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.2...v1.3.0-rc.1
-[unreleased]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.6...HEAD
+[unreleased]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.7...HEAD
