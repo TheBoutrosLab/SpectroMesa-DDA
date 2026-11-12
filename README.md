@@ -135,7 +135,7 @@ The parent passes the search idXML manifest, the mzML files used for search, and
 | `tmt_normalization_method` | Child default | Select the TMT normalization route, such as `mad`. |
 | `consensusXML_entrypoint` | `false` | The metapipeline supplies mzML, idXML, and channel manifests. |
 
-The TMT v2.0.0 child receives one validated idXML per plex and the same mzML fractions supplied to validation, including reindexed files when enabled. Channel labels come from `channel_csv`. For `feature_based`, give every plex the same set of `fraction_id` values and set `tmt_normalization_method = 'mad'` when normalization is enabled. Both TMT workflows publish one dataset-level consensusXML and peptide CSV. See the [TMT pipeline parameters](external/quantitate-ProteomicTMT/README.md) for correction matrices, normalization, and reporter-channel options.
+The TMT v2.1.0 child receives one validated idXML per plex and the same mzML fractions supplied to validation, including reindexed files when enabled. Channel labels come from `channel_csv`. For `feature_based`, give every plex the same set of `fraction_id` values and set `tmt_normalization_method = 'mad'` when normalization is enabled. Both TMT workflows publish one dataset-level consensusXML and peptide CSV. See the [TMT pipeline parameters](external/quantitate-ProteomicTMT/README.md) for correction matrices, normalization, and reporter-channel options.
 
 ### `quantitate_ProteomicLFQ` — label-free quantitation
 
@@ -146,7 +146,7 @@ The TMT v2.0.0 child receives one validated idXML per plex and the same mzML fra
 | `ffid_strategy` | Child default: `merged` | Identification strategy within FeatureFinderIdentification. |
 | `merge_featureXML` | Child default: `true` | Produce consensusXML for protein quantitation. |
 
-The LFQ child receives one validated idXML per sample and the sample-to-fraction mzML manifest. See the [LFQ pipeline parameters](external/quantitate-ProteomicLFQ/README.md) for feature finding, alignment, and linking options.
+The LFQ v1.1.0 child receives one validated idXML per sample and the sample-to-fraction mzML manifest. It publishes the final IDConflictResolver consensusXML directly under its output directory. See the [LFQ pipeline parameters](external/quantitate-ProteomicLFQ/README.md) for feature finding, alignment, and linking options.
 
 ### `quantitate_ProteomicProtein` — protein quantitation
 
@@ -155,7 +155,7 @@ The LFQ child receives one validated idXML per sample and the sample-to-fraction
 | `protein_grouping_algorithm` | `ProteinProphet` | `ProteinProphet` or `ProteinInferencer`. |
 | `protein_fdr_cutoff` | `0.01` | Protein FDR cutoff when the selected child workflow enables protein FDR filtering. |
 
-The metapipeline merges LFQ sample consensusXML files into one cohort file before protein quantitation; TMT already supplies one dataset-level file. ProteinProphet also receives the per-engine, PEP-scored idXML files from validation. The v1.2.0 protein child labels its protein abundance columns from the quantified consensusXML without changing the values. See the [protein pipeline parameters](external/quantitate-ProteomicProtein/README.md) for inference and filtering controls. Root-level `decoy_database` and `decoy_string` are passed to this child.
+The metapipeline passes the final LFQ or TMT IDConflictResolver consensusXML to protein quantitation. ProteinProphet also receives the per-engine, PEP-scored idXML files from validation. The v1.3.0 protein child labels its protein and peptide abundance columns from the quantified consensusXML. See the [protein pipeline parameters](external/quantitate-ProteomicProtein/README.md) for inference and filtering controls. Root-level `decoy_database` and `decoy_string` are passed to this child.
 
 ### `qc_ProteomicDDA` — quality control
 

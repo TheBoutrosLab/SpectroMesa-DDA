@@ -4,6 +4,12 @@ All notable changes to metapipeline-ProteomicDDA are documented here. The format
 
 ## [Unreleased]
 
+### Changed
+
+- Update `quantitate-ProteomicTMT` to v2.1.0 for OpenMS 3.6.0 quantitation and align its integration fixture fraction IDs.
+- Update `quantitate-ProteomicLFQ` to v1.1.0 and `quantitate-ProteomicProtein` to v1.3.0 for OpenMS 3.6.0 quantitation and labeled abundance columns.
+- Pass the final LFQ or TMT IDConflictResolver consensusXML directly to protein quantitation.
+
 ## [1.2.6] - 2026-11-10
 
 ### Changed
