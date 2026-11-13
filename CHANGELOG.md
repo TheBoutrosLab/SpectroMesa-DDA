@@ -4,6 +4,15 @@ All notable changes to metapipeline-ProteomicDDA are documented here. The format
 
 ## [Unreleased]
 
+### Added
+
+- Add `run_proteovault` to skip the database build while retaining DDA QC output.
+
+### Changed
+
+- Update `qc-ProteomicDDA` to v1.2.0 and pass LFQ/TMT mode and TMT channel labels for standardized QC metrics.
+- Update ProteoVault to v0.2.3 for direct import of QC v1.2.0 metrics.
+
 ## [1.2.8] - 2026-11-12
 
 ### Fixed

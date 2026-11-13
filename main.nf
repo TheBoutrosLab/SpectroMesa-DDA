@@ -238,9 +238,10 @@ workflow {
             tuple(records, searchCsv, mzmlCsv, filteredCsv, validationDir, proteinDir)
         }
     create_qc_inputs(qcInput)
-    call_qc_dda(create_qc_inputs.out.input.combine(qcConfig))
+    call_qc_dda(create_qc_inputs.out.input.combine(qcConfig),
+        file(params.experiment_type == 'TMT' ? params.channel_csv : params.input_csv))
 
-    if (!params.validate_ProteomicPSM.run_protloom) {
+    if (params.run_proteovault && !params.validate_ProteomicPSM.run_protloom) {
         build_proteovault(
             call_search_msms.out.result.map { records, dir -> dir },
             call_validate_psm.out.result.map { records, dir, mzmlCsv -> dir },
