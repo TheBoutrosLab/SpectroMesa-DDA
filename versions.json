@@ -20,11 +20,20 @@
     }
   },
   {
-    "version": "v1.2.7",
-    "title": "v1.2.7",
+    "version": "v1.2.8",
+    "title": "v1.2.8",
     "aliases": [
       "latest"
     ],
+    "properties": {
+      "commit": "cf418485b95049dd0c4cc20f132ed461d2bce308",
+      "date": "2026-11-12T20:59:37-08:00"
+    }
+  },
+  {
+    "version": "v1.2.7",
+    "title": "v1.2.7",
+    "aliases": [],
     "properties": {
       "commit": "9d66b905980c5a34adbadf1c5f1ba2b60dc19bd8",
       "date": "2026-11-12T09:20:31-08:00"
