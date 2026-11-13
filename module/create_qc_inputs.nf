@@ -2,7 +2,7 @@ process create_qc_inputs {
     publishDir "${params.final_output_dir}/manifests", mode: 'copy', pattern: 'qc-*.csv'
 
     input:
-        tuple val(records), path(searchCsv), path(filteredCsv), path(validationDir), path(proteinDir)
+        tuple val(records), path(searchCsv), path(mzmlCsv), path(filteredCsv), path(validationDir), path(proteinDir)
 
     output:
         tuple path('qc-mzml.csv'), path(searchCsv), path(filteredCsv), path('qc-psm-features.csv'),
@@ -10,9 +10,6 @@ process create_qc_inputs {
             path('peptide-quant.input'), emit: input
 
     script:
-        def mzmlRows = records.collect { sample, fraction, mzml, annotation ->
-            "printf '%s,%s,%s\\n' '${sample}' '${fraction}' '${mzml}' >> qc-mzml.csv"
-        }.join('\n')
         def featureRows = records.collect { it[0] }.unique().collect { sample ->
             def fractions = records.findAll { it[0] == sample }.collect { it[1] }
             params.search_ProteomicMSMS.search_engines.collect { engine ->
@@ -41,7 +38,7 @@ process create_qc_inputs {
         set -euo pipefail
         printf 'sample_name,fraction_id,path\\n' > qc-mzml.csv
         printf 'sample_name,search_engine,route,fraction_id,path\\n' > qc-psm-features.csv
-        ${mzmlRows}
+        tail -n +2 ${mzmlCsv} >> qc-mzml.csv
         ${featureRows}
         for kind in groups protein_quant peptide_quant; do
             case "\$kind" in
