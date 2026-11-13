@@ -86,7 +86,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Pipeline steps and outputs</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/cf418485b95049dd0c4cc20f132ed461d2bce308/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/ea55a77c53da453b7223c337ed0d0da4421361b4/README.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -102,11 +102,11 @@
 <li><code>quantitate-ProteomicTMT</code> or <code>quantitate-ProteomicLFQ</code> quantifies peptides according to <code>experiment_type</code>.</li>
 <li><code>quantitate-ProteomicProtein</code> uses peptide consensusXML and, for ProteinProphet, unfiltered PEP-scored idXML to quantify proteins.</li>
 <li><code>qc-ProteomicDDA</code> summarizes acquisition, search, PSM features, validated identifications, protein groups, and abundance, and creates per-fraction interactive MS1 plots.</li>
-<li>ProteoVault builds and validates a DuckDB database from the completed DDA results.</li>
+<li>If enabled, ProteoVault builds and validates a DuckDB database from the completed DDA results.</li>
 </ol>
 <p>Versioned child pipeline directories and handoff manifests are published at:</p>
 <pre><code class="language-text">&lt;output_dir&gt;/metapipeline-ProteomicDDA-&lt;version&gt;/
-├── &lt;dataset_id&gt;.proteovault.duckdb
+├── &lt;dataset_id&gt;.proteovault.duckdb              # when run_proteovault = true
 └── &lt;dataset_id&gt;/
     ├── main_workflow/
     │   ├── convert-MSData-&lt;version&gt;/            # conversion runs only
