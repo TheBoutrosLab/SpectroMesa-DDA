@@ -4,6 +4,8 @@ All notable changes to metapipeline-ProteomicDDA are documented here. The format
 
 ## [Unreleased]
 
+## [1.2.8] - 2026-11-12
+
 ### Fixed
 
 - Use the validation mzML paths in QC and ProteoVault so reindexed run names match validated idXML.
@@ -125,5 +127,6 @@ All notable changes to metapipeline-ProteomicDDA are documented here. The format
 [1.2.5]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.4...v1.2.5
 [1.2.6]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.5...v1.2.6
 [1.2.7]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.6...v1.2.7
+[1.2.8]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.7...v1.2.8
 [1.3.0-rc.1]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.2...v1.3.0-rc.1
-[unreleased]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.7...HEAD
+[unreleased]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.8...HEAD
