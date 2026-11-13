@@ -124,7 +124,7 @@ The root `decoy_string` and `decoy_position` are copied into each selected adapt
 | `protloom_pt_order` / `protloom_pc_order` | Empty | Required ordering settings when ProtLoom is enabled. |
 | `export_easypqp_reports` | Child default: `false` | DDA does not need EasyPQP reports. |
 
-The parent passes the search idXML manifest, the mzML files used for search, and target-decoy FASTA to validation. When search reindexing is enabled, it maps each reindexed file back to its fraction by input CSV order. MSBooster uses the same mzML manifest. The child publishes per-engine filtered idXML and unfiltered PEP-scored idXML; multiple engines also produce a filtered consensus idXML. See the [validation pipeline parameters](external/validate-ProteomicPSM/README.md#config) for filtering and inference options.
+The parent passes the search idXML manifest, the mzML files used for search, and target-decoy FASTA to validation. When search reindexing is enabled, it maps each reindexed file back to its fraction by input CSV order. MSBooster, QC, and ProteoVault use the same mzML manifest, keeping their run names aligned with the validated idXML. The child publishes per-engine filtered idXML and unfiltered PEP-scored idXML; multiple engines also produce a filtered consensus idXML. See the [validation pipeline parameters](external/validate-ProteomicPSM/README.md#config) for filtering and inference options.
 
 ### `quantitate_ProteomicTMT` — isobaric quantitation
 
