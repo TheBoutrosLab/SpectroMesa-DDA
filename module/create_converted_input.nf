@@ -5,7 +5,7 @@ process create_converted_input {
     output: path('converted-input.csv'), emit: input
 
     script:
-        // convert-MSData v1.1.1 suffixes every fraction only when a sample has
+        // convert-MSData suffixes every fraction only when a sample has
         // duplicate input basenames; otherwise it preserves each basename.
         def basenameCounts = records.countBy { row -> [row[0], file(row[2]).baseName] }
         def suffixFractions = basenameCounts.values().any { it > 1 }

@@ -4,6 +4,10 @@ All notable changes to metapipeline-ProteomicDDA are documented here. The format
 
 ## [Unreleased]
 
+### Changed
+
+- Update `convert-MSData` to v1.1.3 for writable ProteoWizard Wine prefixes and the stack limit under Apptainer.
+
 ## [1.3.0] - 2026-11-13
 
 ### Added
