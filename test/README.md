@@ -1,7 +1,21 @@
 # Integration tests
 
-Use `test/run-nftest.sh <case>` from the repository root in a Slurm allocation.
-Set `NFX_VER`/`NXF_VER`, `NXF_SYNTAX_PARSER`, and `TEST_DATA_DIR` in `.env`.
+From the repository root, copy `.env-template` to `.env` and set `NXF_VER`,
+`NXF_SYNTAX_PARSER`, `TEST_DATA_DIR`, `NFT_RUN_ROOT`, and `NFT_CLUSTER`.
+Run a case with `python3 test/run-nftest.py <case>` in the Python environment
+where NFTest, PyYAML, and python-dotenv are installed.
+If your NFTest version imports `pkg_resources`, use `setuptools<81` in that
+environment.
+
+`NFT_CLUSTER=boutroslab_aws` requires a Slurm job and puts runs under
+`$NFT_RUN_ROOT/$SLURM_JOB_ID`. `NFT_CLUSTER=pines` uses `$NFT_RUN_ROOT`
+directly and selects the `apptainer,pines` profiles. Leaving `NFT_CLUSTER`
+unset uses Docker and the AWS compute profile without adding a Slurm job
+directory. Relative `NFT_RUN_ROOT` values resolve
+from the repository root; an unset root defaults there. Results go to
+`<run-root>/<test-case>/` and temporary files to
+`<run-root>/.nftest-temp/<12-character case ID>/`.
+
 The LFQ case uses its repository CSV with two fractions for each of two samples.
 It expects the named `$TEST_DATA_DIR/ecoli_lfq/mzML/` files, the matching
 FASTA under `database/`, and

@@ -136,8 +136,9 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
-.envrc
+.env*
+!/.env-template
+/.nftest-temp/
 .venv
 env/
 venv/

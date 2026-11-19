@@ -32,7 +32,7 @@ The scratch path is an example for a Slurm job; use another suitable work direct
 | `pines` | 64 CPUs, 500 GB | 2 CPUs, 4 GB per launcher. |
 | `boutroslab_aws` | 32 CPUs, 128 GB | 2 CPUs, 4 GB per launcher. |
 
-Parent CSV and configuration tasks request 1 CPU and 2 GB; parent child-launch tasks request 2 CPUs and 4 GB, and ProteoVault requests up to 8 CPUs and 64 GB from [config/resources.json](config/resources.json). The bundled JSON profiles set `max_cpus` and `max_memory` for the parent and children. Their `children` process-allocation entries are **not applied** by the current DDA metapipeline; each child uses its own resource defaults unless its namespace supplies `base_resource_update`. These profiles describe node budgets; they do not select a Slurm partition or change the local executor.
+Parent CSV and configuration tasks request 1 CPU and 2 GB; parent child-launch tasks request 2 CPUs and 4 GB, and ProteoVault requests up to 8 CPUs and 64 GB from [config/resources.json](config/resources.json). The bundled JSON profiles set node budgets and explicit CPU and memory requests for every process in the current DDA child pipelines. The parent checks these requests against each child's resource definitions and passes the needed adjustments through `base_resource_update`; a child namespace's own `base_resource_update` takes precedence. Without a compute profile, child resource defaults apply. These profiles do not select a Slurm partition or change the local executor.
 
 For a profile outside the repository, copy [pines.json](config/resource_profiles/pines.json) or [boutroslab_aws.json](config/resource_profiles/boutroslab_aws.json) to a directory you control, rename it `<name>.json`, and edit its `max_cpus` and `max_memory`. Set these values in the run config:
 
@@ -144,10 +144,10 @@ The TMT v2.1.0 child receives one validated idXML per plex and the same mzML fra
 | --- | --- | --- |
 | `algorithm` | `FFId` | FeatureFinderIdentification route used by this metapipeline. |
 | `fractionated` | Inferred from input CSV | Use the fractionated LFQ workflow when each sample has multiple mzML fractions. |
-| `ffid_strategy` | Child default: `merged` | Identification strategy within FeatureFinderIdentification. |
+| `enable_mbr` | Child default: `false` | Enable QT match between runs for FFId with at least two samples and `merge_featureXML = true`. |
 | `merge_featureXML` | Child default: `true` | Produce consensusXML for protein quantitation. |
 
-The LFQ v1.1.0 child receives one validated idXML per sample and the sample-to-fraction mzML manifest. It publishes the final IDConflictResolver consensusXML directly under its output directory. See the [LFQ pipeline parameters](external/quantitate-ProteomicLFQ/README.md) for feature finding, alignment, and linking options.
+The LFQ v2.0.1 child receives one validated idXML per sample and the sample-to-fraction mzML manifest. It accepts text fraction IDs and publishes the final IDConflictResolver consensusXML directly under its output directory. If an older run config sets `ffid_strategy` or FFId SVM options, remove those settings. See the [LFQ pipeline parameters](external/quantitate-ProteomicLFQ/README.md) for feature finding, alignment, and linking options.
 
 ### `quantitate_ProteomicProtein` — protein quantitation
 
@@ -156,7 +156,7 @@ The LFQ v1.1.0 child receives one validated idXML per sample and the sample-to-f
 | `protein_grouping_algorithm` | `ProteinProphet` | `ProteinProphet` or `ProteinInferencer`. |
 | `protein_fdr_cutoff` | `0.01` | Protein FDR cutoff when the selected child workflow enables protein FDR filtering. |
 
-The metapipeline passes the final LFQ or TMT IDConflictResolver consensusXML to protein quantitation. ProteinProphet also receives the per-engine, PEP-scored idXML files from validation. The v1.3.0 protein child labels its protein and peptide abundance columns from the quantified consensusXML. See the [protein pipeline parameters](external/quantitate-ProteomicProtein/README.md) for inference and filtering controls. Root-level `decoy_database` and `decoy_string` are passed to this child.
+The metapipeline passes the final LFQ or TMT IDConflictResolver consensusXML to protein quantitation. ProteinProphet also receives the per-engine, PEP-scored idXML files from validation. The v1.3.1 protein child labels its protein and peptide abundance columns from the quantified consensusXML and uses the appropriate script mount for Apptainer. See the [protein pipeline parameters](external/quantitate-ProteomicProtein/README.md) for inference and filtering controls. Root-level `decoy_database` and `decoy_string` are passed to this child.
 
 ### `qc_ProteomicDDA` — quality control
 
@@ -200,17 +200,17 @@ Versioned child pipeline directories and handoff manifests are published at:
 
 ## Testing
 
-The NFTest cases exercise MSFragger LFQ, scan-based and feature-based MSFragger TMT, TMT spectrum reindexing, and Sage LFQ, including QC. The standard MSFragger LFQ and TMT cases set `run_proteovault = false`; other cases still attempt ProteoVault by default. The RAW TMT case uses two E. coli TMT RAW files under `TEST_DATA_DIR`. From the repository root, inside a Slurm job, copy `.env-template` to `.env`, set `TEST_DATA_DIR`, and run:
+The NFTest cases exercise MSFragger LFQ, scan-based and feature-based MSFragger TMT, TMT spectrum reindexing, and Sage LFQ, including QC. The standard MSFragger LFQ and TMT cases set `run_proteovault = false`; other cases still attempt ProteoVault by default. The RAW TMT case uses two E. coli TMT RAW files under `TEST_DATA_DIR`. From the repository root, copy `.env-template` to `.env`, set `TEST_DATA_DIR`, `NFT_RUN_ROOT`, and `NFT_CLUSTER`, then run:
 
 ```bash
-zsh test/run-nftest.sh test_integration_MSFragger_LFQ_Protein
-zsh test/run-nftest.sh test_integration_MSFragger_TMT_Protein
-zsh test/run-nftest.sh test_integration_MSFragger_TMT_Reindexed
-zsh test/run-nftest.sh test_integration_Sage_LFQ_Protein
-zsh test/run-nftest.sh test_integration_MSFragger_TMT_RAW
+python3 test/run-nftest.py test_integration_MSFragger_LFQ_Protein
+python3 test/run-nftest.py test_integration_MSFragger_TMT_Protein
+python3 test/run-nftest.py test_integration_MSFragger_TMT_Reindexed
+python3 test/run-nftest.py test_integration_Sage_LFQ_Protein
+python3 test/run-nftest.py test_integration_MSFragger_TMT_RAW
 ```
 
-The test runner uses `/scratch/$SLURM_JOB_ID/<test-case>` for its work and output. Test CSVs expand `$TEST_DATA_DIR` through [test/csv_environment_expander.groovy](test/csv_environment_expander.groovy). See [test/README.md](test/README.md) for the expected mzML, FASTA, channel CSV, and MSFragger JAR files.
+The test runner puts results under `<run-root>/<test-case>/` and temporary files under `<run-root>/.nftest-temp/<12-character case ID>/`. With `NFT_CLUSTER=boutroslab_aws`, the run root is `$NFT_RUN_ROOT/$SLURM_JOB_ID` and a Slurm job is required. With `NFT_CLUSTER=pines`, it uses `$NFT_RUN_ROOT` directly and selects the `apptainer,pines` profiles. Leaving `NFT_CLUSTER` unset uses Docker and the AWS compute profile without adding a Slurm job directory. Test CSVs expand `$TEST_DATA_DIR` through [test/csv_environment_expander.groovy](test/csv_environment_expander.groovy). See [test/README.md](test/README.md) for the expected mzML, FASTA, channel CSV, and MSFragger JAR files.
 
 ## Current limitations
 

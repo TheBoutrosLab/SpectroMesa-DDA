@@ -7,6 +7,11 @@ All notable changes to metapipeline-ProteomicDDA are documented here. The format
 ### Changed
 
 - Update `convert-MSData` to v1.1.3 for writable ProteoWizard Wine prefixes and the stack limit under Apptainer.
+- Replace the shell NFTest launcher with the DIA-style Python launcher, with configurable run storage and cluster profiles through `NFT_RUN_ROOT` and `NFT_CLUSTER`.
+- Replace copied DIA child allocations with validated DDA process requests and apply them to child pipelines.
+- Start ProteoWizard conversion at 4 GB in both bundled compute profiles.
+- Update `quantitate-ProteomicProtein` to v1.3.1 for ProteinProphet support on Apptainer.
+- Update `quantitate-ProteomicLFQ` to v2.0.1 for Apptainer script mounts and text fraction IDs, and align both compute profiles with its processes.
 
 ## [1.3.0] - 2026-11-13
 
