@@ -32,7 +32,7 @@ The scratch path is an example for a Slurm job; use another suitable work direct
 | `pines` | 64 CPUs, 500 GB | 2 CPUs, 4 GB per launcher. |
 | `boutroslab_aws` | 32 CPUs, 128 GB | 2 CPUs, 4 GB per launcher. |
 
-Parent CSV and configuration tasks request 1 CPU and 2 GB; parent child-launch tasks request 2 CPUs and 4 GB, and ProteoVault requests up to 8 CPUs and 64 GB from [config/resources.json](config/resources.json). The bundled JSON profiles set `max_cpus` and `max_memory` for the parent and children. Their `children` process-allocation entries are **not applied** by the current DDA metapipeline; each child uses its own resource defaults unless its namespace supplies `base_resource_update`. These profiles describe node budgets; they do not select a Slurm partition or change the local executor.
+Parent CSV and configuration tasks request 1 CPU and 2 GB; parent child-launch tasks request 2 CPUs and 4 GB, and ProteoVault requests up to 8 CPUs and 64 GB from [config/resources.json](config/resources.json). The bundled JSON profiles set node budgets and explicit CPU and memory requests for every process in the current DDA child pipelines. The parent checks these requests against each child's resource definitions and passes the needed adjustments through `base_resource_update`; a child namespace's own `base_resource_update` takes precedence. Without a compute profile, child resource defaults apply. These profiles do not select a Slurm partition or change the local executor.
 
 For a profile outside the repository, copy [pines.json](config/resource_profiles/pines.json) or [boutroslab_aws.json](config/resource_profiles/boutroslab_aws.json) to a directory you control, rename it `<name>.json`, and edit its `max_cpus` and `max_memory`. Set these values in the run config:
 
@@ -91,14 +91,14 @@ Set shared values once at the root of the run config. `methods.setup()` derives 
 | `contam_string` / `contam_position` | `CONTAMINANT_` / `prefix` | Contaminant marker, also checked against the ProtLoom YAML. |
 | `child_profile` | `standard` | Container-runtime profile passed to each child. |
 | `run_proteovault` | `true` | Set to `false` to finish after QC without building ProteoVault. |
-| `proteovault_version` | `0.2.3` | Version used for the ProteoVault image. |
+| `proteovault_version` | `0.2.4` | Version used for the ProteoVault image. |
 | `docker_image_proteovault` | `ghcr.io/theboutroslab/proteovault:${params.proteovault_version}` | Container image for the parent ProteoVault process. |
 | `compute_profile` | None | Node budget selected by `-profile pines`, `-profile boutroslab_aws`, or directly. |
 | `additional_resource_profile_dir` | None | Optional PATH-style list of external resource-profile directories. |
 
 ### `convert_MSData` — optional MS data conversion
 
-An input CSV containing uniform non-mzML paths runs [convert-MSData v1.1.1](external/convert-MSData/README.md) once for all input samples and fractions. The child writes mzML files under its versioned directory; the parent generates `conversion.csv` and `converted-input.csv` manifests and uses the converted mzML for search, validation, quantitation, and QC. Converted files retain their input basenames when these are unique within each sample. If any sample repeats an input basename, every output gains its fraction ID as a suffix. Keep `output_format = 'mzML'`. Select `convert_algorithm = 'ProteoWizard'` for supported vendor formats or `OpenMS` for supported open formats. Peak picking, indexing, and `pwiz_extra_args` are configured in `convert_MSData`; see the [conversion parameters](external/convert-MSData/README.md#config). The conversion child uses the same `child_profile` and compute budget as the other children.
+An input CSV containing uniform non-mzML paths runs [convert-MSData v1.1.3](external/convert-MSData/README.md) once for all input samples and fractions. The child writes mzML files under its versioned directory; the parent generates `conversion.csv` and `converted-input.csv` manifests and uses the converted mzML for search, validation, quantitation, and QC. Converted files retain their input basenames when these are unique within each sample. If any sample repeats an input basename, every output gains its fraction ID as a suffix. Keep `output_format = 'mzML'`. Select `convert_algorithm = 'ProteoWizard'` for supported vendor formats or `OpenMS` for supported open formats. Peak picking, indexing, and `pwiz_extra_args` are configured in `convert_MSData`; see the [conversion parameters](external/convert-MSData/README.md#config). The conversion child uses the same `child_profile` and compute budget as the other children. Its Apptainer profile prepares a writable Wine prefix and stack limit for ProteoWizard conversion.
 
 ### `search_ProteomicMSMS` — database search
 
@@ -109,7 +109,7 @@ An input CSV containing uniform non-mzML paths runs [convert-MSData v1.1.1](exte
 | `reindex_mzml` | `false` | Set true to assign unique native scan IDs across a sample's fractions. The reindexed mzML files are passed to validation and peptide quantitation. |
 | `export_mzTab` | `false` | Optional search-stage mzTab export. |
 
-The root `decoy_string` and `decoy_position` are copied into each selected adapter's `PeptideIndexing` settings; Sage also receives its `decoy_prefix`. See the [search pipeline configuration](external/search-ProteomicMSMS/config/template.config) and [schema](external/search-ProteomicMSMS/config/schema.yaml) for adapter options. Search results are merged per sample and engine before validation.
+The v1.1.2 search child gives each MSFragger, Comet, and Sage task its own OpenMS temporary directory. The root `decoy_string` and `decoy_position` are copied into each selected adapter's `PeptideIndexing` settings. Sage also receives its `decoy_prefix`. See the [search pipeline configuration](external/search-ProteomicMSMS/config/template.config) and [schema](external/search-ProteomicMSMS/config/schema.yaml) for adapter options. Search results are merged per sample and engine before validation.
 
 ### `validate_ProteomicPSM` — PSM validation
 
@@ -125,7 +125,7 @@ The root `decoy_string` and `decoy_position` are copied into each selected adapt
 | `protloom_pt_order` / `protloom_pc_order` | Empty | Required ordering settings when ProtLoom is enabled. |
 | `export_easypqp_reports` | Child default: `false` | DDA does not need EasyPQP reports. |
 
-The parent passes the search idXML manifest, the mzML files used for search, and target-decoy FASTA to validation. When search reindexing is enabled, it maps each reindexed file back to its fraction by input CSV order. MSBooster, QC, and ProteoVault use the same mzML manifest, keeping their run names aligned with the validated idXML. The child publishes per-engine filtered idXML and unfiltered PEP-scored idXML; multiple engines also produce a filtered consensus idXML. See the [validation pipeline parameters](external/validate-ProteomicPSM/README.md#config) for filtering and inference options.
+The parent passes the search idXML manifest, the mzML files used for search, and target-decoy FASTA to validation. When search reindexing is enabled, it maps each reindexed file back to its fraction by input CSV order. MSBooster, QC, and ProteoVault use the same mzML manifest, keeping their run names aligned with the validated idXML. The v2.4.2 validation child gives each PercolatorAdapter task its own OpenMS temporary directory. The child publishes per-engine filtered idXML and unfiltered PEP-scored idXML. Multiple engines also produce a filtered consensus idXML. See the [validation pipeline parameters](external/validate-ProteomicPSM/README.md#config) for filtering and inference options.
 
 ### `quantitate_ProteomicTMT` — isobaric quantitation
 
@@ -144,10 +144,10 @@ The TMT v2.1.0 child receives one validated idXML per plex and the same mzML fra
 | --- | --- | --- |
 | `algorithm` | `FFId` | FeatureFinderIdentification route used by this metapipeline. |
 | `fractionated` | Inferred from input CSV | Use the fractionated LFQ workflow when each sample has multiple mzML fractions. |
-| `ffid_strategy` | Child default: `merged` | Identification strategy within FeatureFinderIdentification. |
+| `enable_mbr` | Child default: `false` | Enable QT match between runs for FFId with at least two samples and `merge_featureXML = true`. |
 | `merge_featureXML` | Child default: `true` | Produce consensusXML for protein quantitation. |
 
-The LFQ v1.1.0 child receives one validated idXML per sample and the sample-to-fraction mzML manifest. It publishes the final IDConflictResolver consensusXML directly under its output directory. See the [LFQ pipeline parameters](external/quantitate-ProteomicLFQ/README.md) for feature finding, alignment, and linking options.
+The LFQ v2.0.1 child receives one validated idXML per sample and the sample-to-fraction mzML manifest. It accepts text fraction IDs and publishes the final IDConflictResolver consensusXML directly under its output directory. If an older run config sets `ffid_strategy` or FFId SVM options, remove those settings. See the [LFQ pipeline parameters](external/quantitate-ProteomicLFQ/README.md) for feature finding, alignment, and linking options.
 
 ### `quantitate_ProteomicProtein` — protein quantitation
 
@@ -156,7 +156,7 @@ The LFQ v1.1.0 child receives one validated idXML per sample and the sample-to-f
 | `protein_grouping_algorithm` | `ProteinProphet` | `ProteinProphet` or `ProteinInferencer`. |
 | `protein_fdr_cutoff` | `0.01` | Protein FDR cutoff when the selected child workflow enables protein FDR filtering. |
 
-The metapipeline passes the final LFQ or TMT IDConflictResolver consensusXML to protein quantitation. ProteinProphet also receives the per-engine, PEP-scored idXML files from validation. The v1.3.0 protein child labels its protein and peptide abundance columns from the quantified consensusXML. See the [protein pipeline parameters](external/quantitate-ProteomicProtein/README.md) for inference and filtering controls. Root-level `decoy_database` and `decoy_string` are passed to this child.
+The metapipeline passes the final LFQ or TMT IDConflictResolver consensusXML to protein quantitation. ProteinProphet also receives the per-engine, PEP-scored idXML files from validation. The v1.3.1 protein child labels its protein and peptide abundance columns from the quantified consensusXML and uses the appropriate script mount for Apptainer. See the [protein pipeline parameters](external/quantitate-ProteomicProtein/README.md) for inference and filtering controls. Root-level `decoy_database` and `decoy_string` are passed to this child.
 
 ### `qc_ProteomicDDA` — quality control
 
@@ -164,7 +164,7 @@ The QC v1.2.0 child runs after protein quantitation. It uses the mzML fractions 
 
 ### ProteoVault — cohort database
 
-When `run_proteovault = true`, the metapipeline builds and validates a ProteoVault v0.2.3 DuckDB database after QC from the published search, validation, TMT or LFQ, protein quantitation, and QC outputs. It imports the QC v1.2.0 12-column table directly and supplies the acquisition manifest, target-decoy FASTA, and the channel CSV for TMT. Set `run_proteovault = false` to skip the database build while retaining all QC output. ProteoVault is also skipped when `validate_ProteomicPSM.run_protloom = true`, because that route does not complete the current protein handoff. The database is published at the versioned metapipeline output root. It records paths from the build work directory; after relocating the result, use `proteovault update-paths` to update stored source paths. See the [ProteoVault v0.2.3 CLI guide](https://github.com/TheBoutrosLab/package-ProteoVault/blob/v0.2.3/docs/cli.md).
+When `run_proteovault = true`, the metapipeline builds and validates a ProteoVault v0.2.4 DuckDB database after QC from the published search, validation, TMT or LFQ, protein quantitation, and QC outputs. It imports the QC v1.2.0 12-column table directly and supplies the acquisition manifest, target-decoy FASTA, and the channel CSV for TMT. Set `run_proteovault = false` to skip the database build while retaining all QC output. ProteoVault is also skipped when `validate_ProteomicPSM.run_protloom = true`, because that route does not complete the current protein handoff. The database is published at the versioned metapipeline output root. It records paths from the build work directory; after relocating the result, use `proteovault update-paths` to update stored source paths. See the [ProteoVault v0.2.4 CLI guide](https://github.com/TheBoutrosLab/package-ProteoVault/blob/v0.2.4/docs/cli.md).
 
 See [config/template.config](config/template.config) for an editable run configuration and [config/schema.yaml](config/schema.yaml) for root parameter validation.
 
@@ -200,17 +200,17 @@ Versioned child pipeline directories and handoff manifests are published at:
 
 ## Testing
 
-The NFTest cases exercise MSFragger LFQ, scan-based and feature-based MSFragger TMT, TMT spectrum reindexing, and Sage LFQ, including QC. The standard MSFragger LFQ and TMT cases set `run_proteovault = false`; other cases still attempt ProteoVault by default. The RAW TMT case uses two E. coli TMT RAW files under `TEST_DATA_DIR`. From the repository root, inside a Slurm job, copy `.env-template` to `.env`, set `TEST_DATA_DIR`, and run:
+The NFTest cases exercise MSFragger LFQ, scan-based and feature-based MSFragger TMT, TMT spectrum reindexing, and Sage LFQ, including QC. The standard MSFragger LFQ and TMT cases set `run_proteovault = false`; other cases still attempt ProteoVault by default. The RAW TMT case uses two E. coli TMT RAW files under `TEST_DATA_DIR`. From the repository root, copy `.env-template` to `.env`, set `TEST_DATA_DIR`, `NFT_RUN_ROOT`, and `NFT_CLUSTER`, then run:
 
 ```bash
-zsh test/run-nftest.sh test_integration_MSFragger_LFQ_Protein
-zsh test/run-nftest.sh test_integration_MSFragger_TMT_Protein
-zsh test/run-nftest.sh test_integration_MSFragger_TMT_Reindexed
-zsh test/run-nftest.sh test_integration_Sage_LFQ_Protein
-zsh test/run-nftest.sh test_integration_MSFragger_TMT_RAW
+python3 test/run-nftest.py test_integration_MSFragger_LFQ_Protein
+python3 test/run-nftest.py test_integration_MSFragger_TMT_Protein
+python3 test/run-nftest.py test_integration_MSFragger_TMT_Reindexed
+python3 test/run-nftest.py test_integration_Sage_LFQ_Protein
+python3 test/run-nftest.py test_integration_MSFragger_TMT_RAW
 ```
 
-The test runner uses `/scratch/$SLURM_JOB_ID/<test-case>` for its work and output. Test CSVs expand `$TEST_DATA_DIR` through [test/csv_environment_expander.groovy](test/csv_environment_expander.groovy). See [test/README.md](test/README.md) for the expected mzML, FASTA, channel CSV, and MSFragger JAR files.
+The test runner puts results under `<run-root>/<test-case>/` and temporary files under `<run-root>/.nftest-temp/<12-character case ID>/`. With `NFT_CLUSTER=boutroslab_aws`, the run root is `$NFT_RUN_ROOT/$SLURM_JOB_ID` and a Slurm job is required. With `NFT_CLUSTER=pines`, it uses `$NFT_RUN_ROOT` directly and selects the `apptainer,pines` profiles. Leaving `NFT_CLUSTER` unset uses Docker and the AWS compute profile without adding a Slurm job directory. Test CSVs expand `$TEST_DATA_DIR` through [test/csv_environment_expander.groovy](test/csv_environment_expander.groovy). See [test/README.md](test/README.md) for the expected mzML, FASTA, channel CSV, and MSFragger JAR files.
 
 ## Current limitations
 
