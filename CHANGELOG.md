@@ -4,6 +4,8 @@ All notable changes to SpectroMesa-DDA are documented here. The format follows [
 
 ## [Unreleased]
 
+## [1.3.1] - 2026-11-20
+
 ### Changed
 
 - Migrate the metapipeline license from GPL to BSD 3-Clause and update license documentation; shared code and third-party tools retain their respective licenses.
@@ -152,18 +154,19 @@ All notable changes to SpectroMesa-DDA are documented here. The format follows [
 - Allow Sage-only and Comet-only searches without an MSFragger JAR, while requiring an existing JAR when MSFragger is selected.
 - Support multiple mzML fractions per TMT plex and LFQ sample in the parent handoffs.
 
-[1.0.0]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/releases/tag/v1.0.0
-[1.0.1]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.0.0...v1.0.1
-[1.1.0]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.0.1...v1.1.0
-[1.2.0]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.1.0...v1.2.0
-[1.2.1]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.0...v1.2.1
-[1.2.2]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.1...v1.2.2
-[1.2.3]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.3.0-rc.1...v1.2.3
-[1.2.4]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.3...v1.2.4
-[1.2.5]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.4...v1.2.5
-[1.2.6]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.5...v1.2.6
-[1.2.7]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.6...v1.2.7
-[1.2.8]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.7...v1.2.8
-[1.3.0]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.8...v1.3.0
-[1.3.0-rc.1]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.2.2...v1.3.0-rc.1
-[unreleased]: https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/compare/v1.3.0...HEAD
+[1.0.0]: https://github.com/TheBoutrosLab/SpectroMesa-DDA/releases/tag/v1.0.0
+[1.0.1]: https://github.com/TheBoutrosLab/SpectroMesa-DDA/compare/v1.0.0...v1.0.1
+[1.1.0]: https://github.com/TheBoutrosLab/SpectroMesa-DDA/compare/v1.0.1...v1.1.0
+[1.2.0]: https://github.com/TheBoutrosLab/SpectroMesa-DDA/compare/v1.1.0...v1.2.0
+[1.2.1]: https://github.com/TheBoutrosLab/SpectroMesa-DDA/compare/v1.2.0...v1.2.1
+[1.2.2]: https://github.com/TheBoutrosLab/SpectroMesa-DDA/compare/v1.2.1...v1.2.2
+[1.2.3]: https://github.com/TheBoutrosLab/SpectroMesa-DDA/compare/v1.3.0-rc.1...v1.2.3
+[1.2.4]: https://github.com/TheBoutrosLab/SpectroMesa-DDA/compare/v1.2.3...v1.2.4
+[1.2.5]: https://github.com/TheBoutrosLab/SpectroMesa-DDA/compare/v1.2.4...v1.2.5
+[1.2.6]: https://github.com/TheBoutrosLab/SpectroMesa-DDA/compare/v1.2.5...v1.2.6
+[1.2.7]: https://github.com/TheBoutrosLab/SpectroMesa-DDA/compare/v1.2.6...v1.2.7
+[1.2.8]: https://github.com/TheBoutrosLab/SpectroMesa-DDA/compare/v1.2.7...v1.2.8
+[1.3.0]: https://github.com/TheBoutrosLab/SpectroMesa-DDA/compare/v1.2.8...v1.3.0
+[1.3.0-rc.1]: https://github.com/TheBoutrosLab/SpectroMesa-DDA/compare/v1.2.2...v1.3.0-rc.1
+[1.3.1]: https://github.com/TheBoutrosLab/SpectroMesa-DDA/compare/v1.3.0...v1.3.1
+[unreleased]: https://github.com/TheBoutrosLab/SpectroMesa-DDA/compare/v1.3.1...HEAD
