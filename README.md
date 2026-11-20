@@ -1,4 +1,4 @@
-# metapipeline-ProteomicDDA
+# SpectroMesa-DDA
 
 This Boutros Lab metapipeline optionally converts vendor RAW or other supported MS data to mzML, searches DDA mzML files with Comet, Sage, or MSFragger, validates peptide-spectrum matches (PSMs), quantifies peptides with TMT or label-free quantitation (LFQ), quantifies proteins with ProteinProphet or ProteinInferencer, runs DDA quality control, and builds a ProteoVault database.
 
@@ -19,7 +19,7 @@ This Boutros Lab metapipeline optionally converts vendor RAW or other supported 
    ```bash
    export NXF_VER=24.10.6
    export NXF_SYNTAX_PARSER=v1
-   export NXF_WORK=/scratch/$SLURM_JOB_ID/metapipeline-ProteomicDDA-work
+   export NXF_WORK=/scratch/$SLURM_JOB_ID/SpectroMesa-DDA-work
    nextflow run main.nf -c /path/to/run.config -profile pines
    ```
 
@@ -91,7 +91,7 @@ Set shared values once at the root of the run config. `methods.setup()` derives 
 | `contam_string` / `contam_position` | `CONTAMINANT_` / `prefix` | Contaminant marker, also checked against the ProtLoom YAML. |
 | `child_profile` | `standard` | Container-runtime profile passed to each child. |
 | `run_proteovault` | `true` | Set to `false` to finish after QC without building ProteoVault. |
-| `proteovault_version` | `0.2.4` | Version used for the ProteoVault image. |
+| `proteovault_version` | `0.2.5` | Version used for the ProteoVault image. |
 | `docker_image_proteovault` | `ghcr.io/theboutroslab/proteovault:${params.proteovault_version}` | Container image for the parent ProteoVault process. |
 | `compute_profile` | None | Node budget selected by `-profile pines`, `-profile boutroslab_aws`, or directly. |
 | `additional_resource_profile_dir` | None | Optional PATH-style list of external resource-profile directories. |
@@ -164,7 +164,7 @@ The QC v1.2.0 child runs after protein quantitation. It uses the mzML fractions 
 
 ### ProteoVault — cohort database
 
-When `run_proteovault = true`, the metapipeline builds and validates a ProteoVault v0.2.4 DuckDB database after QC from the published search, validation, TMT or LFQ, protein quantitation, and QC outputs. It imports the QC v1.2.0 12-column table directly and supplies the acquisition manifest, target-decoy FASTA, and the channel CSV for TMT. Set `run_proteovault = false` to skip the database build while retaining all QC output. ProteoVault is also skipped when `validate_ProteomicPSM.run_protloom = true`, because that route does not complete the current protein handoff. The database is published at the versioned metapipeline output root. It records paths from the build work directory; after relocating the result, use `proteovault update-paths` to update stored source paths. See the [ProteoVault v0.2.4 CLI guide](https://github.com/TheBoutrosLab/package-ProteoVault/blob/v0.2.4/docs/cli.md).
+When `run_proteovault = true`, the metapipeline builds and validates a ProteoVault v0.2.5 DuckDB database after QC from the published search, validation, TMT or LFQ, protein quantitation, and QC outputs. It imports the QC v1.2.0 12-column table directly and supplies the acquisition manifest, target-decoy FASTA, and the channel CSV for TMT. Set `run_proteovault = false` to skip the database build while retaining all QC output. ProteoVault is also skipped when `validate_ProteomicPSM.run_protloom = true`, because that route does not complete the current protein handoff. The database is published at the versioned metapipeline output root. It records paths from the build work directory; after relocating the result, use `proteovault update-paths` to update stored source paths. See the [ProteoVault v0.2.5 CLI guide](https://github.com/TheBoutrosLab/package-ProteoVault/blob/v0.2.5/docs/cli.md).
 
 See [config/template.config](config/template.config) for an editable run configuration and [config/schema.yaml](config/schema.yaml) for root parameter validation.
 
@@ -181,7 +181,7 @@ See [config/template.config](config/template.config) for an editable run configu
 Versioned child pipeline directories and handoff manifests are published at:
 
 ```text
-<output_dir>/metapipeline-ProteomicDDA-<version>/
+<output_dir>/SpectroMesa-DDA-<version>/
 ├── <dataset_id>.proteovault.duckdb              # when run_proteovault = true
 └── <dataset_id>/
     ├── main_workflow/
@@ -193,7 +193,7 @@ Versioned child pipeline directories and handoff manifests are published at:
     │   ├── quantitate-ProteomicProtein-<version>/
     │   ├── qc-ProteomicDDA-<version>/
     │   └── manifests/
-    └── log-metapipeline-ProteomicDDA-<version>-<timestamp>/
+    └── log-SpectroMesa-DDA-<version>-<timestamp>/
 ```
 
 `manifests/` contains `search.csv`, `validation.csv`, `validation-mzml.csv`, `quant-idxml.csv`, `quant-mzml.csv`, `protein-unfiltered.csv`, `qc-mzml.csv`, and `qc-psm-features.csv`. LFQ runs also publish the merged `protein-cohort.consensusXML` there. Conversion runs also publish `conversion.csv` and `converted-input.csv`. The feature manifest has a header but no data rows when validation publishes no feature files. ProtLoom runs also publish `protloom-project.generated.yaml`. The QC child writes `<dataset_id>_QC_metrics.tsv` and per-stage metrics and plots under its versioned output directory. Each child directory contains its scientific results and its own logs. The ProteoVault database records source paths from its build work directory; publishing does not rewrite paths inside it. The timestamped metapipeline log directory contains the parent Nextflow trace, timeline, report, and effective parameters.

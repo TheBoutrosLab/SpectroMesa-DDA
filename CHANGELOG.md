@@ -1,11 +1,12 @@
 # Changelog
 
-All notable changes to metapipeline-ProteomicDDA are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+All notable changes to SpectroMesa-DDA are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
 ### Changed
 
+- Rename the pipeline from `metapipeline-ProteomicDDA` to `SpectroMesa-DDA`. New runs publish to `<output_dir>/SpectroMesa-DDA-<version>/`.
 - Update `convert-MSData` to v1.1.3 for writable ProteoWizard Wine prefixes and the stack limit under Apptainer.
 - Replace the shell NFTest launcher with the DIA-style Python launcher, with configurable run storage and cluster profiles through `NFT_RUN_ROOT` and `NFT_CLUSTER`.
 - Replace copied DIA child allocations with validated DDA process requests and apply them to child pipelines.
@@ -14,7 +15,7 @@ All notable changes to metapipeline-ProteomicDDA are documented here. The format
 - Update `quantitate-ProteomicLFQ` to v2.0.1 for Apptainer script mounts and text fraction IDs, and align both compute profiles with its processes.
 - Update `search-ProteomicMSMS` to v1.1.2 to isolate OpenMS temporary files in parallel MSFragger, Comet, and Sage searches.
 - Update `validate-ProteomicPSM` to v2.4.2 to isolate OpenMS temporary files in parallel PercolatorAdapter tasks.
-- Update ProteoVault to v0.2.4 to resolve fractionated Sage identifications without `base_name` metadata (TheBoutrosLab/package-ProteoVault#19).
+- Update ProteoVault to v0.2.5 to resolve fractionated Sage identifications without `base_name` metadata and pass `--workflow-type DDA` to select the workflow independently of output names (TheBoutrosLab/package-ProteoVault#19).
 
 ### Fixed
 
