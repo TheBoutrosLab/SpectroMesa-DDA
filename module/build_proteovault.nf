@@ -36,7 +36,7 @@ process build_proteovault {
         ln -s "\$(realpath '${qcMzmlCsv}')" "\$workflow_root/manifests/qc-mzml.csv"
         ${settingsCommand}
         vault="\$PWD/${params.dataset_id}.proteovault.duckdb"
-        proteovault build --pipeline-output "\$source_root" --fasta "\$(realpath '${databaseFasta}')" ${channelArgument} --output "\$vault"
+        proteovault build --workflow-type DDA --pipeline-output "\$source_root" --fasta "\$(realpath '${databaseFasta}')" ${channelArgument} --output "\$vault"
         proteovault validate "\$vault"
         """
 }
