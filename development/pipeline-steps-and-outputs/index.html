@@ -86,7 +86,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Pipeline steps and outputs</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/b421c018d97ce16f7dc54e7fd2de09fecf7e45b3/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/TheBoutrosLab/metapipeline-ProteomicDDA/blob/b51794dda4b747514c6a8ea98400b9b30253da16/README.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -105,7 +105,7 @@
 <li>If enabled, ProteoVault builds and validates a DuckDB database from the completed DDA results.</li>
 </ol>
 <p>Versioned child pipeline directories and handoff manifests are published at:</p>
-<pre><code class="language-text">&lt;output_dir&gt;/metapipeline-ProteomicDDA-&lt;version&gt;/
+<pre><code class="language-text">&lt;output_dir&gt;/SpectroMesa-DDA-&lt;version&gt;/
 ├── &lt;dataset_id&gt;.proteovault.duckdb              # when run_proteovault = true
 └── &lt;dataset_id&gt;/
     ├── main_workflow/
@@ -117,7 +117,7 @@
     │   ├── quantitate-ProteomicProtein-&lt;version&gt;/
     │   ├── qc-ProteomicDDA-&lt;version&gt;/
     │   └── manifests/
-    └── log-metapipeline-ProteomicDDA-&lt;version&gt;-&lt;timestamp&gt;/
+    └── log-SpectroMesa-DDA-&lt;version&gt;-&lt;timestamp&gt;/
 </code></pre>
 <p><code>manifests/</code> contains <code>search.csv</code>, <code>validation.csv</code>, <code>validation-mzml.csv</code>, <code>quant-idxml.csv</code>, <code>quant-mzml.csv</code>, <code>protein-unfiltered.csv</code>, <code>qc-mzml.csv</code>, and <code>qc-psm-features.csv</code>. LFQ runs also publish the merged <code>protein-cohort.consensusXML</code> there. Conversion runs also publish <code>conversion.csv</code> and <code>converted-input.csv</code>. The feature manifest has a header but no data rows when validation publishes no feature files. ProtLoom runs also publish <code>protloom-project.generated.yaml</code>. The QC child writes <code>&lt;dataset_id&gt;_QC_metrics.tsv</code> and per-stage metrics and plots under its versioned output directory. Each child directory contains its scientific results and its own logs. The ProteoVault database records source paths from its build work directory; publishing does not rewrite paths inside it. The timestamped metapipeline log directory contains the parent Nextflow trace, timeline, report, and effective parameters.</p>
               
