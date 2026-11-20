@@ -91,7 +91,7 @@ Set shared values once at the root of the run config. `methods.setup()` derives 
 | `contam_string` / `contam_position` | `CONTAMINANT_` / `prefix` | Contaminant marker, also checked against the ProtLoom YAML. |
 | `child_profile` | `standard` | Container-runtime profile passed to each child. |
 | `run_proteovault` | `true` | Set to `false` to finish after QC without building ProteoVault. |
-| `proteovault_version` | `0.2.3` | Version used for the ProteoVault image. |
+| `proteovault_version` | `0.2.4` | Version used for the ProteoVault image. |
 | `docker_image_proteovault` | `ghcr.io/theboutroslab/proteovault:${params.proteovault_version}` | Container image for the parent ProteoVault process. |
 | `compute_profile` | None | Node budget selected by `-profile pines`, `-profile boutroslab_aws`, or directly. |
 | `additional_resource_profile_dir` | None | Optional PATH-style list of external resource-profile directories. |
@@ -109,7 +109,7 @@ An input CSV containing uniform non-mzML paths runs [convert-MSData v1.1.3](exte
 | `reindex_mzml` | `false` | Set true to assign unique native scan IDs across a sample's fractions. The reindexed mzML files are passed to validation and peptide quantitation. |
 | `export_mzTab` | `false` | Optional search-stage mzTab export. |
 
-The root `decoy_string` and `decoy_position` are copied into each selected adapter's `PeptideIndexing` settings; Sage also receives its `decoy_prefix`. See the [search pipeline configuration](external/search-ProteomicMSMS/config/template.config) and [schema](external/search-ProteomicMSMS/config/schema.yaml) for adapter options. Search results are merged per sample and engine before validation.
+The v1.1.2 search child gives each MSFragger, Comet, and Sage task its own OpenMS temporary directory. The root `decoy_string` and `decoy_position` are copied into each selected adapter's `PeptideIndexing` settings. Sage also receives its `decoy_prefix`. See the [search pipeline configuration](external/search-ProteomicMSMS/config/template.config) and [schema](external/search-ProteomicMSMS/config/schema.yaml) for adapter options. Search results are merged per sample and engine before validation.
 
 ### `validate_ProteomicPSM` — PSM validation
 
@@ -125,7 +125,7 @@ The root `decoy_string` and `decoy_position` are copied into each selected adapt
 | `protloom_pt_order` / `protloom_pc_order` | Empty | Required ordering settings when ProtLoom is enabled. |
 | `export_easypqp_reports` | Child default: `false` | DDA does not need EasyPQP reports. |
 
-The parent passes the search idXML manifest, the mzML files used for search, and target-decoy FASTA to validation. When search reindexing is enabled, it maps each reindexed file back to its fraction by input CSV order. MSBooster, QC, and ProteoVault use the same mzML manifest, keeping their run names aligned with the validated idXML. The child publishes per-engine filtered idXML and unfiltered PEP-scored idXML; multiple engines also produce a filtered consensus idXML. See the [validation pipeline parameters](external/validate-ProteomicPSM/README.md#config) for filtering and inference options.
+The parent passes the search idXML manifest, the mzML files used for search, and target-decoy FASTA to validation. When search reindexing is enabled, it maps each reindexed file back to its fraction by input CSV order. MSBooster, QC, and ProteoVault use the same mzML manifest, keeping their run names aligned with the validated idXML. The v2.4.2 validation child gives each PercolatorAdapter task its own OpenMS temporary directory. The child publishes per-engine filtered idXML and unfiltered PEP-scored idXML. Multiple engines also produce a filtered consensus idXML. See the [validation pipeline parameters](external/validate-ProteomicPSM/README.md#config) for filtering and inference options.
 
 ### `quantitate_ProteomicTMT` — isobaric quantitation
 
@@ -164,7 +164,7 @@ The QC v1.2.0 child runs after protein quantitation. It uses the mzML fractions 
 
 ### ProteoVault — cohort database
 
-When `run_proteovault = true`, the metapipeline builds and validates a ProteoVault v0.2.3 DuckDB database after QC from the published search, validation, TMT or LFQ, protein quantitation, and QC outputs. It imports the QC v1.2.0 12-column table directly and supplies the acquisition manifest, target-decoy FASTA, and the channel CSV for TMT. Set `run_proteovault = false` to skip the database build while retaining all QC output. ProteoVault is also skipped when `validate_ProteomicPSM.run_protloom = true`, because that route does not complete the current protein handoff. The database is published at the versioned metapipeline output root. It records paths from the build work directory; after relocating the result, use `proteovault update-paths` to update stored source paths. See the [ProteoVault v0.2.3 CLI guide](https://github.com/TheBoutrosLab/package-ProteoVault/blob/v0.2.3/docs/cli.md).
+When `run_proteovault = true`, the metapipeline builds and validates a ProteoVault v0.2.4 DuckDB database after QC from the published search, validation, TMT or LFQ, protein quantitation, and QC outputs. It imports the QC v1.2.0 12-column table directly and supplies the acquisition manifest, target-decoy FASTA, and the channel CSV for TMT. Set `run_proteovault = false` to skip the database build while retaining all QC output. ProteoVault is also skipped when `validate_ProteomicPSM.run_protloom = true`, because that route does not complete the current protein handoff. The database is published at the versioned metapipeline output root. It records paths from the build work directory; after relocating the result, use `proteovault update-paths` to update stored source paths. See the [ProteoVault v0.2.4 CLI guide](https://github.com/TheBoutrosLab/package-ProteoVault/blob/v0.2.4/docs/cli.md).
 
 See [config/template.config](config/template.config) for an editable run configuration and [config/schema.yaml](config/schema.yaml) for root parameter validation.
 

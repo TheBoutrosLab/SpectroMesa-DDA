@@ -12,6 +12,13 @@ All notable changes to metapipeline-ProteomicDDA are documented here. The format
 - Start ProteoWizard conversion at 4 GB in both bundled compute profiles.
 - Update `quantitate-ProteomicProtein` to v1.3.1 for ProteinProphet support on Apptainer.
 - Update `quantitate-ProteomicLFQ` to v2.0.1 for Apptainer script mounts and text fraction IDs, and align both compute profiles with its processes.
+- Update `search-ProteomicMSMS` to v1.1.2 to isolate OpenMS temporary files in parallel MSFragger, Comet, and Sage searches.
+- Update `validate-ProteomicPSM` to v2.4.2 to isolate OpenMS temporary files in parallel PercolatorAdapter tasks.
+- Update ProteoVault to v0.2.4 to resolve fractionated Sage identifications without `base_name` metadata (TheBoutrosLab/package-ProteoVault#19).
+
+### Fixed
+
+- Resolve TMT integration input paths through `TEST_DATA_DIR` on each cluster.
 
 ## [1.3.0] - 2026-11-13
 

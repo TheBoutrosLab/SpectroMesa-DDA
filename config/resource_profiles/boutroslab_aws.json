@@ -227,6 +227,14 @@
                 "cpus": 1,
                 "memory": "16 GB"
             },
+            "score_FDR_ProtLoomSplit": {
+                "cpus": 3,
+                "memory": "16 GB"
+            },
+            "score_FDR_ProtLoomSplit_consensus": {
+                "cpus": 3,
+                "memory": "16 GB"
+            },
             "export_EasyPQP_reports": {
                 "cpus": 3,
                 "memory": "16 GB"
