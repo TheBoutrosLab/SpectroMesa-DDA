@@ -6,6 +6,14 @@ All notable changes to SpectroMesa-DDA are documented here. The format follows [
 
 ### Changed
 
+- Migrate the metapipeline license from GPL to BSD 3-Clause and update license documentation; shared code and third-party tools retain their respective licenses.
+- Update `search-ProteomicMSMS` from v1.1.2 to v1.1.3, including the BSD 3-Clause license migration.
+- Update `validate-ProteomicPSM` from v2.4.2 to v2.4.3, including the BSD 3-Clause license migration.
+- Update `quantitate-ProteomicTMT` from v2.1.0 to v2.1.1, including the BSD 3-Clause license migration.
+- Update `quantitate-ProteomicLFQ` from v2.0.1 to v2.0.2, including the BSD 3-Clause license migration.
+- Update `quantitate-ProteomicProtein` from v1.3.1 to v1.3.2, including the BSD 3-Clause license migration.
+- Update `qc-ProteomicDDA` from v1.2.0 to v1.2.1, including the BSD 3-Clause license migration.
+- Update `convert-MSData` from v1.1.3 to v1.1.4, including the BSD 3-Clause license migration.
 - Rename the pipeline from `metapipeline-ProteomicDDA` to `SpectroMesa-DDA`. New runs publish to `<output_dir>/SpectroMesa-DDA-<version>/`.
 - Update `convert-MSData` to v1.1.3 for writable ProteoWizard Wine prefixes and the stack limit under Apptainer.
 - Replace the shell NFTest launcher with the DIA-style Python launcher, with configurable run storage and cluster profiles through `NFT_RUN_ROOT` and `NFT_CLUSTER`.
