@@ -86,7 +86,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Testing</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/TheBoutrosLab/SpectroMesa-DDA/blob/52bbc673615df67031190f255e42996e881e7712/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/TheBoutrosLab/SpectroMesa-DDA/blob/d92cd3118584fbf44a42a3f77489c5479d57e96f/README.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -102,7 +102,7 @@ python3 test/run-nftest.py test_integration_MSFragger_TMT_Reindexed
 python3 test/run-nftest.py test_integration_Sage_LFQ_Protein
 python3 test/run-nftest.py test_integration_MSFragger_TMT_RAW
 </code></pre>
-<p>The test runner puts results under <code>&lt;run-root&gt;/&lt;test-case&gt;/</code> and temporary files under <code>&lt;run-root&gt;/.nftest-temp/&lt;12-character case ID&gt;/</code>. With <code>NFT_CLUSTER=boutroslab_aws</code>, the run root is <code>$NFT_RUN_ROOT/$SLURM_JOB_ID</code> and a Slurm job is required. With <code>NFT_CLUSTER=pines</code>, it uses <code>$NFT_RUN_ROOT</code> directly and selects the <code>apptainer,pines</code> profiles. Leaving <code>NFT_CLUSTER</code> unset uses Docker and the AWS compute profile without adding a Slurm job directory. Test CSVs expand <code>$TEST_DATA_DIR</code> through <a href="https://github.com/TheBoutrosLab/SpectroMesa-DDA/blob/52bbc673615df67031190f255e42996e881e7712/test/csv_environment_expander.groovy">test/csv_environment_expander.groovy</a>. See <a href="https://github.com/TheBoutrosLab/SpectroMesa-DDA/blob/52bbc673615df67031190f255e42996e881e7712/test/README.md">test/README.md</a> for the expected mzML, FASTA, channel CSV, and MSFragger JAR files.</p>
+<p>The test runner puts results under <code>&lt;run-root&gt;/&lt;test-case&gt;/</code> and temporary files under <code>&lt;run-root&gt;/.nftest-temp/&lt;12-character case ID&gt;/</code>. With <code>NFT_CLUSTER=boutroslab_aws</code>, the run root is <code>$NFT_RUN_ROOT/$SLURM_JOB_ID</code> and a Slurm job is required. With <code>NFT_CLUSTER=pines</code>, it uses <code>$NFT_RUN_ROOT</code> directly and selects the <code>apptainer,pines</code> profiles. Leaving <code>NFT_CLUSTER</code> unset uses Docker and the AWS compute profile without adding a Slurm job directory. Test CSVs expand <code>$TEST_DATA_DIR</code> through <a href="https://github.com/TheBoutrosLab/SpectroMesa-DDA/blob/d92cd3118584fbf44a42a3f77489c5479d57e96f/test/csv_environment_expander.groovy">test/csv_environment_expander.groovy</a>. See <a href="https://github.com/TheBoutrosLab/SpectroMesa-DDA/blob/d92cd3118584fbf44a42a3f77489c5479d57e96f/test/README.md">test/README.md</a> for the expected mzML, FASTA, channel CSV, and MSFragger JAR files.</p>
               
             </div>
           </div><footer>
