@@ -98,7 +98,7 @@ Set shared values once at the root of the run config. `methods.setup()` derives 
 
 ### `convert_MSData` — optional MS data conversion
 
-An input CSV containing uniform non-mzML paths runs [convert-MSData v1.1.3](external/convert-MSData/README.md) once for all input samples and fractions. The child writes mzML files under its versioned directory; the parent generates `conversion.csv` and `converted-input.csv` manifests and uses the converted mzML for search, validation, quantitation, and QC. Converted files retain their input basenames when these are unique within each sample. If any sample repeats an input basename, every output gains its fraction ID as a suffix. Keep `output_format = 'mzML'`. Select `convert_algorithm = 'ProteoWizard'` for supported vendor formats or `OpenMS` for supported open formats. Peak picking, indexing, and `pwiz_extra_args` are configured in `convert_MSData`; see the [conversion parameters](external/convert-MSData/README.md#config). The conversion child uses the same `child_profile` and compute budget as the other children. Its Apptainer profile prepares a writable Wine prefix and stack limit for ProteoWizard conversion.
+An input CSV containing uniform non-mzML paths runs [convert-MSData v1.1.4](external/convert-MSData/README.md) once for all input samples and fractions. The child writes mzML files under its versioned directory; the parent generates `conversion.csv` and `converted-input.csv` manifests and uses the converted mzML for search, validation, quantitation, and QC. Converted files retain their input basenames when these are unique within each sample. If any sample repeats an input basename, every output gains its fraction ID as a suffix. Keep `output_format = 'mzML'`. Select `convert_algorithm = 'ProteoWizard'` for supported vendor formats or `OpenMS` for supported open formats. Peak picking, indexing, and `pwiz_extra_args` are configured in `convert_MSData`; see the [conversion parameters](external/convert-MSData/README.md#config). The conversion child uses the same `child_profile` and compute budget as the other children. Its Apptainer profile prepares a writable Wine prefix and stack limit for ProteoWizard conversion.
 
 ### `search_ProteomicMSMS` — database search
 
@@ -218,4 +218,7 @@ The test runner puts results under `<run-root>/<test-case>/` and temporary files
 
 ## License
 
-This pipeline is licensed under GNU GPL version 2. See [LICENSE](LICENSE).
+The code in SpectroMesa-DDA is licensed under the BSD 3-Clause License (`BSD-3-Clause`).
+See [LICENSE](LICENSE) for the terms. Shared code and third-party tools retain their respective licenses.
+
+Copyright (C) 2026 Sanford Burnham Prebys Medical Discovery Institute ("Boutros Lab")
