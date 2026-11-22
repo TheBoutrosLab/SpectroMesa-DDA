@@ -1,0 +1,48 @@
+site_name: SpectroMesa-DDA
+site_description: Documentation for the SpectroMesa-DDA proteomics pipeline.
+repo_url: https://github.com/TheBoutrosLab/SpectroMesa-DDA
+edit_uri_template: edit/main/docs/{path}
+
+docs_dir: docs
+site_dir: site
+
+# Keep local plans and build materials out of the documentation site.
+exclude_docs: |
+  /_build/
+
+theme:
+  name: readthedocs
+
+nav:
+  - Home: index.md
+  - Overview: overview.md
+  - Installation: installation.md
+  - Preparing inputs: inputs.md
+  - Configuring an analysis: configuration.md
+  - Running and resuming: execution.md
+  - Understanding results: results.md
+  - Running tests: testing.md
+  - Pipeline reference:
+      - Shared parameters: parameters.md
+      - convert-MSData: pipelines/conversion.md
+      - search-ProteomicMSMS: pipelines/search.md
+      - validate-ProteomicPSM: pipelines/validation.md
+      - quantitate-ProteomicLFQ: pipelines/lfq.md
+      - quantitate-ProteomicTMT: pipelines/tmt.md
+      - quantitate-ProteomicProtein: pipelines/protein.md
+      - qc-ProteomicDDA: pipelines/qc.md
+      - ProteoVault: pipelines/proteovault.md
+
+# Use README for Home and original flowcharts from the pipeline submodules.
+hooks:
+  - mkdocs_hooks.py
+
+plugins:
+  - search
+
+extra_css:
+  - extra.css
+
+markdown_extensions:
+  - tables
+  - admonition

@@ -15,7 +15,7 @@
         <text x="0px" y="0px" style="font-family:'Helvetica';font-size:20px;fill:rgb(24,48,68);">Sample or plex MS data fractions</text>
     </g>
     <g transform="matrix(1,0,0,1,78,97)">
-        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:16px;fill:rgb(62,88,104);">Input CSV<tspan x="72.344px 76.789px " y="0px 0px ">: </tspan>sample_name, fraction_id, path  ·  annotation_id only for ProtLoom</text>
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:16px;fill:rgb(62,88,104);">Input CSV<tspan x="72.344px 76.789px " y="0px 0px ">: </tspan>sample_name, fraction_id, path  ·  optional annotation_id</text>
     </g>
     <path d="M830,82L930,82" style="fill:none;fill-rule:nonzero;stroke:rgb(82,117,138);stroke-width:3px;" marker-end="url(#arrowhead)"/>
     <g transform="matrix(1,0,0,1,842,68)">
@@ -77,7 +77,7 @@
         <text x="0px" y="0px" style="font-family:'Helvetica';font-size:16px;fill:rgb(62,88,104);">validate-ProteomicPSM</text>
     </g>
     <g transform="matrix(1,0,0,1,442,352)">
-        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(83,107,121);">Percolator; optional ProtLoom</text>
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(83,107,121);">Percolator; optional MSBooster</text>
     </g>
     <g transform="matrix(1,0,0,1,442,377)">
         <g transform="matrix(14,0,0,14,0,0)">
@@ -108,7 +108,7 @@
     <g transform="matrix(1,0,0,1,831,369)">
         <text x="0px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(83,107,121);">reporter ions</text>
         <text x="82.482px" y="0px" style="font-family:'LucidaGrande', 'Lucida Grande', sans-serif;font-weight:500;font-size:14px;fill:rgb(83,107,121);">→</text>
-        <text x="100.372px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(83,107,121);">per-plex consensusXML</text>
+        <text x="100.372px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(83,107,121);">cohort consensusXML</text>
     </g>
     <path d="M1158,399C1163.519,399 1168,403.481 1168,409L1168,457C1168,462.519 1163.519,467 1158,467L822,467C816.481,467 812,462.519 812,457L812,409C812,403.481 816.481,399 822,399L1158,399Z" style="fill:rgb(247,250,251);stroke:rgb(216,227,232);stroke-width:1.2px;"/>
     <path d="M1165,399C1166.656,399 1168,400.344 1168,402L1168,403C1168,404.656 1166.656,406 1165,406L815,406C813.344,406 812,404.656 812,403L812,402C812,400.344 813.344,399 815,399L1165,399Z" style="fill:rgb(184,120,50);"/>
