@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Preparing inputs - SpectroMesa-DDA</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../extra.css" rel="stylesheet" />
+        <link href="../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Preparing inputs";
+        var mkdocs_page_input_path = "inputs.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> SpectroMesa-DDA
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../overview/">Overview</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../installation/">Installation</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Preparing inputs</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#acquisition-csv">Acquisition CSV</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#lfq-samples-and-fractions">LFQ samples and fractions</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#tmt-plexes-and-fractions">TMT plexes and fractions</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#acquisition-paths-and-naming">Acquisition paths and naming</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#protein-sequence-database">Protein sequence database</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#choose-a-reference-proteome">Choose a reference proteome</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#add-contaminants-and-generate-decoys">Add contaminants and generate decoys</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#match-the-database-markers-in-your-run-configuration">Match the database markers in your run configuration</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#tmt-channel-csv">TMT channel CSV</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#before-you-run">Before you run</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../configuration/">Configuring an analysis</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../execution/">Running and resuming</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../results/">Understanding results</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../testing/">Running tests</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Pipeline reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../parameters/">Shared parameters</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/conversion/">convert-MSData</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/search/">search-ProteomicMSMS</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/validation/">validate-ProteomicPSM</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/lfq/">quantitate-ProteomicLFQ</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/tmt/">quantitate-ProteomicTMT</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/protein/">quantitate-ProteomicProtein</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/qc/">qc-ProteomicDDA</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/proteovault/">ProteoVault</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">SpectroMesa-DDA</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Preparing inputs</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/TheBoutrosLab/SpectroMesa-DDA/blob/v1.3.2/README.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="preparing-inputs">Preparing inputs</h1>
+<p>An LFQ analysis needs <strong>two inputs</strong>: an acquisition CSV pointing to your mass spectrometry files, and a target-decoy protein FASTA. A TMT analysis needs those same inputs plus a <strong>channel CSV</strong> describing the samples in each plex. The acquisition files are part of the first input: a CSV pointing to missing files is not a valid input.</p>
+<p>The separately obtained MSFragger JAR is part of <a href="../installation/#obtain-msfragger">installation</a>, rather than a sample input.</p>
+<h2 id="acquisition-csv">Acquisition CSV</h2>
+<p>Create one row for each acquisition. Use these columns:</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>What to enter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sample_name</code></td>
+<td>For LFQ, the sample identifier. For TMT, the plex identifier, matching <code>plex_id</code> in the channel CSV. Repeat the name only for fractions belonging to that same sample or plex.</td>
+</tr>
+<tr>
+<td><code>fraction_id</code></td>
+<td>Fraction identifier, such as <code>1</code>, <code>2</code>, or <code>F1</code>. Use <code>1</code> for an unfractionated sample. Each sample/fraction pair must be unique.</td>
+</tr>
+<tr>
+<td><code>annotation_id</code></td>
+<td>Usually the species name, such as <code>human</code>, <code>mouse</code>, or <code>ecoli</code>. Please include it even though the workflows described here do not currently use it. Keep it consistent across a sample's fractions.</td>
+</tr>
+<tr>
+<td><code>path</code></td>
+<td>Path to an existing mzML or supported vendor acquisition file. Relative paths are resolved from the CSV's directory.</td>
+</tr>
+<tr>
+<td><code>scan</code></td>
+<td>For WIFF conversion, the path to its existing <code>.wiff.scan</code> companion. Omit this column for mzML input.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition important">
+<p class="admonition-title">Give technical replicates distinct names</p>
+<p>Files with the same <code>sample_name</code> are treated as one sample or TMT plex. Their search results are combined before sample-level validation. Give separate LFQ technical replicates unique names so they remain separate quantitative assays. For TMT, biological samples are identified by their reporter channels, not by the acquisition CSV's <code>sample_name</code>.</p>
+</div>
+<h3 id="lfq-samples-and-fractions">LFQ samples and fractions</h3>
+<p>An unfractionated LFQ input can look like this:</p>
+<pre><code class="language-csv">sample_name,fraction_id,annotation_id,path
+sample_01_rep1,1,human,/data/sample_01_rep1.mzML
+sample_01_rep2,1,human,/data/sample_01_rep2.mzML
+</code></pre>
+<p>For fractionated LFQ, repeat each sample name for its fractions:</p>
+<pre><code class="language-csv">sample_name,fraction_id,annotation_id,path
+sample_01,F1,human,/data/sample_01_F1.mzML
+sample_01,F2,human,/data/sample_01_F2.mzML
+sample_02,F1,human,/data/sample_02_F1.mzML
+sample_02,F2,human,/data/sample_02_F2.mzML
+</code></pre>
+<p>All LFQ samples must have <strong>the same set of fraction IDs</strong>, including unfractionated runs. Corresponding fractions are aligned and linked across samples. The pipeline detects fractionation from this table; you do not need to enable it separately.</p>
+<h3 id="tmt-plexes-and-fractions">TMT plexes and fractions</h3>
+<p>For TMT, use a plex name in <code>sample_name</code>. Each row still represents one acquisition, not one reporter channel:</p>
+<pre><code class="language-csv">sample_name,fraction_id,annotation_id,path
+plex_01,F1,human,/data/plex_01_F1.mzML
+plex_01,F2,human,/data/plex_01_F2.mzML
+plex_02,F1,human,/data/plex_02_F1.mzML
+plex_02,F2,human,/data/plex_02_F2.mzML
+</code></pre>
+<p>Every sample or plex must have multiple fractions, or every one must have a single fraction; mixed layouts are rejected. For feature-based TMT, every plex must also have the same set of fraction IDs. The default scan-based TMT route does not require identical fraction sets across plexes.</p>
+<h3 id="acquisition-paths-and-naming">Acquisition paths and naming</h3>
+<p>All rows must use the same file extension; do not mix RAW and mzML files in one run. Existing mzML files go directly to searching. Other supported file formats pass through <a href="../pipelines/conversion/">conversion</a>. Thermo RAW is covered by an integration case; conversion of another format also depends on support in the configured converter and container. The current DDA input reader accepts files, not Bruker <code>.d</code> acquisition directories.</p>
+<p>Use sample and fraction identifiers beginning with a letter or digit and containing only letters, digits, dots, underscores, or hyphens. Acquisition basenames must not contain additional dots: <code>sample_01_F1.mzML</code> is suitable, while <code>sample.01.F1.mzML</code> is not. mzML filenames must be unique within each sample, and the same acquisition path must not appear twice. Avoid commas in paths.</p>
+<p>For WIFF conversion, supply its scan companion:</p>
+<pre><code class="language-csv">sample_name,fraction_id,annotation_id,path,scan
+sample_01,1,human,/data/sample_01.wiff,/data/sample_01.wiff.scan
+</code></pre>
+<p>Keep the acquisition files accessible throughout the run. A path that exists on your laptop but is unavailable on the compute node or inside the container will not work.</p>
+<h2 id="protein-sequence-database">Protein sequence database</h2>
+<h3 id="choose-a-reference-proteome">Choose a reference proteome</h3>
+<p>For a typical experiment, start with the <strong>gene-centric UniProt reference proteome</strong> for the species you are studying. Use the canonical protein FASTA. For human and mouse, expect <strong>about 20,000 proteins</strong> before adding contaminants and decoys. UniProt distributes additional isoform sequences separately in files ending in <code>_additional.fasta.gz</code>. See the <a href="https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/reference_proteomes/README">UniProt reference proteome file descriptions</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Species</th>
+<th>Reference proteome</th>
+<th>Canonical protein FASTA</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Human</td>
+<td><code>UP000005640</code></td>
+<td><a href="https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/reference_proteomes/Eukaryota/UP000005640/UP000005640_9606.fasta.gz">UP000005640_9606.fasta.gz</a></td>
+</tr>
+<tr>
+<td>Mouse</td>
+<td><code>UP000000589</code></td>
+<td><a href="https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/reference_proteomes/Eukaryota/UP000000589/UP000000589_10090.fasta.gz">UP000000589_10090.fasta.gz</a></td>
+</tr>
+</tbody>
+</table>
+<p>For example, download and decompress the human reference proteome:</p>
+<pre><code class="language-bash">curl -fL -o UP000005640_9606.fasta.gz \
+    https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/reference_proteomes/Eukaryota/UP000005640/UP000005640_9606.fasta.gz
+gunzip UP000005640_9606.fasta.gz
+</code></pre>
+<p>Keep a record of the UniProt release and download date so you can identify the exact database used in your analysis. Choose or extend the target sequence set to match your experiment if it includes multiple species or proteins absent from the reference proteome.</p>
+<h3 id="add-contaminants-and-generate-decoys">Add contaminants and generate decoys</h3>
+<p>The pipeline requires a <strong>combined target-decoy FASTA</strong>, containing both the proteins you want to identify and decoy sequences used to estimate false discoveries. We also recommend adding common contaminant sequences so that peptides from laboratory contaminants can be assigned to those proteins.</p>
+<p><a href="https://github.com/TheBoutrosLab/package-MSPtools">MSPtools</a> can prepare this database in one step.</p>
+<div class="admonition tip">
+<p class="admonition-title">No separate cRAP download needed</p>
+<p>MSPtools bundles the cRAP contaminant sequences. Use <code>--include-crap</code> to add them and generate their decoys along with the reference-protein decoys.</p>
+</div>
+<p>After installing MSPtools, run:</p>
+<pre><code class="language-bash">msptools FASTA CreateDecoyDatabase \
+    --input-path UP000005640_9606.fasta \
+    --output-path UP000005640_9606-decoy_contam.fasta \
+    --include-crap \
+    --decoy-prefix DECOY_ \
+    --contam-prefix CONTAM_
+</code></pre>
+<p>Start from a target-only FASTA. The resulting <code>UP000005640_9606-decoy_contam.fasta</code> contains the reference proteins, contaminants, and decoys for both. By default, MSPtools reverses protein sequences while preserving an initial methionine. The command shows its default prefixes, <code>DECOY_</code> and <code>CONTAM_</code>, explicitly. The pipeline defaults to <code>CONTAMINANT_</code> for contaminants, so update that setting as shown below.</p>
+<h3 id="match-the-database-markers-in-your-run-configuration">Match the database markers in your run configuration</h3>
+<p>Set <code>decoy_database</code> to the generated FASTA and check all four marker settings. For the command above, keep the default <code>decoy_string</code>, <code>decoy_position</code>, and <code>contam_position</code>, and change <code>contam_string</code> to <code>CONTAM_</code>. The matching configuration is:</p>
+<pre><code class="language-groovy">params {
+    decoy_database = '/path/to/UP000005640_9606-decoy_contam.fasta'
+    decoy_string = 'DECOY_'
+    decoy_position = 'prefix'
+    contam_string = 'CONTAM_'
+    contam_position = 'prefix'
+}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>decoy_string</code></td>
+<td>The text marking decoy accessions, such as <code>DECOY_</code>.</td>
+</tr>
+<tr>
+<td><code>decoy_position</code></td>
+<td>Where the decoy marker occurs. The current MSFragger workflow requires <code>prefix</code>.</td>
+</tr>
+<tr>
+<td><code>contam_string</code></td>
+<td>The text marking contaminant accessions. The pipeline defaults to <code>CONTAMINANT_</code>; use <code>CONTAM_</code> for the example above.</td>
+</tr>
+<tr>
+<td><code>contam_position</code></td>
+<td>Where the contaminant marker occurs: <code>prefix</code> or <code>suffix</code>. Use <code>prefix</code> for the MSPtools command above.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Match the markers in your FASTA</p>
+<p><strong>These settings must match the markers in your FASTA accessions.</strong> A prefix appears at the beginning of the accession; a suffix appears at the end. With the example above, a contaminant accession begins with <code>CONTAM_</code>, and its decoy begins with <code>DECOY_CONTAM_</code>. Changing a pipeline setting does not rewrite the FASTA headers.</p>
+</div>
+<p>Edit the matching settings in your copy of the pipeline's template, keeping its existing <code>includeConfig</code> statements and final <code>methods.setup()</code> call.</p>
+<h2 id="tmt-channel-csv">TMT channel CSV</h2>
+<p>For TMT, create a second CSV with <code>plex_id,channel,description</code>. <code>plex_id</code> must match the acquisition CSV's <code>sample_name</code> values exactly. <code>channel</code> is the reporter label, and <code>description</code> identifies the biological sample or technical replicate assigned to that channel.</p>
+<p>For example, a complete ten-channel plex is:</p>
+<pre><code class="language-csv">plex_id,channel,description
+plex_01,126,reference
+plex_01,127N,sample_01
+plex_01,127C,sample_02
+plex_01,128N,sample_03
+plex_01,128C,sample_04
+plex_01,129N,sample_05
+plex_01,129C,sample_06
+plex_01,130N,sample_07
+plex_01,130C,sample_08
+plex_01,131,sample_09
+</code></pre>
+<p>Add the corresponding rows for every other plex in the acquisition CSV. Match the labels to <code>quantitate_ProteomicTMT.plex_type</code>, which defaults to <code>tmt10plex</code>; do not mix reporter types in one analysis. Use distinct descriptions for technical replicates you want to distinguish.</p>
+<div class="admonition important">
+<p class="admonition-title">Identify the normalization reference</p>
+<p>With the default MAD normalization and a physical reference, label exactly one channel per plex <code>reference</code>. The alternative OpenMS normalization uses the same channel convention. MAD's optional virtual-reference mode does not need a channel named <code>reference</code>. Choose the route in <a href="../configuration/#tmt-quantitation">Configuring an analysis</a>.</p>
+</div>
+<h2 id="before-you-run">Before you run</h2>
+<ul>
+<li>Check that every acquisition and required scan companion exists and is accessible on the analysis machine.</li>
+<li>Check sample/fraction uniqueness and matching fraction sets where required.</li>
+<li>Set <code>input_csv</code> and <code>decoy_database</code> to the prepared files and match the FASTA accession markers.</li>
+<li>For TMT, set <code>channel_csv</code>, check every plex and reporter label, and configure the labeling modifications used in the search.</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../installation/" class="btn btn-neutral float-left" title="Installation"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../configuration/" class="btn btn-neutral float-right" title="Configuring an analysis">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/TheBoutrosLab/SpectroMesa-DDA/tree/v1.3.2" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../installation/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../configuration/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+      <script src="../js/version-select.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

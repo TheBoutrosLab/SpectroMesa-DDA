@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Shared parameters - SpectroMesa-DDA</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../extra.css" rel="stylesheet" />
+        <link href="../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Shared parameters";
+        var mkdocs_page_input_path = "parameters.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> SpectroMesa-DDA
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../overview/">Overview</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../installation/">Installation</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../inputs/">Preparing inputs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../configuration/">Configuring an analysis</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../execution/">Running and resuming</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../results/">Understanding results</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../testing/">Running tests</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Pipeline reference</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Shared parameters</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#reading-the-reference">Reading the reference</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#inputs-and-analysis-identity">Inputs and analysis identity</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#computing-and-temporary-files">Computing and temporary files</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#results-database">Results database</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/conversion/">convert-MSData</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/search/">search-ProteomicMSMS</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/validation/">validate-ProteomicPSM</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/lfq/">quantitate-ProteomicLFQ</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/tmt/">quantitate-ProteomicTMT</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/protein/">quantitate-ProteomicProtein</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/qc/">qc-ProteomicDDA</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/proteovault/">ProteoVault</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">SpectroMesa-DDA</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Pipeline reference</li>
+      <li class="breadcrumb-item active">Shared parameters</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/TheBoutrosLab/SpectroMesa-DDA/blob/v1.3.2/README.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="shared-parameters">Shared parameters</h1>
+<p>Use this page to find a setting and see where it belongs in your run configuration. Each page in the pipeline reference keeps its explanation, inputs and outputs, and parameter tables together, with the original flowchart where available.</p>
+<table>
+<thead>
+<tr>
+<th>Pipeline</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../pipelines/conversion/">convert-MSData</a></td>
+<td>Prepare vendor files as mzML</td>
+</tr>
+<tr>
+<td><a href="../pipelines/search/">search-ProteomicMSMS</a></td>
+<td>Search with MSFragger, Comet, or Sage</td>
+</tr>
+<tr>
+<td><a href="../pipelines/validation/">validate-ProteomicPSM</a></td>
+<td>Rescore PSMs and combine search-engine evidence</td>
+</tr>
+<tr>
+<td><a href="../pipelines/lfq/">quantitate-ProteomicLFQ</a></td>
+<td>Measure label-free peptide features</td>
+</tr>
+<tr>
+<td><a href="../pipelines/tmt/">quantitate-ProteomicTMT</a></td>
+<td>Measure TMT reporter signals or experimental MS1-scaled channel areas</td>
+</tr>
+<tr>
+<td><a href="../pipelines/protein/">quantitate-ProteomicProtein</a></td>
+<td>Infer protein groups and quantify proteins and peptides</td>
+</tr>
+<tr>
+<td><a href="../pipelines/qc/">qc-ProteomicDDA</a></td>
+<td>Summarize acquisitions, identifications, and quantities</td>
+</tr>
+<tr>
+<td><a href="../pipelines/proteovault/">ProteoVault</a></td>
+<td>Package results in a DuckDB database</td>
+</tr>
+</tbody>
+</table>
+<h2 id="reading-the-reference">Reading the reference</h2>
+<p>The tables describe the LFQ and TMT workflows documented here, with ProteinProphet or ProteinInferencer grouping. Defaults include values inherited from the actual templates launched by SpectroMesa-DDA and its own overrides. Automatically supplied paths and identifiers are listed separately: you do not need to prepare intermediate manifests yourself.</p>
+<p>The reference lists declared settings and the explicitly mapped tool options used by these workflows. Open-ended OpenMS/MSPtools namespaces can also accept version-specific options; those pages explain the mapping and link to the complete tool help. Internal generated paths and inactive development routes are not user configuration tasks.</p>
+<p>Start with <a href="../configuration/">Configuring an analysis</a> for a guided setup. Put shared settings directly inside <code>params</code> and step-specific settings in the corresponding block, before the copied template's final <code>methods.setup()</code> call. For example:</p>
+<pre><code class="language-groovy">params {
+    quantitate_ProteomicLFQ {
+        enable_mbr = true
+    }
+}
+</code></pre>
+<h2 id="inputs-and-analysis-identity">Inputs and analysis identity</h2>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>input_csv</code></td>
+<td>Path</td>
+<td>Required</td>
+<td>Acquisition CSV with sample, fraction, annotation, and existing acquisition paths. See <a href="../inputs/">Preparing inputs</a>.</td>
+</tr>
+<tr>
+<td><code>decoy_database</code></td>
+<td>Path</td>
+<td>Required</td>
+<td>Target-decoy FASTA, preferably including contaminant sequences.</td>
+</tr>
+<tr>
+<td><code>msfragger_executable</code></td>
+<td>Path</td>
+<td>Required when MSFragger is selected</td>
+<td>Separately obtained MSFragger JAR. Comet-only and Sage-only analyses do not need it.</td>
+</tr>
+<tr>
+<td><code>experiment_type</code></td>
+<td>Text</td>
+<td><code>LFQ</code></td>
+<td>Peptide quantitation route: <code>LFQ</code> or <code>TMT</code>.</td>
+</tr>
+<tr>
+<td><code>channel_csv</code></td>
+<td>Path</td>
+<td>Required for TMT</td>
+<td>Plex/channel/sample-description CSV matching the acquisition input.</td>
+</tr>
+<tr>
+<td><code>output_dir</code></td>
+<td>Path</td>
+<td>Required</td>
+<td>Root directory for published results. Separate from Nextflow's work directory.</td>
+</tr>
+<tr>
+<td><code>dataset_id</code></td>
+<td>Text</td>
+<td><code>cohort</code></td>
+<td>Name used for the analysis directory, reports, and results database. Choose a distinct name for each analysis.</td>
+</tr>
+<tr>
+<td><code>decoy_string</code></td>
+<td>Text</td>
+<td><code>DECOY_</code></td>
+<td>Decoy accession marker; must match the FASTA. Shared with search and validation.</td>
+</tr>
+<tr>
+<td><code>decoy_position</code></td>
+<td>Text</td>
+<td><code>prefix</code></td>
+<td>Position of the decoy marker. The current MSFragger workflow requires <code>prefix</code>.</td>
+</tr>
+<tr>
+<td><code>contam_string</code></td>
+<td>Text</td>
+<td><code>CONTAMINANT_</code></td>
+<td>Contaminant accession marker. Record the marker used in your FASTA; the input-guide example uses <code>CONTAM_</code>. This setting does not itself remove contaminants from quantitation.</td>
+</tr>
+<tr>
+<td><code>contam_position</code></td>
+<td>Text</td>
+<td><code>prefix</code></td>
+<td>Position of the contaminant marker: <code>prefix</code> or <code>suffix</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="computing-and-temporary-files">Computing and temporary files</h2>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Where to set it</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>child_profile</code></td>
+<td>Shared</td>
+<td><code>standard</code></td>
+<td>Container profile for the individual steps. Match the launch profile: normally <code>docker</code> or <code>apptainer</code>. <code>standard</code> uses Docker; <code>local</code> requires the software installed on the host.</td>
+</tr>
+<tr>
+<td><code>compute_profile</code></td>
+<td>Shared</td>
+<td>Empty</td>
+<td>Named resource plan. Bundled plans are <code>pines</code> and <code>boutroslab_aws</code>; use one only when it matches the allocated machine.</td>
+</tr>
+<tr>
+<td><code>additional_resource_profile_dir</code></td>
+<td>Shared</td>
+<td>Empty</td>
+<td>Colon-separated directories containing custom resource-plan JSON files, searched before bundled profiles.</td>
+</tr>
+<tr>
+<td><code>max_cpus</code></td>
+<td>Shared or per step</td>
+<td>Available CPUs, unless a compute profile sets a limit</td>
+<td>CPU limit used when calculating task allocations. This is not a request to a cluster scheduler.</td>
+</tr>
+<tr>
+<td><code>max_memory</code></td>
+<td>Shared or per step</td>
+<td>Available memory, unless a compute profile sets a limit</td>
+<td>Memory limit used for task allocations; write values with units, such as <code>'64 GB'</code>.</td>
+</tr>
+<tr>
+<td><code>min_cpus</code></td>
+<td>Per step</td>
+<td><code>1</code></td>
+<td>Lower bound for task CPU allocations.</td>
+</tr>
+<tr>
+<td><code>min_memory</code></td>
+<td>Per step</td>
+<td><code>1 MB</code></td>
+<td>Lower bound for task memory allocations. Actual tasks use their process-specific resource settings.</td>
+</tr>
+<tr>
+<td><code>resource_allocation_profile_tag</code></td>
+<td>Per step</td>
+<td><code>default</code></td>
+<td>Process-allocation profile within the individual pipeline. Keep <code>default</code>; named machine plans are selected with shared <code>compute_profile</code>.</td>
+</tr>
+<tr>
+<td><code>base_resource_update.cpus</code></td>
+<td>Per step</td>
+<td>Not set</td>
+<td>List of process selections and CPU multipliers applied to that step's base allocations.</td>
+</tr>
+<tr>
+<td><code>base_resource_update.memory</code></td>
+<td>Per step</td>
+<td>Not set</td>
+<td>List of process selections and memory multipliers applied to that step's base allocations.</td>
+</tr>
+<tr>
+<td><code>work_dir</code></td>
+<td>Per step</td>
+<td>A work directory assigned within the analysis task</td>
+<td>Optional override of that step's temporary-file directory. Normally manage the overall work location with Nextflow's <code>-work-dir</code> launch option.</td>
+</tr>
+<tr>
+<td><code>apptainer_cache</code></td>
+<td>Per step where declared</td>
+<td>Not set</td>
+<td>Optional Nextflow Apptainer image-cache directory.</td>
+</tr>
+<tr>
+<td><code>apptainer_library</code></td>
+<td>Per step where declared</td>
+<td>Not set</td>
+<td>Optional directory of existing Apptainer images.</td>
+</tr>
+<tr>
+<td><code>singularity_cache</code></td>
+<td>Per step where declared</td>
+<td>Not set</td>
+<td>Optional Nextflow Singularity image-cache directory for pipelines supporting that runtime.</td>
+</tr>
+<tr>
+<td><code>singularity_library</code></td>
+<td>Per step where declared</td>
+<td>Not set</td>
+<td>Optional directory of existing Singularity images.</td>
+</tr>
+<tr>
+<td><code>ucla_cds</code></td>
+<td>Shared or per step where declared</td>
+<td><code>false</code></td>
+<td>Legacy environment compatibility setting. Leave false for the documented execution setup.</td>
+</tr>
+</tbody>
+</table>
+<p>Each pipeline page lists the common settings it declares. Shared <code>max_cpus</code> and <code>max_memory</code> do not automatically replace every step's limits unless a compute profile applies them. For manual control, set limits in the relevant step's block as well. A compute profile assigns limits across all steps.</p>
+<p>Resource updates use multipliers, not absolute CPU or memory values. For example, this fragment doubles the search task's base memory, subject to <code>max_memory</code>:</p>
+<pre><code class="language-groovy">params {
+    search_ProteomicMSMS {
+        base_resource_update {
+            memory = [['search_database_MSFragger', 2]]
+        }
+    }
+}
+</code></pre>
+<p>Keep the same persistent work directory when resuming an analysis. The <a href="../execution/">running and resuming guide</a> explains the launch command and the current stage-level resume behavior.</p>
+<h2 id="results-database">Results database</h2>
+<p><code>run_proteovault</code> is already <code>true</code>. The <a href="../pipelines/proteovault/#parameter-reference">results database reference</a> lists this switch and the ProteoVault version and container settings. You do not need a separate input list for database creation.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../testing/" class="btn btn-neutral float-left" title="Running tests"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../pipelines/conversion/" class="btn btn-neutral float-right" title="convert-MSData">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/TheBoutrosLab/SpectroMesa-DDA/tree/v1.3.2" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../testing/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../pipelines/conversion/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+      <script src="../js/version-select.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

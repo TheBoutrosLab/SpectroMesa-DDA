@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>quantitate-ProteomicProtein - SpectroMesa-DDA</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../extra.css" rel="stylesheet" />
+        <link href="../../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "quantitate-ProteomicProtein";
+        var mkdocs_page_input_path = "pipelines/protein.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> SpectroMesa-DDA
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../overview/">Overview</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../installation/">Installation</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../inputs/">Preparing inputs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../configuration/">Configuring an analysis</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../execution/">Running and resuming</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../results/">Understanding results</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../testing/">Running tests</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Pipeline reference</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../../parameters/">Shared parameters</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../conversion/">convert-MSData</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../search/">search-ProteomicMSMS</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../validation/">validate-ProteomicPSM</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lfq/">quantitate-ProteomicLFQ</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../tmt/">quantitate-ProteomicTMT</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">quantitate-ProteomicProtein</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#how-it-works">How it works</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#inputs-and-outputs">Inputs and outputs</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#parameter-reference">Parameter reference</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#analysis-settings">Analysis settings</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#software-and-containers">Software and containers</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#automatically-supplied-settings">Automatically supplied settings</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#resolving-identification-conflicts">Resolving identification conflicts</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#proteininferencer-filtering-options">ProteinInferencer filtering options</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#proteininferencer-options">ProteinInferencer options</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#protein-and-peptide-summarization">Protein and peptide summarization</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#proteinprophet-options">ProteinProphet options</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#tool-defaults">Tool defaults</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#computing-and-temporary-files">Computing and temporary files</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#related-steps">Related steps</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#references">References</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../qc/">qc-ProteomicDDA</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../proteovault/">ProteoVault</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">SpectroMesa-DDA</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Pipeline reference</li>
+      <li class="breadcrumb-item active">quantitate-ProteomicProtein</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/TheBoutrosLab/SpectroMesa-DDA/blob/v1.3.2/README.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="protein-grouping-and-quantitation">Protein grouping and quantitation</h1>
+<p><strong>ProteinProphet</strong> or <strong>OpenMS ProteinInference</strong> assigns protein groups, and <strong>OpenMS ProteinQuantifier</strong> summarizes the quantified peptide evidence into protein and peptide abundance tables.</p>
+<p><img alt="Protein grouping and quantitation workflow" src="../flowcharts/protein.svg" /></p>
+<p><a href="../flowcharts/protein.svg">Open the original flowchart at full size</a>.</p>
+<h2 id="how-it-works">How it works</h2>
+<ol>
+<li>Receive the final LFQ or TMT consensusXML containing quantitative features.</li>
+<li>With the default ProteinProphet route, convert the unfiltered PEP-scored identifications to pepXML, repair supported enzyme-terminus annotations, combine the evidence with iProphet, and infer groups with ProteinProphet.</li>
+<li>Remove zero-probability parent groups and supply the resulting protein groups to ProteinQuantifier.</li>
+<li>Alternatively, use ProteinInferencer to infer groups directly in the consensusXML, optionally calculate and filter protein FDR, and resolve identification conflicts.</li>
+<li>Quantify peptide and protein abundances, then label columns using the feature map's experimental design and channel descriptions.</li>
+</ol>
+<h2 id="inputs-and-outputs">Inputs and outputs</h2>
+<p>All inputs are supplied automatically: the cohort quantitative feature map, unfiltered PEP-scored idXML manifest, target-decoy FASTA, and shared identifiers. ProteinProphet combines evidence across the cohort rather than performing independent grouping for each sample.</p>
+<p>Final outputs are <code>&lt;dataset_id&gt;_ProteinQuantifier_protein.csv</code> and <code>&lt;dataset_id&gt;_ProteinQuantifier_peptide.csv</code>. The ProteinProphet route also publishes raw protXML and the filtered idXML used for quantitation. The ProteinInferencer route retains its groups in the final <code>IDConflictResolver.consensusXML</code>. See <a href="../../results/">Understanding results</a> for paths and table interpretation.</p>
+<div class="admonition important">
+<p class="admonition-title">A configured cutoff does not enable filtering</p>
+<p><code>protein_fdr_cutoff</code> is <code>0.01</code>, but both FDR switches are false by default. Protein FDR filtering applies only in the ProteinInferencer route when <code>protein_inference_protein_fdr</code> and <code>filter_protein_fdr</code> are both true. The default ProteinProphet route removes zero-probability groups and does not apply this q-value cutoff.</p>
+</div>
+<p>By default, ProteinQuantifier combines charge states and sums fractions within each assay. <code>protein_quantifier_best_charge = true</code> selects one charge per modified peptide; <code>protein_quantifier_fractions_aggregate = 'best'</code> selects the best fraction per peptide and fraction group. These choices affect quantities and the detailed peptide table layout.</p>
+<h2 id="parameter-reference">Parameter reference</h2>
+<p>Use the <code>quantitate_ProteomicProtein</code> block inside <code>params</code>. Defaults below describe this step as launched by SpectroMesa-DDA. “Not set; tool default” means no override is passed. Automatically supplied values do not need to be repeated.</p>
+<h3 id="analysis-settings">Analysis settings</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default / supplied value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>convert_idXML2pepXML_peptideprophet_analyzed</code></td>
+<td>Boolean</td>
+<td>false</td>
+<td>Mark the converted pepXML as PeptideProphet-analyzed; normally leave false for PEP-scored input.</td>
+</tr>
+<tr>
+<td><code>filter_protein_fdr</code></td>
+<td>Boolean</td>
+<td>false</td>
+<td>Enable protein FDR filtering in the ProteinInferencer route; also requires protein_inference_protein_fdr.</td>
+</tr>
+<tr>
+<td><code>protein_fdr_cutoff</code></td>
+<td>Number</td>
+<td>0.01</td>
+<td>Protein q-value threshold, used only by the ProteinInferencer filtering route when both FDR switches are true.</td>
+</tr>
+<tr>
+<td><code>protein_grouping_algorithm</code></td>
+<td>Text</td>
+<td>ProteinProphet</td>
+<td>Choose ProteinProphet (default) or ProteinInferencer (OpenMS ProteinInference).</td>
+</tr>
+<tr>
+<td><code>protein_inference_protein_fdr</code></td>
+<td>Boolean</td>
+<td>false</td>
+<td>Calculate protein FDR in ProteinInference. This switch alone does not filter the result.</td>
+</tr>
+<tr>
+<td><code>protein_quantifier_best_charge</code></td>
+<td>Boolean</td>
+<td>false</td>
+<td>Use one charge globally per modified peptide. False combines charge states.</td>
+</tr>
+<tr>
+<td><code>protein_quantifier_fractions_aggregate</code></td>
+<td>Text</td>
+<td>sum</td>
+<td>Combine fractions within each assay: sum adds them; best selects the best fraction per peptide and fraction group.</td>
+</tr>
+<tr>
+<td><code>proteinprophet_minprob</code></td>
+<td>Number</td>
+<td>0.00</td>
+<td>Minimum probability passed to the ProteinProphet command. This is not a protein q-value cutoff.</td>
+</tr>
+<tr>
+<td><code>save_intermediate_files</code></td>
+<td>Boolean</td>
+<td>false</td>
+<td>Publish additional intermediate files for inspection. Final outputs and execution logs are retained independently.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="software-and-containers">Software and containers</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default / supplied value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>docker_image_fragpipe</code></td>
+<td>Text</td>
+<td>fcyucn/fragpipe:24.0</td>
+<td>Container image for fragpipe. Change only to a compatible image.</td>
+</tr>
+<tr>
+<td><code>docker_image_openms</code></td>
+<td>Text</td>
+<td>ghcr.io/theboutroslab/openms-thirdparty:3.6.0</td>
+<td>Container image for openms. Change only to a compatible image.</td>
+</tr>
+<tr>
+<td><code>docker_image_pyopenms</code></td>
+<td>Text</td>
+<td>ghcr.io/theboutroslab/pyopenms:3.6.0</td>
+<td>Container image for pyopenms. Change only to a compatible image.</td>
+</tr>
+<tr>
+<td><code>fragpipe_version</code></td>
+<td>Text</td>
+<td>24.0</td>
+<td>Version used for output labeling and default container selection.</td>
+</tr>
+<tr>
+<td><code>openms_version</code></td>
+<td>Text</td>
+<td>3.6.0</td>
+<td>Version used for output labeling and default container selection.</td>
+</tr>
+<tr>
+<td><code>pyopenms_version</code></td>
+<td>Text</td>
+<td>3.6.0</td>
+<td>Version used for output labeling and default container selection.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="automatically-supplied-settings">Automatically supplied settings</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default / supplied value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>decoy_database</code></td>
+<td>Path</td>
+<td>Shared decoy_database</td>
+<td>Target-decoy FASTA used for the idXML searches.</td>
+</tr>
+<tr>
+<td><code>decoy_string</code></td>
+<td>Text</td>
+<td>Shared decoy_string</td>
+<td>Accession prefix identifying decoy proteins in the search database.</td>
+</tr>
+<tr>
+<td><code>input_consensusXML</code></td>
+<td>Path</td>
+<td>Final LFQ or TMT feature map</td>
+<td>One cohort-level consensusXML file for protein quantification.</td>
+</tr>
+<tr>
+<td><code>output_dir</code></td>
+<td>Path</td>
+<td>Assigned within the analysis output</td>
+<td>Destination for this step. Set the shared output_dir for the complete analysis.</td>
+</tr>
+<tr>
+<td><code>project_name</code></td>
+<td>Text</td>
+<td>Shared dataset_id</td>
+<td>Project name for outputs.</td>
+</tr>
+<tr>
+<td><code>unfiltered_idXML</code></td>
+<td>Path</td>
+<td>Generated unfiltered PEP-scored identification manifest</td>
+<td>CSV of unfiltered PEP-scored idXML files for ProteinProphet.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="resolving-identification-conflicts">Resolving identification conflicts</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default / supplied value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>conflict_resolver_resolve_between_features</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Resolve competing peptide assignments between features as well as within each feature.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="proteininferencer-filtering-options">ProteinInferencer filtering options</h3>
+<p>These options apply only when both protein FDR switches are enabled. <code>protein_fdr_cutoff</code> is additionally passed as the protein score threshold; avoid setting a conflicting <code>filter_protein_score_prot</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default / supplied value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>filter_protein_best_n_peptide_hits</code></td>
+<td>Integer</td>
+<td>Not set; tool default</td>
+<td>Keep this number of best peptide hits per identification.</td>
+</tr>
+<tr>
+<td><code>filter_protein_best_n_protein_hits</code></td>
+<td>Integer</td>
+<td>Not set; tool default</td>
+<td>Keep this number of best protein hits.</td>
+</tr>
+<tr>
+<td><code>filter_protein_best_n_spectra</code></td>
+<td>Integer</td>
+<td>Not set; tool default</td>
+<td>Keep this number of best-scoring peptide-identification records.</td>
+</tr>
+<tr>
+<td><code>filter_protein_best_strict</code></td>
+<td>Boolean</td>
+<td>Not set; flag omitted</td>
+<td>Apply the best-hit limit strictly when scores tie.</td>
+</tr>
+<tr>
+<td><code>filter_protein_blacklist_peptides</code></td>
+<td>Path</td>
+<td>Not set; tool default</td>
+<td>Identification file defining peptide sequences to exclude.</td>
+</tr>
+<tr>
+<td><code>filter_protein_blacklist_protein_accessions</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Protein accession list used to exclude matching identifications.</td>
+</tr>
+<tr>
+<td><code>filter_protein_blacklist_proteins</code></td>
+<td>Path</td>
+<td>Not set; tool default</td>
+<td>FASTA defining proteins whose matching peptide identifications should be excluded.</td>
+</tr>
+<tr>
+<td><code>filter_protein_in_silico_digestion_fasta</code></td>
+<td>Path</td>
+<td>Not set; tool default</td>
+<td>FASTA used to check peptide identifications against an in-silico digest.</td>
+</tr>
+<tr>
+<td><code>filter_protein_keep_unreferenced_protein_hits</code></td>
+<td>Boolean</td>
+<td>Not set; flag omitted</td>
+<td>Retain protein hits with no remaining peptide evidence.</td>
+</tr>
+<tr>
+<td><code>filter_protein_missed_cleavages_number_of_missed_cleavages</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Allowed missed-cleavage count or range for retained peptides.</td>
+</tr>
+<tr>
+<td><code>filter_protein_precursor_charge</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Retain identifications within a precursor-charge range, written min:max.</td>
+</tr>
+<tr>
+<td><code>filter_protein_precursor_length</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Retain peptide sequences within a length range, written min:max.</td>
+</tr>
+<tr>
+<td><code>filter_protein_precursor_mz</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Retain identifications within a precursor m/z range, written min:max.</td>
+</tr>
+<tr>
+<td><code>filter_protein_precursor_rt</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Retain identifications within a retention-time range, written min:max.</td>
+</tr>
+<tr>
+<td><code>filter_protein_remove_decoys</code></td>
+<td>Boolean</td>
+<td>Not set; flag omitted</td>
+<td>Remove decoy identifications from the retained output.</td>
+</tr>
+<tr>
+<td><code>filter_protein_remove_shared_peptides</code></td>
+<td>Boolean</td>
+<td>Not set; flag omitted</td>
+<td>Remove peptides assigned to multiple proteins.</td>
+</tr>
+<tr>
+<td><code>filter_protein_score_pep</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Peptide-level score threshold; interpret it using the score type in the input.</td>
+</tr>
+<tr>
+<td><code>filter_protein_score_prot</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Protein-level score threshold; interpret it using the score type in the input.</td>
+</tr>
+<tr>
+<td><code>filter_protein_score_protgroup</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Protein-group score threshold.</td>
+</tr>
+<tr>
+<td><code>filter_protein_var_mods</code></td>
+<td>Boolean</td>
+<td>Not set; flag omitted</td>
+<td>Restrict retained peptide hits to those carrying variable modifications.</td>
+</tr>
+<tr>
+<td><code>filter_protein_whitelist_peptides</code></td>
+<td>Path</td>
+<td>Not set; tool default</td>
+<td>Identification file defining peptide sequences to retain.</td>
+</tr>
+<tr>
+<td><code>filter_protein_whitelist_protein_accessions</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Protein accession list used to retain matching identifications.</td>
+</tr>
+<tr>
+<td><code>filter_protein_whitelist_proteins</code></td>
+<td>Path</td>
+<td>Not set; tool default</td>
+<td>FASTA defining proteins whose matching peptide identifications may be retained.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="proteininferencer-options">ProteinInferencer options</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default / supplied value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>protein_inference_Algorithm_annotate_indistinguishable_groups</code></td>
+<td>Boolean</td>
+<td>Not set; tool default</td>
+<td>Annotate proteins that cannot be distinguished by the observed peptides.</td>
+</tr>
+<tr>
+<td><code>protein_inference_Algorithm_greedy_group_resolution</code></td>
+<td>Boolean</td>
+<td>Not set; flag omitted</td>
+<td>Resolve protein groups greedily from the peptide evidence.</td>
+</tr>
+<tr>
+<td><code>protein_inference_Algorithm_min_peptides_per_protein</code></td>
+<td>Integer</td>
+<td>Not set; tool default</td>
+<td>Minimum peptide evidence required per protein.</td>
+</tr>
+<tr>
+<td><code>protein_inference_Algorithm_score_aggregation_method</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Method used to combine peptide evidence into a protein score.</td>
+</tr>
+<tr>
+<td><code>protein_inference_Algorithm_skip_count_annotation</code></td>
+<td>Boolean</td>
+<td>Not set; flag omitted</td>
+<td>Skip adding peptide-count annotations to inferred proteins.</td>
+</tr>
+<tr>
+<td><code>protein_inference_Algorithm_treat_charge_variants_separately</code></td>
+<td>Boolean</td>
+<td>Not set; tool default</td>
+<td>Count charge variants separately when assembling protein evidence.</td>
+</tr>
+<tr>
+<td><code>protein_inference_Algorithm_treat_modification_variants_separately</code></td>
+<td>Boolean</td>
+<td>Not set; tool default</td>
+<td>Count modification variants separately when assembling protein evidence.</td>
+</tr>
+<tr>
+<td><code>protein_inference_Algorithm_use_shared_peptides</code></td>
+<td>Boolean</td>
+<td>Not set; tool default</td>
+<td>Allow peptides matching multiple proteins to contribute evidence.</td>
+</tr>
+<tr>
+<td><code>protein_inference_Merging_allow_disagreeing_settings</code></td>
+<td>Boolean</td>
+<td>Not set; flag omitted</td>
+<td>Allow identification runs with differing search settings to merge.</td>
+</tr>
+<tr>
+<td><code>protein_inference_Merging_annotate_origin</code></td>
+<td>Boolean</td>
+<td>Not set; tool default</td>
+<td>Record the source identification run while merging.</td>
+</tr>
+<tr>
+<td><code>protein_inference_decoy_string</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Decoy accession marker for picked FDR; match your FASTA when enabling that option.</td>
+</tr>
+<tr>
+<td><code>protein_inference_decoy_string_prefix</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Whether the picked-FDR decoy marker is a prefix.</td>
+</tr>
+<tr>
+<td><code>protein_inference_merge_runs</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Combine protein identification runs before inference.</td>
+</tr>
+<tr>
+<td><code>protein_inference_picked_fdr</code></td>
+<td>Boolean</td>
+<td>Not set; tool default</td>
+<td>Use picked target-decoy competition for protein FDR estimation.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="protein-and-peptide-summarization">Protein and peptide summarization</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default / supplied value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>protein_quantifier_average</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>How selected peptide abundances are summarized for each protein group.</td>
+</tr>
+<tr>
+<td><code>protein_quantifier_consensus_fix_peptides</code></td>
+<td>Boolean</td>
+<td>Not set; tool default</td>
+<td>Use a consistent peptide set across assays when quantifying a protein.</td>
+</tr>
+<tr>
+<td><code>protein_quantifier_consensus_normalize</code></td>
+<td>Boolean</td>
+<td>Not set; tool default</td>
+<td>Apply consensus-map normalization during protein quantitation; changes the quantities used for summarization.</td>
+</tr>
+<tr>
+<td><code>protein_quantifier_debug</code></td>
+<td>Integer</td>
+<td>Not set; tool default</td>
+<td>Diagnostic verbosity for ProteinQuantifier.</td>
+</tr>
+<tr>
+<td><code>protein_quantifier_format_quoting</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Quoting convention for exported text fields. Keep compatible with downstream readers.</td>
+</tr>
+<tr>
+<td><code>protein_quantifier_format_replacement</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Replacement for separator characters inside text values.</td>
+</tr>
+<tr>
+<td><code>protein_quantifier_format_separator</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Output field separator. Keep the default tab separator for the QC and database readers.</td>
+</tr>
+<tr>
+<td><code>protein_quantifier_greedy_group_resolution</code></td>
+<td>Boolean</td>
+<td>Not set; tool default</td>
+<td>Resolve shared-peptide associations using the tool’s greedy grouping option.</td>
+</tr>
+<tr>
+<td><code>protein_quantifier_include_all</code></td>
+<td>Boolean</td>
+<td>Not set; flag omitted</td>
+<td>Include groups with fewer than the requested number of top peptides.</td>
+</tr>
+<tr>
+<td><code>protein_quantifier_top</code></td>
+<td>Integer</td>
+<td>Not set; tool default</td>
+<td>Number of peptides used for top-peptide aggregation per protein group.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="proteinprophet-options">ProteinProphet options</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default / supplied value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>proteinprophet_maxppmdiff</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Maximum precursor mass-error difference accepted by ProteinProphet, in ppm.</td>
+</tr>
+<tr>
+<td><code>proteinprophet_nonsp</code></td>
+<td>Boolean</td>
+<td>Not set; flag omitted</td>
+<td>Disable ProteinProphet’s number-of-sibling-peptides adjustment.</td>
+</tr>
+<tr>
+<td><code>proteinprophet_unmapped</code></td>
+<td>Boolean</td>
+<td>Not set; flag omitted</td>
+<td>Allow unmapped proteins in the ProteinProphet result.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tool-defaults">Tool defaults</h3>
+<p>Version-specific tool references: <a href="https://openms.de/doxygen/release/3.6.0/html/TOPP_IDConflictResolver.html">IDConflictResolver</a>, <a href="https://openms.de/doxygen/release/3.6.0/html/TOPP_IDFilter.html">IDFilter</a>, <a href="https://openms.de/doxygen/release/3.6.0/html/TOPP_ProteinInference.html">ProteinInference</a>, <a href="https://openms.de/doxygen/release/3.6.0/html/TOPP_ProteinQuantifier.html">ProteinQuantifier</a>.</p>
+<p>The additional option tables list parameters explicitly forwarded by the pipeline's OpenMS modules. Unset valued options use the tool's defaults; flags are added only when true. Check the configured tool's <code>-helphelp</code> for accepted values and interactions. Avoid overriding export formatting or generated input/output options that the next analysis step relies on.</p>
+<h3 id="computing-and-temporary-files">Computing and temporary files</h3>
+<p>The <a href="../../parameters/#computing-and-temporary-files">shared parameter reference</a> explains these settings. This pipeline declares: <code>base_resource_update</code>, <code>max_cpus</code>, <code>max_memory</code>, <code>min_cpus</code>, <code>min_memory</code>, <code>resource_allocation_profile_tag</code>, <code>ucla_cds</code>, <code>work_dir</code>.</p>
+<p>The tables were checked against the <a href="https://github.com/TheBoutrosLab/pipeline-quantitate-ProteomicProtein/tree/5fc1931677f9b4f5d0fa25982580667657dc0ea0/config">individual pipeline configuration</a>, its tool modules, and the SpectroMesa-DDA settings that select this workflow.</p>
+<h2 id="related-steps">Related steps</h2>
+<p><a href="../../overview/">Overview</a> · <a href="../../parameters/">Shared parameters</a> · <a href="../../configuration/">Configuring an analysis</a> · <a href="../../results/">Understanding results</a></p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://doi.org/10.1038/s41592-024-02197-7">OpenMS 3 enables reproducible analysis of large-scale mass spectrometry data (2024)</a>.</li>
+<li><a href="https://doi.org/10.1074/mcp.M111.007690">iProphet (2011)</a>.</li>
+<li><a href="https://doi.org/10.1021/ac0341261">ProteinProphet (2003)</a>.</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../tmt/" class="btn btn-neutral float-left" title="quantitate-ProteomicTMT"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../qc/" class="btn btn-neutral float-right" title="qc-ProteomicDDA">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/TheBoutrosLab/SpectroMesa-DDA/tree/v1.3.2" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../tmt/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../qc/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+      <script src="../../js/version-select.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

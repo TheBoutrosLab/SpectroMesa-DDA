@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1600 830" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:affinity="https://www.affinity.studio/" style="fill-rule:evenodd;clip-rule:evenodd;">
+    <defs>
+        <marker id="arrowhead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#52758a"/></marker>
+        <marker id="tealhead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#159a89"/></marker>
+        <marker id="purplehead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#775ca6"/></marker>
+    </defs>
+    <g transform="matrix(1,0,0,1.152778,0,0)">
+        <rect x="0" y="0" width="1600" height="720" style="fill:rgb(247,250,251);"/>
+    </g>
+    <path d="M814,34C822.831,34 830,41.169 830,50L830,114C830,122.831 822.831,130 814,130L66,130C57.169,130 50,122.831 50,114L50,50C50,41.169 57.169,34 66,34L814,34Z" style="fill:white;stroke:rgb(196,212,220);stroke-width:1.5px;"/>
+    <path d="M55,34C57.208,34 59,35.792 59,38L59,126C59,128.208 57.208,130 55,130L54,130C51.792,130 50,128.208 50,126L50,38C50,35.792 51.792,34 54,34L55,34Z" style="fill:rgb(21,154,137);"/>
+    <g transform="matrix(1,0,0,1,78,70)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:20px;fill:rgb(24,48,68);">Sample or plex MS data fractions</text>
+    </g>
+    <g transform="matrix(1,0,0,1,78,97)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:16px;fill:rgb(62,88,104);">Input CSV<tspan x="72.344px 76.789px " y="0px 0px ">: </tspan>sample_name, fraction_id, path  ·  optional annotation_id</text>
+    </g>
+    <path d="M830,82L930,82" style="fill:none;fill-rule:nonzero;stroke:rgb(82,117,138);stroke-width:3px;" marker-end="url(#arrowhead)"/>
+    <g transform="matrix(1,0,0,1,842,68)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:13px;fill:rgb(51,77,91);">non-mzML</text>
+    </g>
+    <path d="M1534,34C1542.831,34 1550,41.169 1550,50L1550,114C1550,122.831 1542.831,130 1534,130L956,130C947.169,130 940,122.831 940,114L940,50C940,41.169 947.169,34 956,34L1534,34Z" style="fill:white;stroke:rgb(196,212,220);stroke-width:1.5px;"/>
+    <path d="M1546,34C1548.208,34 1550,35.792 1550,38L1550,39C1550,41.208 1548.208,43 1546,43L944,43C941.792,43 940,41.208 940,39L940,38C940,35.792 941.792,34 944,34L1546,34Z" style="fill:rgb(49,116,164);"/>
+    <g transform="matrix(1,0,0,1,962,76)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:20px;fill:rgb(24,48,68);">Convert MS data</text>
+    </g>
+    <g transform="matrix(1,0,0,1,962,103)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:16px;fill:rgb(62,88,104);">convert-MSData · vendor RA<tspan x="203.938px 219.039px " y="0px 0px ">W </tspan>or supported format</text>
+        <text x="367.555px" y="0px" style="font-family:'LucidaGrande', 'Lucida Grande', sans-serif;font-weight:500;font-size:16px;fill:rgb(62,88,104);">→</text>
+        <text x="388px" y="0px" style="font-family:'Helvetica';font-size:16px;fill:rgb(62,88,104);">mzML</text>
+    </g>
+    <path d="M195,130L195,183L1000,183" style="fill:none;fill-rule:nonzero;stroke:rgb(21,154,137);stroke-width:2.5px;"/>
+    <path d="M1000,130L1000,183" style="fill:none;fill-rule:nonzero;stroke:rgb(21,154,137);stroke-width:2.5px;"/>
+    <g transform="matrix(1,0,0,1,258,151)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:13px;fill:rgb(21,134,117);">direct mzML</text>
+    </g>
+    <g transform="matrix(1,0,0,1,1012,151)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:13px;fill:rgb(21,134,117);">converted mzML</text>
+    </g>
+    <path d="M195,183L195,235" style="fill:none;fill-rule:nonzero;stroke:rgb(21,154,137);stroke-width:2.5px;" marker-end="url(#tealhead)"/>
+    <path d="M550,183L550,235" style="fill:none;fill-rule:nonzero;stroke:rgb(21,154,137);stroke-width:2.5px;" marker-end="url(#tealhead)"/>
+    <path d="M1000,183L1000,235" style="fill:none;fill-rule:nonzero;stroke:rgb(21,154,137);stroke-width:2.5px;" marker-end="url(#tealhead)"/>
+    <g transform="matrix(1,0,0,1,615,172)">
+        <g transform="matrix(13,0,0,13,38.523926,0)">
+        </g>
+        <g transform="matrix(13,0,0,13,42.135742,0)">
+        </g>
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:13px;fill:rgb(21,134,117);">mzML<tspan x="34.912px 38.524px " y="0px 0px "> ﬁ</tspan>les</text>
+    </g>
+    <path d="M324,235C332.831,235 340,242.169 340,251L340,429C340,437.831 332.831,445 324,445L66,445C57.169,445 50,437.831 50,429L50,251C50,242.169 57.169,235 66,235L324,235Z" style="fill:white;stroke:rgb(196,212,220);stroke-width:1.5px;"/>
+    <path d="M336,235C338.208,235 340,236.792 340,239L340,240C340,242.208 338.208,244 336,244L54,244C51.792,244 50,242.208 50,240L50,239C50,236.792 51.792,235 54,235L336,235Z" style="fill:rgb(49,116,164);"/>
+    <g transform="matrix(1,0,0,1,72,282)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:20px;fill:rgb(24,48,68);">Search</text>
+    </g>
+    <g transform="matrix(1,0,0,1,72,313)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:16px;fill:rgb(62,88,104);">search-ProteomicMSMS</text>
+    </g>
+    <g transform="matrix(1,0,0,1,72,352)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(83,107,121);">Comet · Sage · MSFragger</text>
+    </g>
+    <g transform="matrix(1,0,0,1,72,377)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(83,107,121);">Select one or more engines</text>
+    </g>
+    <g transform="matrix(1,0,0,1,72,402)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(83,107,121);">mzML</text>
+        <text x="41.487px" y="0px" style="font-family:'LucidaGrande', 'Lucida Grande', sans-serif;font-weight:500;font-size:14px;fill:rgb(83,107,121);">→</text>
+        <text x="59.377px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(83,107,121);">merged idXML</text>
+    </g>
+    <path d="M694,235C702.831,235 710,242.169 710,251L710,429C710,437.831 702.831,445 694,445L436,445C427.169,445 420,437.831 420,429L420,251C420,242.169 427.169,235 436,235L694,235Z" style="fill:white;stroke:rgb(196,212,220);stroke-width:1.5px;"/>
+    <path d="M706,235C708.208,235 710,236.792 710,239L710,240C710,242.208 708.208,244 706,244L424,244C421.792,244 420,242.208 420,240L420,239C420,236.792 421.792,235 424,235L706,235Z" style="fill:rgb(119,92,166);"/>
+    <g transform="matrix(1,0,0,1,442,282)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:20px;fill:rgb(24,48,68);">V<tspan x="11.865px 22.988px " y="0px 0px ">al</tspan>idate PSMs</text>
+    </g>
+    <g transform="matrix(1,0,0,1,442,313)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:16px;fill:rgb(62,88,104);">validate-ProteomicPSM</text>
+    </g>
+    <g transform="matrix(1,0,0,1,442,352)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(83,107,121);">Percolator; optional MSBooster</text>
+    </g>
+    <g transform="matrix(1,0,0,1,442,377)">
+        <g transform="matrix(14,0,0,14,0,0)">
+        </g>
+        <g transform="matrix(14,0,0,14,3.889648,0)">
+        </g>
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(83,107,121);">ﬁltered idXML<tspan x="85.08px 88.97px " y="0px 0px "> f</tspan>or quantitation</text>
+    </g>
+    <g transform="matrix(1,0,0,1,442,402)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(83,107,121);">PEP<tspan x="27.768px 31.657px " y="0px 0px "> i</tspan>dXML<tspan x="70.827px 74.717px " y="0px 0px "> f</tspan>or ProteinProphet</text>
+    </g>
+    <g transform="matrix(1,0,0,1,442,426)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(83,107,121);">PSM features for QC</text>
+    </g>
+    <path d="M1174,235C1182.831,235 1190,242.169 1190,251L1190,479C1190,487.831 1182.831,495 1174,495L806,495C797.169,495 790,487.831 790,479L790,251C790,242.169 797.169,235 806,235L1174,235Z" style="fill:white;stroke:rgb(196,212,220);stroke-width:1.5px;"/>
+    <path d="M1186,235C1188.208,235 1190,236.792 1190,239L1190,240C1190,242.208 1188.208,244 1186,244L794,244C791.792,244 790,242.208 790,240L790,239C790,236.792 791.792,235 794,235L1186,235Z" style="fill:rgb(184,120,50);"/>
+    <g transform="matrix(1,0,0,1,812,278)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:20px;fill:rgb(24,48,68);">Quantitate peptides</text>
+    </g>
+    <g transform="matrix(1,0,0,1,812,303)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(83,107,121);">Select one branch by experiment_type</text>
+    </g>
+    <path d="M1158,318C1163.519,318 1168,322.481 1168,328L1168,376C1168,381.519 1163.519,386 1158,386L822,386C816.481,386 812,381.519 812,376L812,328C812,322.481 816.481,318 822,318L1158,318Z" style="fill:rgb(247,250,251);stroke:rgb(216,227,232);stroke-width:1.2px;"/>
+    <path d="M1165,318C1166.656,318 1168,319.344 1168,321L1168,322C1168,323.656 1166.656,325 1165,325L815,325C813.344,325 812,323.656 812,322L812,321C812,319.344 813.344,318 815,318L1165,318Z" style="fill:rgb(184,120,50);"/>
+    <g transform="matrix(1,0,0,1,831,345)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:16px;fill:rgb(62,88,104);">TMT<tspan x="32.594px 37.039px " y="0px 0px "> ·</tspan> quantitate-ProteomicTMT</text>
+    </g>
+    <g transform="matrix(1,0,0,1,831,369)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(83,107,121);">reporter ions</text>
+        <text x="82.482px" y="0px" style="font-family:'LucidaGrande', 'Lucida Grande', sans-serif;font-weight:500;font-size:14px;fill:rgb(83,107,121);">→</text>
+        <text x="100.372px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(83,107,121);">cohort consensusXML</text>
+    </g>
+    <path d="M1158,399C1163.519,399 1168,403.481 1168,409L1168,457C1168,462.519 1163.519,467 1158,467L822,467C816.481,467 812,462.519 812,457L812,409C812,403.481 816.481,399 822,399L1158,399Z" style="fill:rgb(247,250,251);stroke:rgb(216,227,232);stroke-width:1.2px;"/>
+    <path d="M1165,399C1166.656,399 1168,400.344 1168,402L1168,403C1168,404.656 1166.656,406 1165,406L815,406C813.344,406 812,404.656 812,403L812,402C812,400.344 813.344,399 815,399L1165,399Z" style="fill:rgb(184,120,50);"/>
+    <g transform="matrix(1,0,0,1,831,426)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:16px;fill:rgb(62,88,104);">LFQ · quantitate-ProteomicLFQ</text>
+    </g>
+    <g transform="matrix(1,0,0,1,831,450)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(83,107,121);">features</text>
+        <text x="54.476px" y="0px" style="font-family:'LucidaGrande', 'Lucida Grande', sans-serif;font-weight:500;font-size:14px;fill:rgb(83,107,121);">→</text>
+        <text x="72.365px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(83,107,121);">cohort consensusXML</text>
+    </g>
+    <path d="M1534,235C1542.831,235 1550,242.169 1550,251L1550,479C1550,487.831 1542.831,495 1534,495L1286,495C1277.169,495 1270,487.831 1270,479L1270,251C1270,242.169 1277.169,235 1286,235L1534,235Z" style="fill:white;stroke:rgb(196,212,220);stroke-width:1.5px;"/>
+    <path d="M1546,235C1548.208,235 1550,236.792 1550,239L1550,240C1550,242.208 1548.208,244 1546,244L1274,244C1271.792,244 1270,242.208 1270,240L1270,239C1270,236.792 1271.792,235 1274,235L1546,235Z" style="fill:rgb(38,144,127);"/>
+    <g transform="matrix(1,0,0,1,1292,282)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:20px;fill:rgb(24,48,68);">Quantitate proteins</text>
+    </g>
+    <g transform="matrix(1,0,0,1,1292,313)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:16px;fill:rgb(62,88,104);">quantitate-</text>
+    </g>
+    <g transform="matrix(1,0,0,1,1292,335)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:16px;fill:rgb(62,88,104);">ProteomicProtein</text>
+    </g>
+    <g transform="matrix(1,0,0,1,1292,376)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(83,107,121);">ProteinProphet (default)</text>
+    </g>
+    <g transform="matrix(1,0,0,1,1292,400)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(83,107,121);">or ProteinInferencer</text>
+    </g>
+    <g transform="matrix(1,0,0,1,1292,435)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(83,107,121);">protein abundance CSVs</text>
+    </g>
+    <path d="M340,340L410,340" style="fill:none;fill-rule:nonzero;stroke:rgb(82,117,138);stroke-width:3px;" marker-end="url(#arrowhead)"/>
+    <g transform="matrix(1,0,0,1,351,327)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:13px;fill:rgb(51,77,91);">idXML</text>
+    </g>
+    <path d="M710,340L780,340" style="fill:none;fill-rule:nonzero;stroke:rgb(82,117,138);stroke-width:3px;" marker-end="url(#arrowhead)"/>
+    <g transform="matrix(1,0,0,1,716,326)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:13px;fill:rgb(51,77,91);">idXML</text>
+    </g>
+    <path d="M1190,365L1260,365" style="fill:none;fill-rule:nonzero;stroke:rgb(82,117,138);stroke-width:3px;" marker-end="url(#arrowhead)"/>
+    <g transform="matrix(1,0,0,1,1193,349)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:13px;fill:rgb(51,77,91);">consensus</text>
+    </g>
+    <path d="M650,445L650,530L1410,530L1410,505" style="fill:none;fill-rule:nonzero;stroke:rgb(119,92,166);stroke-width:2.5px;" marker-end="url(#purplehead)"/>
+    <g transform="matrix(1,0,0,1,880,519)">
+        <g transform="matrix(13,0,0,13,14.459961,0)">
+        </g>
+        <g transform="matrix(13,0,0,13,18.071777,0)">
+        </g>
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:13px;fill:rgb(119,92,166);">unﬁltered PEP<tspan x="82.875px 86.487px " y="0px 0px "> i</tspan>dXML<tspan x="122.859px 126.471px " y="0px 0px "> f</tspan>or ProteinProphet</text>
+    </g>
+    <path d="M684,585C692.831,585 700,592.169 700,601L700,669C700,677.831 692.831,685 684,685L66,685C57.169,685 50,677.831 50,669L50,601C50,592.169 57.169,585 66,585L684,585Z" style="fill:white;stroke:rgb(196,212,220);stroke-width:1.5px;"/>
+    <path d="M55,585C57.208,585 59,586.792 59,589L59,681C59,683.208 57.208,685 55,685L54,685C51.792,685 50,683.208 50,681L50,589C50,586.792 51.792,585 54,585L55,585Z" style="fill:rgb(21,154,137);"/>
+    <g transform="matrix(1,0,0,1,78,625)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:20px;fill:rgb(24,48,68);">T<tspan x="10px 21.123px " y="0px 0px ">ar</tspan>get-decoy database</text>
+    </g>
+    <g transform="matrix(1,0,0,1,78,655)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:16px;fill:rgb(62,88,104);">Shared F<tspan x="64.938px 75.609px 86.281px 94.875px 104.672px 109.117px " y="0px 0px 0px 0px 0px 0px ">ASTA f</tspan>or search, validation, and protein inference</text>
+    </g>
+    <path d="M195,585L195,455" style="fill:none;fill-rule:nonzero;stroke:rgb(21,154,137);stroke-width:2.5px;" marker-end="url(#tealhead)"/>
+    <path d="M520,585L520,455" style="fill:none;fill-rule:nonzero;stroke:rgb(21,154,137);stroke-width:2.5px;" marker-end="url(#tealhead)"/>
+    <path d="M1490,495L1490,575" style="fill:none;fill-rule:nonzero;stroke:rgb(82,117,138);stroke-width:3px;" marker-end="url(#arrowhead)"/>
+    <g transform="matrix(1,0,0,1,1135,551)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:13px;fill:rgb(51,77,91);">mzML<tspan x="34.912px 38.524px " y="0px 0px "> +</tspan> search + PSM features + protein outputs</text>
+    </g>
+    <path d="M1534,585C1542.831,585 1550,592.169 1550,601L1550,669C1550,677.831 1542.831,685 1534,685L856,685C847.169,685 840,677.831 840,669L840,601C840,592.169 847.169,585 856,585L1534,585Z" style="fill:white;stroke:rgb(196,212,220);stroke-width:1.5px;"/>
+    <path d="M1546,585C1548.208,585 1550,586.792 1550,589L1550,590C1550,592.208 1548.208,594 1546,594L844,594C841.792,594 840,592.208 840,590L840,589C840,586.792 841.792,585 844,585L1546,585Z" style="fill:rgb(87,128,169);"/>
+    <g transform="matrix(1,0,0,1,868,624)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:20px;fill:rgb(24,48,68);">Quality control · qc-ProteomicDDA</text>
+    </g>
+    <g transform="matrix(1,0,0,1,868,653)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:16px;fill:rgb(62,88,104);">QC metrics <tspan x="84.164px 93.938px " y="0px 0px ">TS</tspan>V + per-fraction interactive MS1 maps</text>
+    </g>
+    <path d="M1195,685L1195,735" style="fill:none;fill-rule:nonzero;stroke:rgb(82,117,138);stroke-width:3px;" marker-end="url(#arrowhead)"/>
+    <path d="M1534,745C1542.831,745 1550,752.169 1550,761L1550,799C1550,807.831 1542.831,815 1534,815L856,815C847.169,815 840,807.831 840,799L840,761C840,752.169 847.169,745 856,745L1534,745Z" style="fill:white;stroke:rgb(196,212,220);stroke-width:1.5px;"/>
+    <path d="M1546,745C1548.208,745 1550,746.792 1550,749L1550,750C1550,752.208 1548.208,754 1546,754L844,754C841.792,754 840,752.208 840,750L840,749C840,746.792 841.792,745 844,745L1546,745Z" style="fill:rgb(49,116,164);"/>
+    <g transform="matrix(1,0,0,1,868,778)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:20px;fill:rgb(24,48,68);">ProteoV<tspan x="70.791px 81.914px " y="0px 0px ">au</tspan>lt</text>
+    </g>
+    <g transform="matrix(1,0,0,1,868,800)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:16px;fill:rgb(62,88,104);">DDA<tspan x="32.906px 37.352px " y="0px 0px "> r</tspan>esults + QC</text>
+        <text x="131.156px" y="0px" style="font-family:'LucidaGrande', 'Lucida Grande', sans-serif;font-weight:500;font-size:16px;fill:rgb(62,88,104);">→</text>
+        <text x="151.602px" y="0px" style="font-family:'Helvetica';font-size:16px;fill:rgb(62,88,104);">validated DuckDB database</text>
+    </g>
+</svg>

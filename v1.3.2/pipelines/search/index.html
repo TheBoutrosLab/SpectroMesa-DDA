@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>search-ProteomicMSMS - SpectroMesa-DDA</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../extra.css" rel="stylesheet" />
+        <link href="../../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "search-ProteomicMSMS";
+        var mkdocs_page_input_path = "pipelines/search.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> SpectroMesa-DDA
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../overview/">Overview</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../installation/">Installation</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../inputs/">Preparing inputs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../configuration/">Configuring an analysis</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../execution/">Running and resuming</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../results/">Understanding results</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../testing/">Running tests</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Pipeline reference</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../../parameters/">Shared parameters</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../conversion/">convert-MSData</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">search-ProteomicMSMS</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#how-it-works">How it works</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#inputs-and-outputs">Inputs and outputs</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#parameter-reference">Parameter reference</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#analysis-settings">Analysis settings</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#software-and-containers">Software and containers</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#automatically-supplied-settings">Automatically supplied settings</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#cometadapter-settings">CometAdapter settings</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#msfraggeradapter-settings">MSFraggerAdapter settings</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#sageadapter-settings">SageAdapter settings</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#additional-adapter-options">Additional adapter options</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#computing-and-temporary-files">Computing and temporary files</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#related-steps">Related steps</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#references">References</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../validation/">validate-ProteomicPSM</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lfq/">quantitate-ProteomicLFQ</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../tmt/">quantitate-ProteomicTMT</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../protein/">quantitate-ProteomicProtein</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../qc/">qc-ProteomicDDA</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../proteovault/">ProteoVault</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">SpectroMesa-DDA</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Pipeline reference</li>
+      <li class="breadcrumb-item active">search-ProteomicMSMS</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/TheBoutrosLab/SpectroMesa-DDA/blob/v1.3.2/README.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="database-search">Database search</h1>
+<p><strong>MSFragger</strong>, <strong>Comet</strong>, and <strong>Sage</strong> match tandem mass spectra to peptides in your target-decoy FASTA. MSFragger is selected by default; you can combine engines to contribute complementary identification evidence.</p>
+<h2 id="how-it-works">How it works</h2>
+<ol>
+<li>Optionally reindex mzML spectra so native IDs are unique across a sample's fractions. This is off by default in SpectroMesa-DDA.</li>
+<li>Search each acquisition with every selected engine through its OpenMS adapter.</li>
+<li>Match peptides to proteins with PeptideIndexer and retain target/decoy labels.</li>
+<li>Merge fractions into one unfiltered idXML per sample and engine for <a href="../validation/">validation</a>.</li>
+</ol>
+<h2 id="inputs-and-outputs">Inputs and outputs</h2>
+<p>Inputs are the prepared mzML acquisitions, the shared target-decoy FASTA, and the MSFragger JAR when that engine is used. SpectroMesa-DDA supplies their paths. Outputs include per-acquisition search results and merged sample/engine idXML files. They are candidate identifications, before the downstream q-value filtering.</p>
+<p>Files sharing <code>sample_name</code> contribute to the same validation unit. For TMT, that unit is a plex; its reporter channels identify biological samples later. See <a href="../../inputs/">Preparing inputs</a>.</p>
+<h2 id="parameter-reference">Parameter reference</h2>
+<p>Use the <code>search_ProteomicMSMS</code> block. Engine settings below include the actual search template used by this metapipeline. For example, MSFragger uses a 30 ppm precursor tolerance on either side and a 0.02 Da fragment tolerance unless overridden. Review each engine's digestion and modification settings when combining searches.</p>
+<div class="admonition important">
+<p class="admonition-title">Configure TMT labels in the search</p>
+<p><code>plex_type</code> selects reporter-ion quantitation and does not set search modifications. Add the label chemistry to each selected engine as described in <a href="../../configuration/#digestion-and-modifications">Configuring an analysis</a>.</p>
+</div>
+<p>Use the <code>search_ProteomicMSMS</code> block inside <code>params</code>. Defaults below describe this step as launched by SpectroMesa-DDA. “Not set; tool default” means no override is passed. Automatically supplied values do not need to be repeated.</p>
+<h3 id="analysis-settings">Analysis settings</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default / supplied value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CometAdapter</code></td>
+<td>Block</td>
+<td>Not set; tool default</td>
+<td>OpenMS CometAdapter parameters, nested as in the template.</td>
+</tr>
+<tr>
+<td><code>MSFraggerAdapter</code></td>
+<td>Block</td>
+<td>Not set; tool default</td>
+<td>OpenMS MSFraggerAdapter parameters, nested as in the template.</td>
+</tr>
+<tr>
+<td><code>SageAdapter</code></td>
+<td>Block</td>
+<td>Not set; tool default</td>
+<td>OpenMS SageAdapter parameters, nested as in the template.</td>
+</tr>
+<tr>
+<td><code>comet_default_params</code></td>
+<td>Path</td>
+<td>Not supplied</td>
+<td>Optional native Comet default parameter file.</td>
+</tr>
+<tr>
+<td><code>export_all_psms</code></td>
+<td>Boolean</td>
+<td>true</td>
+<td>Include all reported PSMs in mzTab exports.</td>
+</tr>
+<tr>
+<td><code>export_mzTab</code></td>
+<td>Boolean</td>
+<td>false</td>
+<td>Export merged idXML files to mzTab.</td>
+</tr>
+<tr>
+<td><code>fix_msfragger_spectrum_refs</code></td>
+<td>Boolean</td>
+<td>false</td>
+<td>Repair MSFragger spectrum references for affected OpenMS versions.</td>
+</tr>
+<tr>
+<td><code>merge_proteins_add_PSMs</code></td>
+<td>Boolean</td>
+<td>true</td>
+<td>Merge proteins by accession while retaining PSMs.</td>
+</tr>
+<tr>
+<td><code>reindex_mzml</code></td>
+<td>Boolean</td>
+<td>false</td>
+<td>Assign unique native spectrum IDs across fractions within each sample.</td>
+</tr>
+<tr>
+<td><code>reindex_mzml_keep_all_metadata</code></td>
+<td>Boolean</td>
+<td>true</td>
+<td>Preserve mzML metadata while reindexing.</td>
+</tr>
+<tr>
+<td><code>save_intermediate_files</code></td>
+<td>Boolean</td>
+<td>false</td>
+<td>Publish additional intermediate files for inspection. Final outputs and execution logs are retained independently.</td>
+</tr>
+<tr>
+<td><code>search_engines</code></td>
+<td>List</td>
+<td>['MSFragger']</td>
+<td>Search engines to run.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="software-and-containers">Software and containers</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default / supplied value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>docker_image_openms</code></td>
+<td>Text</td>
+<td>ghcr.io/theboutroslab/openms-thirdparty:3.5.0</td>
+<td>Container image for openms. Change only to a compatible image.</td>
+</tr>
+<tr>
+<td><code>docker_image_pyopenms</code></td>
+<td>Text</td>
+<td>ghcr.io/theboutroslab/pyopenms:3.5.0</td>
+<td>Container image for pyopenms. Change only to a compatible image.</td>
+</tr>
+<tr>
+<td><code>openms_version</code></td>
+<td>Text</td>
+<td>3.5.0</td>
+<td>Version used for output labeling and default container selection.</td>
+</tr>
+<tr>
+<td><code>pyopenms_version</code></td>
+<td>Text</td>
+<td>3.5.0</td>
+<td>Version used for output labeling and default container selection.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="automatically-supplied-settings">Automatically supplied settings</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default / supplied value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>decoy_database</code></td>
+<td>Path</td>
+<td>Shared decoy_database</td>
+<td>Target-decoy protein FASTA used by every search engine.</td>
+</tr>
+<tr>
+<td><code>input_csv</code></td>
+<td>Path</td>
+<td>Generated mzML manifest</td>
+<td>CSV with sample_name and mzML path columns; other columns are ignored.</td>
+</tr>
+<tr>
+<td><code>msfragger_executable</code></td>
+<td>Path</td>
+<td>Shared msfragger_executable</td>
+<td>Separately obtained MSFragger JAR; required when MSFragger is selected.</td>
+</tr>
+<tr>
+<td><code>output_dir</code></td>
+<td>Path</td>
+<td>Assigned within the analysis output</td>
+<td>Destination for this step. Set the shared output_dir for the complete analysis.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="cometadapter-settings">CometAdapter settings</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default / supplied value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CometAdapter.PeptideIndexing.decoy_string</code></td>
+<td>Text</td>
+<td>Shared decoy_string</td>
+<td>Derived from shared decoy_string.</td>
+</tr>
+<tr>
+<td><code>CometAdapter.PeptideIndexing.decoy_string_position</code></td>
+<td>Text</td>
+<td>Shared decoy_position</td>
+<td>Derived from shared decoy_position.</td>
+</tr>
+<tr>
+<td><code>CometAdapter.PeptideIndexing.unmatched_action</code></td>
+<td>Text</td>
+<td>remove</td>
+<td>Action for peptides not found in the FASTA; remove by default.</td>
+</tr>
+<tr>
+<td><code>CometAdapter.clip_nterm_methionine</code></td>
+<td>Boolean</td>
+<td>true</td>
+<td>Allow protein N-terminal methionine clipping.</td>
+</tr>
+<tr>
+<td><code>CometAdapter.enzyme</code></td>
+<td>Text</td>
+<td>Trypsin</td>
+<td>Digestion enzyme.</td>
+</tr>
+<tr>
+<td><code>CometAdapter.fixed_modifications</code></td>
+<td>List</td>
+<td>['Carbamidomethyl (C)']</td>
+<td>Fixed modifications using OpenMS names; configure TMT labels here for this engine.</td>
+</tr>
+<tr>
+<td><code>CometAdapter.fragment_bin_offset</code></td>
+<td>Number</td>
+<td>0.0</td>
+<td>Offset of the fragment-ion mass bins.</td>
+</tr>
+<tr>
+<td><code>CometAdapter.fragment_error_units</code></td>
+<td>Text</td>
+<td>Da</td>
+<td>Fragment tolerance unit.</td>
+</tr>
+<tr>
+<td><code>CometAdapter.fragment_mass_tolerance</code></td>
+<td>Number</td>
+<td>0.01</td>
+<td>Fragment tolerance; for Comet, half the fragment bin width.</td>
+</tr>
+<tr>
+<td><code>CometAdapter.instrument</code></td>
+<td>Text</td>
+<td>high_res</td>
+<td>Instrument resolution category.</td>
+</tr>
+<tr>
+<td><code>CometAdapter.isotope_error</code></td>
+<td>Text</td>
+<td>0/1/2</td>
+<td>Allowed precursor isotope offsets.</td>
+</tr>
+<tr>
+<td><code>CometAdapter.max_fragment_charge</code></td>
+<td>Number</td>
+<td>3</td>
+<td>Maximum fragment charge considered.</td>
+</tr>
+<tr>
+<td><code>CometAdapter.max_peptide_length</code></td>
+<td>Number</td>
+<td>35</td>
+<td>Maximum peptide length.</td>
+</tr>
+<tr>
+<td><code>CometAdapter.max_precursor_charge</code></td>
+<td>Number</td>
+<td>5</td>
+<td>Maximum precursor charge.</td>
+</tr>
+<tr>
+<td><code>CometAdapter.max_variable_mods_in_peptide</code></td>
+<td>Number</td>
+<td>3</td>
+<td>Maximum variable modifications per peptide.</td>
+</tr>
+<tr>
+<td><code>CometAdapter.min_peptide_length</code></td>
+<td>Number</td>
+<td>7</td>
+<td>Minimum peptide length.</td>
+</tr>
+<tr>
+<td><code>CometAdapter.minimum_peaks</code></td>
+<td>Number</td>
+<td>15</td>
+<td>Minimum number of peaks required in a spectrum.</td>
+</tr>
+<tr>
+<td><code>CometAdapter.missed_cleavages</code></td>
+<td>Number</td>
+<td>2</td>
+<td>Allowed missed cleavages.</td>
+</tr>
+<tr>
+<td><code>CometAdapter.num_enzyme_termini</code></td>
+<td>Text</td>
+<td>fully</td>
+<td>Required enzyme specificity.</td>
+</tr>
+<tr>
+<td><code>CometAdapter.num_hits</code></td>
+<td>Number</td>
+<td>1</td>
+<td>Peptide candidates retained per spectrum.</td>
+</tr>
+<tr>
+<td><code>CometAdapter.precursor_charge</code></td>
+<td>Text</td>
+<td>1:5</td>
+<td>Allowed precursor charge range.</td>
+</tr>
+<tr>
+<td><code>CometAdapter.precursor_error_units</code></td>
+<td>Text</td>
+<td>ppm</td>
+<td>Precursor tolerance unit.</td>
+</tr>
+<tr>
+<td><code>CometAdapter.precursor_mass_tolerance</code></td>
+<td>Number</td>
+<td>30.0</td>
+<td>Precursor tolerance width.</td>
+</tr>
+<tr>
+<td><code>CometAdapter.variable_modifications</code></td>
+<td>List</td>
+<td>['Oxidation (M)', 'Acetyl (Protein N-term)', 'Gln-&gt;pyro-Glu (N-term Q)']</td>
+<td>Variable modifications using OpenMS names.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="msfraggeradapter-settings">MSFraggerAdapter settings</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default / supplied value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MSFraggerAdapter.PeptideIndexing.decoy_string</code></td>
+<td>Text</td>
+<td>Shared decoy_string</td>
+<td>Derived from shared decoy_string.</td>
+</tr>
+<tr>
+<td><code>MSFraggerAdapter.PeptideIndexing.decoy_string_position</code></td>
+<td>Text</td>
+<td>Shared decoy_position</td>
+<td>Derived from shared decoy_position.</td>
+</tr>
+<tr>
+<td><code>MSFraggerAdapter.PeptideIndexing.unmatched_action</code></td>
+<td>Text</td>
+<td>remove</td>
+<td>Action for peptides not found in the FASTA; remove by default.</td>
+</tr>
+<tr>
+<td><code>MSFraggerAdapter.digest.allowed_missed_cleavage</code></td>
+<td>Text</td>
+<td>2</td>
+<td>Allowed missed cleavages.</td>
+</tr>
+<tr>
+<td><code>MSFraggerAdapter.digest.max_length</code></td>
+<td>Number</td>
+<td>35</td>
+<td>Maximum peptide length.</td>
+</tr>
+<tr>
+<td><code>MSFraggerAdapter.digest.min_length</code></td>
+<td>Number</td>
+<td>7</td>
+<td>Minimum peptide length.</td>
+</tr>
+<tr>
+<td><code>MSFraggerAdapter.digest.num_enzyme_termini</code></td>
+<td>Text</td>
+<td>fully</td>
+<td>Required enzyme specificity.</td>
+</tr>
+<tr>
+<td><code>MSFraggerAdapter.digest.search_enzyme_name</code></td>
+<td>Text</td>
+<td>Trypsin</td>
+<td>Digestion enzyme name.</td>
+</tr>
+<tr>
+<td><code>MSFraggerAdapter.license</code></td>
+<td>Text</td>
+<td>yes</td>
+<td>MSFragger license acknowledgment; use only after obtaining the separately licensed JAR.</td>
+</tr>
+<tr>
+<td><code>MSFraggerAdapter.search.output_report_topn</code></td>
+<td>Number</td>
+<td>1</td>
+<td>Number of reported peptide candidates per spectrum.</td>
+</tr>
+<tr>
+<td><code>MSFraggerAdapter.spectrum.max_fragment_charge</code></td>
+<td>Text</td>
+<td>3</td>
+<td>Maximum fragment charge considered.</td>
+</tr>
+<tr>
+<td><code>MSFraggerAdapter.spectrum.minimum_peaks</code></td>
+<td>Number</td>
+<td>15</td>
+<td>Minimum number of peaks required in a spectrum.</td>
+</tr>
+<tr>
+<td><code>MSFraggerAdapter.spectrum.use_topn_peaks</code></td>
+<td>Number</td>
+<td>150</td>
+<td>Maximum number of intense peaks retained per spectrum.</td>
+</tr>
+<tr>
+<td><code>MSFraggerAdapter.statmod.add_C_cysteine</code></td>
+<td>Number</td>
+<td>57.021464</td>
+<td>Fixed cysteine mass shift in Da; 57.021464 represents carbamidomethylation.</td>
+</tr>
+<tr>
+<td><code>MSFraggerAdapter.tolerance.fragment_mass_tolerance</code></td>
+<td>Number</td>
+<td>0.02</td>
+<td>Fragment-ion mass tolerance.</td>
+</tr>
+<tr>
+<td><code>MSFraggerAdapter.tolerance.fragment_mass_unit</code></td>
+<td>Text</td>
+<td>Da</td>
+<td>Fragment tolerance unit.</td>
+</tr>
+<tr>
+<td><code>MSFraggerAdapter.tolerance.isotope_error</code></td>
+<td>Text</td>
+<td>0/1/2</td>
+<td>Allowed precursor isotope offsets.</td>
+</tr>
+<tr>
+<td><code>MSFraggerAdapter.tolerance.precursor_mass_tolerance_lower</code></td>
+<td>Number</td>
+<td>30.0</td>
+<td>Lower precursor tolerance width.</td>
+</tr>
+<tr>
+<td><code>MSFraggerAdapter.tolerance.precursor_mass_tolerance_upper</code></td>
+<td>Number</td>
+<td>30.0</td>
+<td>Upper precursor tolerance width.</td>
+</tr>
+<tr>
+<td><code>MSFraggerAdapter.tolerance.precursor_mass_unit</code></td>
+<td>Text</td>
+<td>ppm</td>
+<td>Precursor tolerance unit.</td>
+</tr>
+<tr>
+<td><code>MSFraggerAdapter.varmod.clip_nterm_m</code></td>
+<td>Boolean</td>
+<td>true</td>
+<td>Allow protein N-terminal methionine clipping.</td>
+</tr>
+<tr>
+<td><code>MSFraggerAdapter.varmod.masses</code></td>
+<td>List</td>
+<td>[42.010565, -17.026549]</td>
+<td>Variable modification mass shifts in Da, paired in order with syntaxes.</td>
+</tr>
+<tr>
+<td><code>MSFraggerAdapter.varmod.max_variable_mods_per_peptide</code></td>
+<td>Text</td>
+<td>3</td>
+<td>Maximum variable modifications per peptide.</td>
+</tr>
+<tr>
+<td><code>MSFraggerAdapter.varmod.not_allow_multiple_variable_mods_on_residue</code></td>
+<td>Boolean</td>
+<td>true</td>
+<td>Prevent multiple variable modifications on one residue.</td>
+</tr>
+<tr>
+<td><code>MSFraggerAdapter.varmod.syntaxes</code></td>
+<td>List</td>
+<td>['[^', 'nQ']</td>
+<td>MSFragger residue/terminus patterns paired with masses.</td>
+</tr>
+<tr>
+<td><code>MSFraggerAdapter.varmod.unimod</code></td>
+<td>List</td>
+<td>['Oxidation (M)']</td>
+<td>Additional variable modifications using OpenMS modification names.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sageadapter-settings">SageAdapter settings</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default / supplied value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SageAdapter.PeptideIndexing.decoy_string</code></td>
+<td>Text</td>
+<td>Shared decoy_string</td>
+<td>Derived from shared decoy_string.</td>
+</tr>
+<tr>
+<td><code>SageAdapter.PeptideIndexing.decoy_string_position</code></td>
+<td>Text</td>
+<td>Shared decoy_position</td>
+<td>Derived from shared decoy_position.</td>
+</tr>
+<tr>
+<td><code>SageAdapter.PeptideIndexing.unmatched_action</code></td>
+<td>Text</td>
+<td>remove</td>
+<td>Action for peptides not found in the FASTA; remove by default.</td>
+</tr>
+<tr>
+<td><code>SageAdapter.decoy_prefix</code></td>
+<td>Text</td>
+<td>Shared decoy_string</td>
+<td>Derived from shared decoy_string.</td>
+</tr>
+<tr>
+<td><code>SageAdapter.fixed_modifications</code></td>
+<td>List</td>
+<td>['Carbamidomethyl (C)']</td>
+<td>Fixed modifications using OpenMS names; configure TMT labels here for this engine.</td>
+</tr>
+<tr>
+<td><code>SageAdapter.fragment_tol_left</code></td>
+<td>Number</td>
+<td>-20.0</td>
+<td>Signed lower fragment mass-error bound.</td>
+</tr>
+<tr>
+<td><code>SageAdapter.fragment_tol_right</code></td>
+<td>Number</td>
+<td>20.0</td>
+<td>Signed upper fragment mass-error bound.</td>
+</tr>
+<tr>
+<td><code>SageAdapter.fragment_tol_unit</code></td>
+<td>Text</td>
+<td>ppm</td>
+<td>Fragment mass-error unit.</td>
+</tr>
+<tr>
+<td><code>SageAdapter.missed_cleavages</code></td>
+<td>Number</td>
+<td>2</td>
+<td>Allowed missed cleavages.</td>
+</tr>
+<tr>
+<td><code>SageAdapter.precursor_tol_left</code></td>
+<td>Number</td>
+<td>-10.0</td>
+<td>Signed lower precursor mass-error bound.</td>
+</tr>
+<tr>
+<td><code>SageAdapter.precursor_tol_right</code></td>
+<td>Number</td>
+<td>10.0</td>
+<td>Signed upper precursor mass-error bound.</td>
+</tr>
+<tr>
+<td><code>SageAdapter.precursor_tol_unit</code></td>
+<td>Text</td>
+<td>ppm</td>
+<td>Precursor mass-error unit.</td>
+</tr>
+<tr>
+<td><code>SageAdapter.q_value_threshold</code></td>
+<td>Number</td>
+<td>1.0</td>
+<td>Search-stage q-value threshold. Keep 1.0 to pass unfiltered candidates to downstream validation.</td>
+</tr>
+<tr>
+<td><code>SageAdapter.variable_modifications</code></td>
+<td>List</td>
+<td>['Oxidation (M)']</td>
+<td>Variable modifications using OpenMS names.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="additional-adapter-options">Additional adapter options</h3>
+<p>The <code>CometAdapter</code>, <code>SageAdapter</code>, and <code>MSFraggerAdapter</code> blocks accept additional OpenMS adapter options. Nested names become colon-separated keys in the generated adapter configuration. Match the spelling and value type used by the configured OpenMS version, and leave input/output files and thread settings to the workflow.</p>
+<p>See the OpenMS 3.5 documentation for <a href="https://openms.de/doxygen/release/3.5.0/html/TOPP_CometAdapter.html">CometAdapter</a>, <a href="https://openms.de/doxygen/release/3.5.0/html/TOPP_SageAdapter.html">SageAdapter</a>, and <a href="https://openms.de/doxygen/release/3.5.0/html/TOPP_MSFraggerAdapter.html">MSFraggerAdapter</a>. The tables above cover the settings explicitly supplied by the current workflow and template; additional tool options are version-dependent.</p>
+<h3 id="computing-and-temporary-files">Computing and temporary files</h3>
+<p>The <a href="../../parameters/#computing-and-temporary-files">shared parameter reference</a> explains these settings. This pipeline declares: <code>apptainer_cache</code>, <code>apptainer_library</code>, <code>base_resource_update</code>, <code>max_cpus</code>, <code>max_memory</code>, <code>min_cpus</code>, <code>min_memory</code>, <code>resource_allocation_profile_tag</code>, <code>singularity_cache</code>, <code>singularity_library</code>, <code>ucla_cds</code>, <code>work_dir</code>.</p>
+<p>The tables were checked against the <a href="https://github.com/TheBoutrosLab/pipeline-search-ProteomicMSMS/tree/57e522cc85c1ba4de1a6ef3213134ce67f581819/config">individual pipeline configuration</a>, its tool modules, and the SpectroMesa-DDA settings that select this workflow.</p>
+<h2 id="related-steps">Related steps</h2>
+<p><a href="../../overview/">Overview</a> · <a href="../../parameters/">Shared parameters</a> · <a href="../../configuration/">Configuring an analysis</a> · <a href="../../results/">Understanding results</a></p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://doi.org/10.1038/s41592-024-02197-7">OpenMS 3 enables reproducible analysis of large-scale mass spectrometry data (2024)</a>.</li>
+<li><a href="https://doi.org/10.1038/nmeth.4256">MSFragger (2017)</a>.</li>
+<li><a href="https://doi.org/10.1002/pmic.201200439">Comet (2013)</a>.</li>
+<li><a href="https://doi.org/10.1021/acs.jproteome.3c00486">Sage (2023)</a>.</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../conversion/" class="btn btn-neutral float-left" title="convert-MSData"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../validation/" class="btn btn-neutral float-right" title="validate-ProteomicPSM">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/TheBoutrosLab/SpectroMesa-DDA/tree/v1.3.2" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../conversion/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../validation/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+      <script src="../../js/version-select.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
