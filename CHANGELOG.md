@@ -4,9 +4,7 @@ All notable changes to SpectroMesa-DDA are documented here. The format follows [
 
 ## [Unreleased]
 
-### Fixed
-
-- Prevent documentation publishing from refetching initialized submodules without SSH credentials (2026-11-21).
+## [1.3.2] - 2026-11-21
 
 ### Added
 
@@ -15,6 +13,10 @@ All notable changes to SpectroMesa-DDA are documented here. The format follows [
 ### Changed
 
 - Use a minimal README as the MkDocs home page and build the documentation with original submodule figures.
+
+### Fixed
+
+- Prevent documentation publishing from refetching initialized submodules without SSH credentials (2026-11-21).
 
 ## [1.3.1] - 2026-11-20
 
@@ -181,4 +183,5 @@ All notable changes to SpectroMesa-DDA are documented here. The format follows [
 [1.3.0]: https://github.com/TheBoutrosLab/SpectroMesa-DDA/compare/v1.2.8...v1.3.0
 [1.3.0-rc.1]: https://github.com/TheBoutrosLab/SpectroMesa-DDA/compare/v1.2.2...v1.3.0-rc.1
 [1.3.1]: https://github.com/TheBoutrosLab/SpectroMesa-DDA/compare/v1.3.0...v1.3.1
-[unreleased]: https://github.com/TheBoutrosLab/SpectroMesa-DDA/compare/v1.3.1...HEAD
+[1.3.2]: https://github.com/TheBoutrosLab/SpectroMesa-DDA/compare/v1.3.1...v1.3.2
+[unreleased]: https://github.com/TheBoutrosLab/SpectroMesa-DDA/compare/v1.3.2...HEAD
