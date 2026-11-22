@@ -4,6 +4,10 @@ All notable changes to SpectroMesa-DDA are documented here. The format follows [
 
 ## [Unreleased]
 
+### Fixed
+
+- Prevent documentation publishing from refetching initialized submodules without SSH credentials (2026-11-21).
+
 ### Added
 
 - Add SpectroMesa-DDA user guides, LFQ/TMT input and configuration guidance, public-data testing instructions, and individual pipeline references matching the DIA documentation (2026-11-21).
