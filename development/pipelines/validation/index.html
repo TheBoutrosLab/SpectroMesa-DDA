@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>validate-ProteomicPSM - SpectroMesa-DDA</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../extra.css" rel="stylesheet" />
+        <link href="../../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "validate-ProteomicPSM";
+        var mkdocs_page_input_path = "pipelines/validation.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> SpectroMesa-DDA
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../overview/">Overview</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../installation/">Installation</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../inputs/">Preparing inputs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../configuration/">Configuring an analysis</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../execution/">Running and resuming</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../results/">Understanding results</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../testing/">Running tests</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Pipeline reference</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../../parameters/">Shared parameters</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../conversion/">convert-MSData</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../search/">search-ProteomicMSMS</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">validate-ProteomicPSM</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#how-it-works">How it works</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#inputs-and-outputs">Inputs and outputs</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#parameter-reference">Parameter reference</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#analysis-settings">Analysis settings</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#software-and-containers">Software and containers</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#automatically-supplied-settings">Automatically supplied settings</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#additional-index-peptides-settings">Additional index peptides settings</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#additional-aggregate-consensus-id-settings">Additional aggregate consensus id settings</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#additional-score-fdr-openms-settings">Additional score FDR OpenMS settings</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#additional-filter-psm-settings">Additional filter PSM settings</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#additional-score-pep-percolator-settings">Additional score PEP percolator settings</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#tool-defaults">Tool defaults</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#computing-and-temporary-files">Computing and temporary files</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#related-steps">Related steps</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#references">References</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lfq/">quantitate-ProteomicLFQ</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../tmt/">quantitate-ProteomicTMT</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../protein/">quantitate-ProteomicProtein</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../qc/">qc-ProteomicDDA</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../proteovault/">ProteoVault</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">SpectroMesa-DDA</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Pipeline reference</li>
+      <li class="breadcrumb-item active">validate-ProteomicPSM</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/TheBoutrosLab/SpectroMesa-DDA/edit/main/docs/pipelines/validation.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="psm-validation">PSM validation</h1>
+<p><strong>Percolator</strong> rescores candidate PSMs, and OpenMS estimates q-values and filters the identifications. The default route uses OpenMS PercolatorAdapter; <strong>MSBooster</strong> can add predicted-property features before rescoring.</p>
+<p><img alt="PSM validation workflow" src="../flowcharts/validation.svg" /></p>
+<p><a href="../flowcharts/validation.svg">Open the original flowchart at full size</a>.</p>
+<h2 id="how-it-works">How it works</h2>
+<ol>
+<li>Check peptide-to-protein associations and target/decoy labels against the shared FASTA.</li>
+<li>Extract PSM features and run Percolator using the selected <code>openms</code> or <code>msbooster</code> route.</li>
+<li>Estimate sample-level PSM q-values and filter at <code>0.01</code> by default.</li>
+<li>When multiple search engines are selected, combine their evidence with ConsensusID. Fractionated input is handled automatically.</li>
+<li>Supply accepted identifications to peptide quantitation and unfiltered PEP-scored identifications to the later <a href="../protein/">protein grouping step</a>.</li>
+</ol>
+<h2 id="inputs-and-outputs">Inputs and outputs</h2>
+<p>SpectroMesa-DDA generates the search-result and mzML manifests and provides the shared FASTA. Outputs include per-engine filtered idXML, optional multi-engine consensus idXML, unfiltered PEP-scored idXML, and PSM-feature files used by QC.</p>
+<p>Protein grouping for this DDA workflow happens after LFQ or TMT quantitation. The standalone validation pipeline's library-generation routes are not used here.</p>
+<div class="admonition important">
+<p class="admonition-title">Keep Percolator enabled for ProteinProphet</p>
+<p><code>run_percolator</code> already defaults to <code>true</code>. ProteinProphet requires its PEP-scored identification files. The <code>filter_psm_score_peptide</code> setting is passed as a PSM score threshold, despite its historical name; with default q-value scoring, <code>0.01</code> means a 1% PSM threshold.</p>
+</div>
+<h2 id="parameter-reference">Parameter reference</h2>
+<p>Use the <code>validate_ProteomicPSM</code> block inside <code>params</code>. Defaults below describe this step as launched by SpectroMesa-DDA. “Not set; tool default” means no override is passed. Automatically supplied values do not need to be repeated.</p>
+<h3 id="analysis-settings">Analysis settings</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default / supplied value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>consensusid_algorithm</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>ConsensusID scoring algorithm. When unset, selects PEPMatrix with Percolator and ranks without it.</td>
+</tr>
+<tr>
+<td><code>enzyme</code></td>
+<td>Text</td>
+<td>Trypsin</td>
+<td>OpenMS digestion-enzyme name for validation. Keep its cleavage rule consistent with the search settings.</td>
+</tr>
+<tr>
+<td><code>fdr_algorithm_no_qvalues</code></td>
+<td>Boolean</td>
+<td>false</td>
+<td>Use raw FDR estimates instead of q-values. Leave false for the documented q-value thresholds.</td>
+</tr>
+<tr>
+<td><code>filter_psm_blacklist_peptides</code></td>
+<td>Path</td>
+<td>Not supplied</td>
+<td>Optional idXML defining peptide sequences to remove.</td>
+</tr>
+<tr>
+<td><code>filter_psm_blacklist_proteins</code></td>
+<td>Path</td>
+<td>Not supplied</td>
+<td>Optional FASTA defining proteins whose matching peptides should be removed.</td>
+</tr>
+<tr>
+<td><code>filter_psm_delete_unreferenced_peptide_hits</code></td>
+<td>Boolean</td>
+<td>true</td>
+<td>Remove peptide hits that no longer refer to a retained protein.</td>
+</tr>
+<tr>
+<td><code>filter_psm_in_silico_digestion</code></td>
+<td>Path</td>
+<td>Not supplied</td>
+<td>Optional FASTA for filtering peptide hits against an in-silico digest.</td>
+</tr>
+<tr>
+<td><code>filter_psm_keep_unreferenced_protein_hits</code></td>
+<td>Boolean</td>
+<td>false</td>
+<td>Retain protein hits with no remaining peptide evidence in the filtered output.</td>
+</tr>
+<tr>
+<td><code>filter_psm_remove_decoys</code></td>
+<td>Boolean</td>
+<td>true</td>
+<td>Remove decoy identifications from the filtered output.</td>
+</tr>
+<tr>
+<td><code>filter_psm_score_peptide</code></td>
+<td>Number</td>
+<td>0.01</td>
+<td>Maximum PSM q-value for the filtered identification output with the default q-value scoring. Despite its name, this is passed to IDFilter as -score:psm.</td>
+</tr>
+<tr>
+<td><code>filter_psm_whitelist_peptides</code></td>
+<td>Path</td>
+<td>Not supplied</td>
+<td>Optional idXML defining peptide sequences to retain.</td>
+</tr>
+<tr>
+<td><code>filter_psm_whitelist_proteins</code></td>
+<td>Path</td>
+<td>Not supplied</td>
+<td>Optional FASTA defining proteins whose matching peptides may be retained.</td>
+</tr>
+<tr>
+<td><code>merge_consensus</code></td>
+<td>Boolean</td>
+<td>false; true automatically for multiple engines</td>
+<td>Combine search-engine results with ConsensusID. Automatically enabled when more than one engine is selected.</td>
+</tr>
+<tr>
+<td><code>msbooster_params</code></td>
+<td>Path</td>
+<td>Bundled msbooster.params</td>
+<td>MSBooster prediction configuration. The bundled file uses DIA-NN predictions to add features for rescoring.</td>
+</tr>
+<tr>
+<td><code>percolator_post_processing_tdc</code></td>
+<td>Boolean</td>
+<td>true</td>
+<td>Use target-decoy competition in the OpenMS Percolator route.</td>
+</tr>
+<tr>
+<td><code>percolator_workflow</code></td>
+<td>Text</td>
+<td>openms</td>
+<td>Rescoring route: openms uses PercolatorAdapter; msbooster adds predicted-property features before Percolator.</td>
+</tr>
+<tr>
+<td><code>run_percolator</code></td>
+<td>Boolean</td>
+<td>true</td>
+<td>Rescore PSMs with Percolator. Already enabled; keep true for ProteinProphet, which needs PEP-scored identifications.</td>
+</tr>
+<tr>
+<td><code>save_intermediate_files</code></td>
+<td>Boolean</td>
+<td>false</td>
+<td>Publish additional intermediate files for inspection. Final outputs and execution logs are retained independently.</td>
+</tr>
+<tr>
+<td><code>skip_peptide_indexing</code></td>
+<td>Boolean</td>
+<td>false</td>
+<td>Skip matching peptides to the FASTA. Leave false so protein associations and target/decoy labels are checked.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="software-and-containers">Software and containers</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default / supplied value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>docker_image_fragpipe</code></td>
+<td>Text</td>
+<td>fcyucn/fragpipe:24.0</td>
+<td>FragPipe image containing MSBooster, DIA-NN, and Percolator.</td>
+</tr>
+<tr>
+<td><code>docker_image_openms</code></td>
+<td>Text</td>
+<td>ghcr.io/theboutroslab/openms-thirdparty:3.5.0</td>
+<td>Container image for openms. Change only to a compatible image.</td>
+</tr>
+<tr>
+<td><code>docker_image_pyopenms</code></td>
+<td>Text</td>
+<td>ghcr.io/theboutroslab/pyopenms:3.5.0</td>
+<td>Container image for pyopenms. Change only to a compatible image.</td>
+</tr>
+<tr>
+<td><code>fragpipe_version</code></td>
+<td>Text</td>
+<td>24.0</td>
+<td>FragPipe image version, default 24.0.</td>
+</tr>
+<tr>
+<td><code>openms_version</code></td>
+<td>Text</td>
+<td>3.5.0</td>
+<td>Version used for output labeling and default container selection.</td>
+</tr>
+<tr>
+<td><code>pyopenms_version</code></td>
+<td>Text</td>
+<td>3.5.0</td>
+<td>Version used for output labeling and default container selection.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="automatically-supplied-settings">Automatically supplied settings</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default / supplied value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>dataset_id</code></td>
+<td>Text</td>
+<td>Shared dataset_id</td>
+<td>Analysis name used to organize and name outputs.</td>
+</tr>
+<tr>
+<td><code>decoy_database</code></td>
+<td>Path</td>
+<td>Shared decoy_database</td>
+<td>Target-decoy FASTA used for peptide indexing.</td>
+</tr>
+<tr>
+<td><code>decoy_string</code></td>
+<td>Text</td>
+<td>Shared decoy_string</td>
+<td>Accession prefix identifying decoy proteins in the search database.</td>
+</tr>
+<tr>
+<td><code>decoy_string_position</code></td>
+<td>Text</td>
+<td>Shared decoy_position</td>
+<td>Location of the decoy marker; use the shared decoy_position setting.</td>
+</tr>
+<tr>
+<td><code>fractionated</code></td>
+<td>Boolean</td>
+<td>Detected from the acquisition CSV</td>
+<td>Process corresponding acquisition fractions. Set automatically from the input CSV.</td>
+</tr>
+<tr>
+<td><code>input_csv</code></td>
+<td>Path</td>
+<td>Generated search-result manifest</td>
+<td>CSV containing sample_name, search_engine, and idXML columns.</td>
+</tr>
+<tr>
+<td><code>input_mzml_csv</code></td>
+<td>Path</td>
+<td>Generated mzML manifest</td>
+<td>CSV containing sample_name, fraction, and mzML columns; required for MSBooster or EasyPQP export.</td>
+</tr>
+<tr>
+<td><code>output_dir</code></td>
+<td>Path</td>
+<td>Assigned within the analysis output</td>
+<td>Destination for this step. Set the shared output_dir for the complete analysis.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="additional-index-peptides-settings">Additional index peptides settings</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default / supplied value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>allow_nterm_protein_cleavage</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Permit protein N-terminal cleavage during peptide indexing; passed to PeptideIndexer.</td>
+</tr>
+<tr>
+<td><code>index_peptides_IL_equivalent</code></td>
+<td>Boolean</td>
+<td>Not set; tool default</td>
+<td>Treat the isobaric amino acids isoleucine ('I') and leucine ('L') as equivalent (indistinguishable). Also occurrences of 'J' will be treated as 'I' thus avoiding ambiguous matching.</td>
+</tr>
+<tr>
+<td><code>index_peptides_aaa_max</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Maximum ambiguous amino acids allowed when matching peptides to the FASTA. Already 0 in SpectroMesa-DDA.</td>
+</tr>
+<tr>
+<td><code>index_peptides_enzyme_specifity</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Required enzyme specificity during peptide-to-protein matching. The spelling of this setting follows the pipeline option name.</td>
+</tr>
+<tr>
+<td><code>index_peptides_keep_unreferenced_proteins</code></td>
+<td>Boolean</td>
+<td>Not set; tool default</td>
+<td>If set, protein hits which are not referenced by any peptide are kept.</td>
+</tr>
+<tr>
+<td><code>index_peptides_mismatches_max</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Maximum amino-acid mismatches allowed during peptide-to-protein matching. Increasing this can substantially increase runtime.</td>
+</tr>
+<tr>
+<td><code>index_peptides_missing_decoy_action</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Action when no decoy assignments are found: error, warn, or silent. Investigate the database and marker if this occurs.</td>
+</tr>
+<tr>
+<td><code>index_peptides_unmatched_action</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Action for peptides that cannot be matched to the FASTA: error, warn, or remove. SpectroMesa-DDA already selects remove.</td>
+</tr>
+<tr>
+<td><code>index_peptides_write_protein_description</code></td>
+<td>Boolean</td>
+<td>Not set; tool default</td>
+<td>If set, the protein description is stored as well.</td>
+</tr>
+<tr>
+<td><code>index_peptides_write_protein_sequence</code></td>
+<td>Boolean</td>
+<td>Not set; tool default</td>
+<td>If set, the protein sequences are stored as well.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="additional-aggregate-consensus-id-settings">Additional aggregate consensus id settings</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default / supplied value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>consensusid_considered_hits</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>The number of top hits in each ID run that are considered for consensus scoring ('0' for all hits).</td>
+</tr>
+<tr>
+<td><code>consensusid_count_empty</code></td>
+<td>Boolean</td>
+<td>Not set; tool default</td>
+<td>Count empty ID runs (i.e. those containing no peptide hit for the current spectrum) when calculating 'min_support'?</td>
+</tr>
+<tr>
+<td><code>consensusid_keep_old_scores</code></td>
+<td>Boolean</td>
+<td>Not set; tool default</td>
+<td>If set, keeps the original scores as user params</td>
+</tr>
+<tr>
+<td><code>consensusid_min_support</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>For each peptide hit from an ID run, the fraction of other ID runs that must support that hit (otherwise it is removed).</td>
+</tr>
+<tr>
+<td><code>consensusid_mz_delta</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>[idXML input only] Maximum allowed precursor m/z deviation between identifications belonging to the same spectrum.</td>
+</tr>
+<tr>
+<td><code>consensusid_rt_delta</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>[idXML input only] Maximum allowed retention time deviation between identifications belonging to the same spectrum.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="additional-score-fdr-openms-settings">Additional score FDR OpenMS settings</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default / supplied value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fdr_algorithm_conservative</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Select the conservative target-decoy FDR calculation. This value-taking option uses the text true or false.</td>
+</tr>
+<tr>
+<td><code>fdr_algorithm_split_charge_variants</code></td>
+<td>Boolean</td>
+<td>Not set; tool default</td>
+<td>If 'true' charge variants are treated separately (for peptides of combined target/decoy searches only).</td>
+</tr>
+<tr>
+<td><code>fdr_algorithm_treat_runs_separately</code></td>
+<td>Boolean</td>
+<td>Not set; tool default</td>
+<td>If 'true' different search runs are treated separately (for peptides of combined target/decoy searches only).</td>
+</tr>
+<tr>
+<td><code>fdr_algorithm_use_all_hits</code></td>
+<td>Boolean</td>
+<td>Not set; tool default</td>
+<td>If 'true' not only the first hit, but all are used (peptides only)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="additional-filter-psm-settings">Additional filter PSM settings</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default / supplied value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>filter_psm_best_n_peptide_hits</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Keep at most this many peptide hits per spectrum; 0 leaves this limit disabled.</td>
+</tr>
+<tr>
+<td><code>filter_psm_best_n_protein_hits</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Keep at most this many protein hits; 0 leaves this limit disabled.</td>
+</tr>
+<tr>
+<td><code>filter_psm_best_n_spectra</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Keep the specified number of best-scoring spectra; 0 leaves this limit disabled.</td>
+</tr>
+<tr>
+<td><code>filter_psm_best_strict</code></td>
+<td>Boolean</td>
+<td>Not set; tool default</td>
+<td>Keep only the highest-scoring peptide hit.</td>
+</tr>
+<tr>
+<td><code>filter_psm_blacklist_ignore_modifications</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Compare blacklist peptides by sequence alone. This value-taking option uses the text true or false.</td>
+</tr>
+<tr>
+<td><code>filter_psm_blacklist_modifications</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Space-separated OpenMS modification names; remove peptides containing any selected modification.</td>
+</tr>
+<tr>
+<td><code>filter_psm_blacklist_protein_accessions</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Space-separated protein accessions; remove peptide hits referencing any listed accession.</td>
+</tr>
+<tr>
+<td><code>filter_psm_number_of_missed_cleavages</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Allowed missed-cleavage range for IDFilter, using the configured validation enzyme.</td>
+</tr>
+<tr>
+<td><code>filter_psm_precursor_charge</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Retain PSMs within a precursor-charge range, written as min:max.</td>
+</tr>
+<tr>
+<td><code>filter_psm_precursor_length</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Retain peptides within a sequence-length range, written as min:max.</td>
+</tr>
+<tr>
+<td><code>filter_psm_precursor_mz</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Retain PSMs within a precursor m/z range, written as min:max.</td>
+</tr>
+<tr>
+<td><code>filter_psm_precursor_rt</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Retain PSMs within a retention-time range, written as min:max in seconds; either bound may be omitted.</td>
+</tr>
+<tr>
+<td><code>filter_psm_remove_shared_peptides</code></td>
+<td>Boolean</td>
+<td>Not set; tool default</td>
+<td>Retain only peptides matching one protein accession; separate isoforms count as separate proteins.</td>
+</tr>
+<tr>
+<td><code>filter_psm_var_mods</code></td>
+<td>Boolean</td>
+<td>Not set; tool default</td>
+<td>Retain only peptide hits with a variable modification recorded in the search parameters.</td>
+</tr>
+<tr>
+<td><code>filter_psm_whitelist_ignore_modifications</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Compare whitelist peptides by sequence alone. This value-taking option uses the text true or false.</td>
+</tr>
+<tr>
+<td><code>filter_psm_whitelist_modifications</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Space-separated OpenMS modification names; retain peptides containing at least one selected modification.</td>
+</tr>
+<tr>
+<td><code>filter_psm_whitelist_protein_accessions</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Space-separated protein accessions; retain peptide hits referencing at least one listed accession.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="additional-score-pep-percolator-settings">Additional score PEP percolator settings</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default / supplied value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>percolator_decoy_pattern</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Decoy accession pattern for the standalone OpenMS PercolatorAdapter route.</td>
+</tr>
+<tr>
+<td><code>percolator_peptide_level_fdrs</code></td>
+<td>Boolean</td>
+<td>Not set; tool default</td>
+<td>Calculate peptide-level FDRs in the standalone OpenMS PercolatorAdapter route.</td>
+</tr>
+<tr>
+<td><code>percolator_protein_level_fdrs</code></td>
+<td>Boolean</td>
+<td>Not set; tool default</td>
+<td>Calculate protein-level FDRs in the standalone OpenMS PercolatorAdapter route.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tool-defaults">Tool defaults</h3>
+<p>The additional option tables list parameters explicitly forwarded by the pipeline's OpenMS modules. Unset valued options use the tool's defaults; flags are added only when true. Check the configured tool's <code>-helphelp</code> for accepted values and interactions. Avoid overriding export formatting or generated input/output options that the next analysis step relies on.</p>
+<h3 id="computing-and-temporary-files">Computing and temporary files</h3>
+<p>The <a href="../../parameters/#computing-and-temporary-files">shared parameter reference</a> explains these settings. This pipeline declares: <code>base_resource_update</code>, <code>max_cpus</code>, <code>max_memory</code>, <code>min_cpus</code>, <code>min_memory</code>, <code>resource_allocation_profile_tag</code>, <code>ucla_cds</code>, <code>work_dir</code>.</p>
+<p>The tables were checked against the <a href="https://github.com/TheBoutrosLab/pipeline-validate-ProteomicPSM/tree/4b7f25c9f09b4696fdde338e02ec10134b27ffea/config">individual pipeline configuration</a>, its tool modules, and the SpectroMesa-DDA settings that select this workflow.</p>
+<h2 id="related-steps">Related steps</h2>
+<p><a href="../../overview/">Overview</a> · <a href="../../parameters/">Shared parameters</a> · <a href="../../configuration/">Configuring an analysis</a> · <a href="../../results/">Understanding results</a></p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://doi.org/10.1038/s41592-024-02197-7">OpenMS 3 enables reproducible analysis of large-scale mass spectrometry data (2024)</a>.</li>
+<li><a href="https://doi.org/10.1038/nmeth1113">Percolator (2007)</a>.</li>
+<li><a href="https://doi.org/10.1038/s41467-023-40129-9">MSBooster (2023)</a>.</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../search/" class="btn btn-neutral float-left" title="search-ProteomicMSMS"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../lfq/" class="btn btn-neutral float-right" title="quantitate-ProteomicLFQ">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/TheBoutrosLab/SpectroMesa-DDA" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../search/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../lfq/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+      <script src="../../js/version-select.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Overview - SpectroMesa-DDA</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../extra.css" rel="stylesheet" />
+        <link href="../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Overview";
+        var mkdocs_page_input_path = "overview.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> SpectroMesa-DDA
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Overview</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#workflow">Workflow</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#major-components">Major components</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#ms-data-conversion">MS data conversion</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#database-search">Database search</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#identification-validation">Identification validation</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#peptide-quantitation">Peptide quantitation</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#protein-inference-and-quantitation">Protein inference and quantitation</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#quality-control">Quality control</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#results-database">Results database</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#references">References</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../installation/">Installation</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../inputs/">Preparing inputs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../configuration/">Configuring an analysis</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../execution/">Running and resuming</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../results/">Understanding results</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../testing/">Running tests</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Pipeline reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../parameters/">Shared parameters</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/conversion/">convert-MSData</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/search/">search-ProteomicMSMS</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/validation/">validate-ProteomicPSM</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/lfq/">quantitate-ProteomicLFQ</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/tmt/">quantitate-ProteomicTMT</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/protein/">quantitate-ProteomicProtein</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/qc/">qc-ProteomicDDA</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/proteovault/">ProteoVault</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">SpectroMesa-DDA</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Overview</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/TheBoutrosLab/SpectroMesa-DDA/edit/main/docs/overview.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="spectromesa-dda-overview">SpectroMesa-DDA overview</h1>
+<p>SpectroMesa-DDA analyzes data-dependent acquisition (DDA) proteomics experiments, from mass spectrometry data to peptide and protein abundances. It supports label-free quantitation (LFQ) and tandem mass tag (TMT) experiments, including fractionated samples, and brings together database searching, identification validation, quantitation, quality control, and optional database assembly.</p>
+<p>The pipeline uses <strong>Nextflow</strong> to orchestrate individual tools and analysis steps. Its spectrum-based workflow connects database searching and peptide-spectrum match (PSM) validation to peptide quantitation, protein grouping, and protein quantitation. <a href="#ref-1">1</a></p>
+<h2 id="workflow">Workflow</h2>
+<p><img alt="SpectroMesa-DDA workflow from MS data through search, validation, LFQ or TMT quantitation, protein quantitation, quality control, and ProteoVault" src="../pipeline-flow.svg" /></p>
+<p><em>Data already in mzML format enter the search stage directly; other supported formats pass through conversion. After identification validation, the workflow follows either the LFQ or TMT branch before returning to shared protein quantitation and quality control. ProteoVault assembly is optional.</em></p>
+<h2 id="major-components">Major components</h2>
+<h3 id="ms-data-conversion">MS data conversion</h3>
+<p><strong>ProteoWizard msconvert</strong> converts supported vendor data to mzML, the format used by downstream stages. <strong>OpenMS</strong> provides an alternative conversion route for supported open formats, along with peak-picking and indexing options. Conversion is skipped when the input is already mzML. <a href="#ref-2">2</a>, <a href="#ref-3">3</a></p>
+<h3 id="database-search">Database search</h3>
+<p><strong>MSFragger</strong>, <strong>Comet</strong>, and <strong>Sage</strong> match tandem mass spectra to candidate peptides from a target-decoy protein sequence database. MSFragger is the default search engine; a run can use one engine or combine several. Search results provide the candidate peptide-spectrum matches (PSMs) evaluated during validation. <a href="#ref-4">4</a>, <a href="#ref-5">5</a>, <a href="#ref-6">6</a></p>
+<h3 id="identification-validation">Identification validation</h3>
+<p><strong>Percolator</strong> rescores candidate PSMs to distinguish likely correct matches from decoys. The default route uses OpenMS tools to prepare and process the rescoring results; the optional <strong>MSBooster</strong> route adds features derived from predicted peptide properties before Percolator rescoring. When multiple search engines are selected, <strong>OpenMS ConsensusID</strong> combines their identification evidence before the accepted identifications are passed to peptide quantitation. <a href="#ref-2">2</a>, <a href="#ref-7">7</a>, <a href="#ref-8">8</a></p>
+<h3 id="peptide-quantitation">Peptide quantitation</h3>
+<p><strong>LFQ</strong> uses <strong>OpenMS FeatureFinderIdentification</strong> to extract chromatographic MS1 features guided by peptide identifications. OpenMS alignment and feature-linking tools bring corresponding features together across samples, producing a quantitative feature map for downstream protein quantitation. <a href="#ref-2">2</a></p>
+<p><strong>TMT</strong> uses <strong>OpenMS IsobaricAnalyzer</strong> to extract reporter-ion intensities and associate them with identified peptides and sample channels. The default workflow quantifies reporter signals; an experimental alternative combines MS1 feature areas with reporter-ion proportions. Both routes produce a quantitative feature map for protein quantitation. <a href="#ref-2">2</a></p>
+<h3 id="protein-inference-and-quantitation">Protein inference and quantitation</h3>
+<p>The default route combines identification evidence with <strong>iProphet</strong> and infers protein groups with <strong>ProteinProphet</strong>. An alternative uses <strong>OpenMS ProteinInference</strong>, selected as the ProteinInferencer route. <strong>OpenMS ProteinQuantifier</strong> then summarizes peptide evidence into peptide and protein abundance tables using the selected protein groups. <a href="#ref-2">2</a>, <a href="#ref-9">9</a>, <a href="#ref-10">10</a></p>
+<h3 id="quality-control">Quality control</h3>
+<p>The DDA QC pipeline uses <strong>pyOpenMS</strong> and dedicated summary scripts to examine acquisition data, search results, validated identifications, protein groups, and quantitative outputs. It produces cohort QC tables and interactive MS1 plots to help inspect signal quality and variation across samples or TMT plexes. <a href="#ref-2">2</a></p>
+<h3 id="results-database">Results database</h3>
+<p><strong><a href="https://github.com/TheBoutrosLab/package-ProteoVault">ProteoVault</a></strong> optionally assembles the completed identification, quantitation, and QC results into a validated <strong>DuckDB</strong> database. This provides a common entry point for querying the cohort while retaining the individual pipeline outputs. The generated DuckDB database can be imported and analyzed in R using <a href="https://github.com/TheBoutrosLab/package-ProteoVaultR">ProteoVaultR</a>.</p>
+<h2 id="references">References</h2>
+<ol>
+<li><a id="ref-1"></a><strong>Nextflow:</strong> Di Tommaso P et al. (2017). Nextflow enables reproducible computational workflows. <em>Nature Biotechnology</em>. <a href="https://doi.org/10.1038/nbt.3820">doi:10.1038/nbt.3820</a>.</li>
+<li><a id="ref-2"></a><strong>OpenMS:</strong> Pfeuffer J et al. (2024). OpenMS 3 enables reproducible analysis of large-scale mass spectrometry data. <em>Nature Methods</em>. <a href="https://doi.org/10.1038/s41592-024-02197-7">doi:10.1038/s41592-024-02197-7</a>.</li>
+<li><a id="ref-3"></a><strong>ProteoWizard:</strong> Kessner D et al. (2008). ProteoWizard: open source software for rapid proteomics tools development. <em>Bioinformatics</em>. <a href="https://doi.org/10.1093/bioinformatics/btn323">doi:10.1093/bioinformatics/btn323</a>.</li>
+<li><a id="ref-4"></a><strong>MSFragger:</strong> Kong AT et al. (2017). MSFragger: ultrafast and comprehensive peptide identification in mass spectrometry-based proteomics. <em>Nature Methods</em>. <a href="https://doi.org/10.1038/nmeth.4256">doi:10.1038/nmeth.4256</a>.</li>
+<li><a id="ref-5"></a><strong>Comet:</strong> Eng JK, Jahan TA, Hoopmann MR (2013). Comet: an open-source MS/MS sequence database search tool. <em>Proteomics</em>. <a href="https://doi.org/10.1002/pmic.201200439">doi:10.1002/pmic.201200439</a>.</li>
+<li><a id="ref-6"></a><strong>Sage:</strong> Lazear MR (2023). Sage: an open-source tool for fast proteomics searching and quantification at scale. <em>Journal of Proteome Research</em>. <a href="https://doi.org/10.1021/acs.jproteome.3c00486">doi:10.1021/acs.jproteome.3c00486</a>.</li>
+<li><a id="ref-7"></a><strong>Percolator:</strong> Käll L et al. (2007). Semi-supervised learning for peptide identification from shotgun proteomics datasets. <em>Nature Methods</em>. <a href="https://doi.org/10.1038/nmeth1113">doi:10.1038/nmeth1113</a>.</li>
+<li><a id="ref-8"></a><strong>MSBooster:</strong> Yang KL et al. (2023). MSBooster: improving peptide identification rates using deep learning-based features. <em>Nature Communications</em>. <a href="https://doi.org/10.1038/s41467-023-40129-9">doi:10.1038/s41467-023-40129-9</a>.</li>
+<li><a id="ref-9"></a><strong>iProphet:</strong> Shteynberg D et al. (2011). iProphet: multi-level integrative analysis of shotgun proteomic data improves peptide and protein identification rates and error estimates. <em>Molecular &amp; Cellular Proteomics</em>. <a href="https://doi.org/10.1074/mcp.M111.007690">doi:10.1074/mcp.M111.007690</a>.</li>
+<li><a id="ref-10"></a><strong>ProteinProphet:</strong> Nesvizhskii AI et al. (2003). A statistical model for identifying proteins by tandem mass spectrometry. <em>Analytical Chemistry</em>. <a href="https://doi.org/10.1021/ac0341261">doi:10.1021/ac0341261</a>.</li>
+</ol>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href=".." class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../installation/" class="btn btn-neutral float-right" title="Installation">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/TheBoutrosLab/SpectroMesa-DDA" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../installation/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+      <script src="../js/version-select.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

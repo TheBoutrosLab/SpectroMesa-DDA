@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Configuring an analysis - SpectroMesa-DDA</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../extra.css" rel="stylesheet" />
+        <link href="../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Configuring an analysis";
+        var mkdocs_page_input_path = "configuration.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> SpectroMesa-DDA
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../overview/">Overview</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../installation/">Installation</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../inputs/">Preparing inputs</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Configuring an analysis</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#create-a-run-configuration">Create a run configuration</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#select-lfq-or-tmt">Select LFQ or TMT</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#database-searching">Database searching</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#choose-search-engines">Choose search engines</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#mass-tolerances">Mass tolerances</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#digestion-and-modifications">Digestion and modifications</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#spectrum-identifiers">Spectrum identifiers</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#identification-validation">Identification validation</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#lfq-quantitation">LFQ quantitation</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#tmt-quantitation">TMT quantitation</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#protein-grouping-and-quantitation">Protein grouping and quantitation</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#computing-resources">Computing resources</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#results-database">Results database</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../execution/">Running and resuming</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../results/">Understanding results</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../testing/">Running tests</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Pipeline reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../parameters/">Shared parameters</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/conversion/">convert-MSData</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/search/">search-ProteomicMSMS</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/validation/">validate-ProteomicPSM</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/lfq/">quantitate-ProteomicLFQ</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/tmt/">quantitate-ProteomicTMT</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/protein/">quantitate-ProteomicProtein</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/qc/">qc-ProteomicDDA</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/proteovault/">ProteoVault</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">SpectroMesa-DDA</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Configuring an analysis</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/TheBoutrosLab/SpectroMesa-DDA/edit/main/docs/configuration.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="configuring-an-analysis">Configuring an analysis</h1>
+<p>Start from the supplied template and adjust it to your experiment. Shared settings describe your inputs and analysis; the named blocks hold settings for each analysis step. The <a href="../parameters/">pipeline reference</a> lists the available parameters and their effective defaults.</p>
+<h2 id="create-a-run-configuration">Create a run configuration</h2>
+<p>Keep the pipeline installation separate from the analysis directory:</p>
+<pre><code class="language-bash">mkdir -p /project/analyses/human_dda_cohort
+cp /path/to/SpectroMesa-DDA/config/template.config \
+    /project/analyses/human_dda_cohort/run.config
+</code></pre>
+<p>Edit the copied file. Keep its <code>includeConfig</code> statements and final <code>methods.setup()</code> call. Nextflow's <code>projectDir</code> points to the pipeline installation when you launch its <code>main.nf</code>, so those statements still work from your analysis directory. Add all parameter changes before <code>methods.setup()</code>.</p>
+<p>The required shared settings are:</p>
+<pre><code class="language-groovy">params {
+    input_csv = '/project/analyses/human_dda_cohort/acquisitions.csv'
+    decoy_database = '/data/databases/human-decoy_contam.fasta'
+    msfragger_executable = '/opt/MSFragger/MSFragger-4.4.1.jar'
+    output_dir = '/project/results'
+    dataset_id = 'human_dda_cohort'
+    experiment_type = 'LFQ'
+    contam_string = 'CONTAM_'
+}
+</code></pre>
+<p>These are fragments to edit into your copied template, not replacements for the whole file. Use your actual paths and the contaminant marker in your FASTA. <code>dataset_id</code> defaults to <code>cohort</code>; choose a meaningful name without spaces. The MSFragger JAR is required only when that engine is selected.</p>
+<h2 id="select-lfq-or-tmt">Select LFQ or TMT</h2>
+<p><code>experiment_type</code> already defaults to <code>LFQ</code>. For TMT, change it to <code>TMT</code> and provide the channel manifest:</p>
+<pre><code class="language-groovy">params {
+    experiment_type = 'TMT'
+    channel_csv = '/project/analyses/human_dda_cohort/channels.csv'
+    quantitate_ProteomicTMT {
+        plex_type = 'tmt10plex'
+    }
+}
+</code></pre>
+<p>The pipeline detects fractionation from your <a href="../inputs/">acquisition CSV</a>. Keep the sample/plex identifiers and fraction layout consistent; no separate fractionation switch is needed.</p>
+<h2 id="database-searching">Database searching</h2>
+<h3 id="choose-search-engines">Choose search engines</h3>
+<p>MSFragger is already selected by default. To use Sage alone, or combine search engines, edit <code>search_engines</code>:</p>
+<pre><code class="language-groovy">params {
+    search_ProteomicMSMS {
+        search_engines = ['MSFragger', 'Comet', 'Sage']
+    }
+}
+</code></pre>
+<p>Use any nonempty combination of those three names without duplicates. Multiple engines increase runtime and storage use. Their identifications are combined automatically during validation; you do not need to enable consensus merging separately.</p>
+<h3 id="mass-tolerances">Mass tolerances</h3>
+<p>Match tolerances to your instrument, acquisition, and calibration. Each search engine has its own block. For example, these are MSFragger's current template values:</p>
+<pre><code class="language-groovy">params {
+    search_ProteomicMSMS {
+        MSFraggerAdapter {
+            tolerance {
+                precursor_mass_tolerance_lower = 30.0
+                precursor_mass_tolerance_upper = 30.0
+                precursor_mass_unit = 'ppm'
+                fragment_mass_tolerance = 0.02
+                fragment_mass_unit = 'Da'
+            }
+        }
+    }
+}
+</code></pre>
+<p>The two precursor settings describe the lower and upper tolerance widths. Sage uses signed left/right bounds instead. See <a href="../pipelines/search/">Database search</a> for each engine's parameter names and values.</p>
+<h3 id="digestion-and-modifications">Digestion and modifications</h3>
+<p>Set the enzyme and modifications to match sample preparation for <strong>every selected engine</strong>. MSFragger's default template uses trypsin with two missed cleavages and carbamidomethylated cysteine. It also includes variable methionine oxidation, protein N-terminal acetylation, and N-terminal glutamine cyclization. Comet and Sage have their own modification lists, so review them when combining engines.</p>
+<p>For a different digestion enzyme, change the search settings and <code>validate_ProteomicPSM.enzyme</code> together. The validation default is <code>Trypsin</code>.</p>
+<div class="admonition important">
+<p class="admonition-title">TMT reporter settings do not configure search modifications</p>
+<p>Setting <code>experiment_type = 'TMT'</code> or <code>plex_type</code> does not add TMT labels to the search. Configure the correct label mass on lysine and peptide N termini for each engine you use.</p>
+</div>
+<p>For conventional TMT10 labeling with MSFragger, the integration example uses:</p>
+<pre><code class="language-groovy">params {
+    search_ProteomicMSMS {
+        MSFraggerAdapter {
+            statmod {
+                add_C_cysteine = 57.021464
+                add_K_lysine = 229.162932
+                add_nterm_peptide = 229.162932
+            }
+        }
+    }
+}
+</code></pre>
+<p>Use the mass appropriate to your actual reagent; TMTpro uses different chemistry. Review variable modifications too, especially when a fixed label changes which modifications can occur at the same site.</p>
+<h3 id="spectrum-identifiers">Spectrum identifiers</h3>
+<p><code>reindex_mzml</code> defaults to <code>false</code> in SpectroMesa-DDA. Enable <code>search_ProteomicMSMS.reindex_mzml = true</code> when you need unique native spectrum IDs across a sample's fractions. The resulting mzML files are passed consistently to validation, quantitation, and QC. This option is covered by a TMT integration case.</p>
+<h2 id="identification-validation">Identification validation</h2>
+<p>Percolator rescoring is already enabled. The default <code>percolator_workflow = 'openms'</code> uses the OpenMS adapter. To add prediction-based features with MSBooster, set:</p>
+<pre><code class="language-groovy">params {
+    validate_ProteomicPSM {
+        percolator_workflow = 'msbooster'
+    }
+}
+</code></pre>
+<p><code>filter_psm_score_peptide</code> already defaults to <code>0.01</code>. Despite its historical name, this is a <strong>PSM q-value cutoff</strong> for the filtered identification output. It is not a protein FDR threshold. Keep <code>run_percolator = true</code> for the default ProteinProphet grouping route, which uses the unfiltered PEP-scored results.</p>
+<h2 id="lfq-quantitation">LFQ quantitation</h2>
+<p>LFQ already uses the identification-guided <code>FFId</code> route. <code>merge_featureXML</code> is enabled so the pipeline produces the combined feature map required for protein quantitation; keep it enabled for an end-to-end run.</p>
+<p><code>save_intermediate_files</code> is <strong>true in the LFQ template launched by SpectroMesa-DDA</strong>. Set <code>quantitate_ProteomicLFQ.save_intermediate_files = false</code> if you do not need the published intermediate feature maps; final results and execution logs remain available.</p>
+<p>Match between runs is <strong>off by default</strong>. If appropriate for your experiment, enable <code>quantitate_ProteomicLFQ.enable_mbr = true</code>. It requires at least two samples and <code>merge_featureXML = true</code>. This transfers identification evidence between linked features and changes how missing identifications are handled. Review the <a href="../pipelines/lfq/">LFQ reference</a> before enabling it.</p>
+<h2 id="tmt-quantitation">TMT quantitation</h2>
+<p>The default <code>tmt_workflow = 'scan_based'</code> quantifies reporter ions. Normalization is already enabled, and the template launched by SpectroMesa-DDA selects <code>tmt_normalization_method = 'mad'</code>. Label one channel in each plex <code>reference</code> in the <a href="../inputs/#tmt-channel-csv">channel CSV</a>, unless you deliberately enable a virtual reference.</p>
+<p>MAD produces reference-scaled quasi-intensities by default. For scan-based quantitation, you can instead choose <code>tmt_normalization_method = 'openms'</code> to use IsobaricAnalyzer's median-ratio normalization with a physical reference. <code>MADNormalizer.quasi_intensity = false</code> instead produces log2 ratios, changing the meaning of the output values. Disable normalization altogether with <code>enable_tmt_normalization = false</code> if that is your intended analysis.</p>
+<div class="admonition warning">
+<p class="admonition-title">Feature-based TMT is experimental</p>
+<p>The optional <code>feature_based</code> route apportions integrated MS1 feature areas using reporter-ion proportions. It requires matching fraction IDs across plexes. When normalization is enabled, keep <code>mad</code>; switching to <code>openms</code> normalization is incompatible with this route. Validate its behavior on representative data before using it for biological comparisons.</p>
+</div>
+<p>The <a href="../pipelines/tmt/">TMT reference</a> explains virtual references, bridge scaling, isotope correction, and the two workflows.</p>
+<h2 id="protein-grouping-and-quantitation">Protein grouping and quantitation</h2>
+<p><code>quantitate_ProteomicProtein.protein_grouping_algorithm</code> already defaults to <code>ProteinProphet</code>. This combines the unfiltered PEP-scored identifications across the cohort with iProphet and ProteinProphet, then quantifies the resulting groups with OpenMS ProteinQuantifier.</p>
+<div class="admonition important">
+<p class="admonition-title">The protein cutoff is not enabled automatically</p>
+<p><code>protein_fdr_cutoff</code> defaults to <code>0.01</code>, but <code>filter_protein_fdr</code> and <code>protein_inference_protein_fdr</code> both default to <code>false</code>. The default ProteinProphet route removes zero-probability groups; it does <strong>not</strong> apply a 1% protein q-value filter. Do not describe its output as filtered to 1% protein FDR.</p>
+</div>
+<p>The alternative ProteinInferencer route can calculate and filter protein FDR when both switches are enabled:</p>
+<pre><code class="language-groovy">params {
+    quantitate_ProteomicProtein {
+        protein_grouping_algorithm = 'ProteinInferencer'
+        protein_inference_protein_fdr = true
+        filter_protein_fdr = true
+        protein_fdr_cutoff = 0.01
+    }
+}
+</code></pre>
+<p>ProteinQuantifier combines charge states by default (<code>protein_quantifier_best_charge = false</code>) and sums fractions within each assay (<code>protein_quantifier_fractions_aggregate = 'sum'</code>). See the <a href="../pipelines/protein/">protein reference</a> before changing these choices.</p>
+<h2 id="computing-resources">Computing resources</h2>
+<p>Choose a container profile, normally <code>docker</code> or <code>apptainer</code>, when launching. The bundled resource plans are:</p>
+<table>
+<thead>
+<tr>
+<th>Resource profile</th>
+<th>Node budget</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>boutroslab_aws</code></td>
+<td>32 CPUs, 128 GB</td>
+</tr>
+<tr>
+<td><code>pines</code></td>
+<td>64 CPUs, 500 GB</td>
+</tr>
+</tbody>
+</table>
+<p>Combine the resource plan and runtime, for example <code>-profile pines,apptainer</code>. These plans control local task allocations; they do not request a Slurm job. Launch inside an allocation of the matching size.</p>
+<p>For a custom machine, copy a JSON plan from <code>config/resource_profiles/</code> into a directory you control, rename it <code>my_cluster.json</code>, and adjust its CPU/memory budget and process requests. Keep every pipeline and process entry. Then set:</p>
+<pre><code class="language-groovy">params {
+    compute_profile = 'my_cluster'
+    additional_resource_profile_dir = '/project/resource_profiles'
+}
+</code></pre>
+<p>The custom directory is searched before bundled profiles. Multiple directories may be separated by <code>:</code> on Linux/macOS. A corresponding Nextflow <code>-profile my_cluster</code> is not needed. See <a href="../parameters/#computing-and-temporary-files">Shared parameters</a> for per-step limits and allocation adjustments.</p>
+<h2 id="results-database">Results database</h2>
+<p>ProteoVault assembly is already enabled with <code>run_proteovault = true</code>. Leave it enabled to create the DuckDB database for analysis with <a href="https://github.com/TheBoutrosLab/package-ProteoVaultR">ProteoVaultR</a>. Set it to <code>false</code> to finish after QC while retaining the individual result files.</p>
+<p>Next, follow <a href="../execution/">Running and resuming</a> to launch from your analysis directory.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../inputs/" class="btn btn-neutral float-left" title="Preparing inputs"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../execution/" class="btn btn-neutral float-right" title="Running and resuming">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/TheBoutrosLab/SpectroMesa-DDA" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../inputs/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../execution/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+      <script src="../js/version-select.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

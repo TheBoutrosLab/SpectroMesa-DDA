@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Understanding results - SpectroMesa-DDA</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../extra.css" rel="stylesheet" />
+        <link href="../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Understanding results";
+        var mkdocs_page_input_path = "results.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> SpectroMesa-DDA
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../overview/">Overview</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../installation/">Installation</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../inputs/">Preparing inputs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../configuration/">Configuring an analysis</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../execution/">Running and resuming</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Understanding results</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#where-results-are-written">Where results are written</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#protein-and-peptide-abundance-tables">Protein and peptide abundance tables</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#protein-groups-and-identification-confidence">Protein groups and identification confidence</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#quantitation-details">Quantitation details</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#quality-control">Quality control</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#proteovault-database">ProteoVault database</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#keep-the-analysis-record">Keep the analysis record</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../testing/">Running tests</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Pipeline reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../parameters/">Shared parameters</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/conversion/">convert-MSData</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/search/">search-ProteomicMSMS</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/validation/">validate-ProteomicPSM</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/lfq/">quantitate-ProteomicLFQ</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/tmt/">quantitate-ProteomicTMT</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/protein/">quantitate-ProteomicProtein</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/qc/">qc-ProteomicDDA</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/proteovault/">ProteoVault</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">SpectroMesa-DDA</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Understanding results</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/TheBoutrosLab/SpectroMesa-DDA/edit/main/docs/results.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="understanding-results">Understanding results</h1>
+<p>Start with the final <strong>protein and peptide abundance tables</strong>, then review the QC summaries before comparing samples. If database assembly is enabled, <a href="https://github.com/TheBoutrosLab/package-ProteoVault">ProteoVault</a> provides a single DuckDB database that can be loaded and analyzed in R with <a href="https://github.com/TheBoutrosLab/package-ProteoVaultR">ProteoVaultR</a>.</p>
+<h2 id="where-results-are-written">Where results are written</h2>
+<p>The <code>output_dir</code> and <code>dataset_id</code> in your run configuration determine the result location:</p>
+<pre><code class="language-text">&lt;output_dir&gt;/SpectroMesa-DDA-&lt;version&gt;/
+├── &lt;dataset_id&gt;.proteovault.duckdb
+└── &lt;dataset_id&gt;/
+    ├── main_workflow/
+    │   ├── convert-MSData-&lt;version&gt;/          # when conversion is needed
+    │   ├── search-ProteomicMSMS-&lt;version&gt;/
+    │   ├── validate-ProteomicPSM-&lt;version&gt;/
+    │   ├── quantitate-ProteomicLFQ-&lt;version&gt;/ # LFQ analyses
+    │   ├── quantitate-ProteomicTMT-&lt;version&gt;/ # TMT analyses
+    │   ├── quantitate-ProteomicProtein-&lt;version&gt;/
+    │   ├── qc-ProteomicDDA-&lt;version&gt;/
+    │   └── manifests/
+    └── log-SpectroMesa-DDA-&lt;version&gt;-&lt;timestamp&gt;/
+</code></pre>
+<p>Only the selected quantitation branch is present. The database is created when <code>run_proteovault</code> is true, which is the default. Version placeholders refer to the software used for the run, not necessarily the latest release.</p>
+<h2 id="protein-and-peptide-abundance-tables">Protein and peptide abundance tables</h2>
+<p>The final tables are under:</p>
+<pre><code class="language-text">main_workflow/quantitate-ProteomicProtein-&lt;version&gt;/
+  &lt;dataset_id&gt;/OpenMS-&lt;version&gt;/output/
+    &lt;dataset_id&gt;_ProteinQuantifier_protein.csv
+    &lt;dataset_id&gt;_ProteinQuantifier_peptide.csv
+</code></pre>
+<p>The protein table summarizes peptide evidence according to the selected protein groups. The peptide table provides the corresponding peptide-level quantities; its row and column detail depends on charge and fraction settings. Inspect the exported identifiers and headers before treating a protein group as a single protein or gene.</p>
+<div class="admonition note">
+<p class="admonition-title">The CSV files are tab-delimited</p>
+<p>With the default export settings, ProteinQuantifier writes tab-separated data despite the <code>.csv</code> extension. Read them with a tab-delimited reader or through ProteoVaultR, rather than assuming commas separate columns.</p>
+</div>
+<p>For <strong>LFQ</strong>, abundance columns identify sample assays. By default, fractions within each assay are summed and charge states are combined. Technical replicates with separate sample identifiers remain separate assays.</p>
+<p>For <strong>TMT</strong>, abundance columns identify plex/channel assays, with channel descriptions where available. The default scan-based workflow measures reporter-ion signal. The experimental feature-based route apportions MS1 feature area using reporter proportions. MAD normalization can produce quasi-intensities or log2 ratios depending on <code>MADNormalizer.quasi_intensity</code>; retain the run configuration so the values can be interpreted correctly.</p>
+<p>Column relabeling preserves the numeric values and stops if an assay cannot be matched unambiguously. It does not merge identically named biological samples across different TMT channels. Detailed peptide tables can retain file, fraction, and charge information, so do not assume they have the same layout as the protein table.</p>
+<h2 id="protein-groups-and-identification-confidence">Protein groups and identification confidence</h2>
+<p>The protein quantitation directory also contains the grouping result:</p>
+<table>
+<thead>
+<tr>
+<th>Grouping route</th>
+<th>File</th>
+<th>What it represents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ProteinProphet</td>
+<td><code>&lt;dataset_id&gt;_ProteinProphet.protXML</code></td>
+<td>Raw grouping result before the pipeline's probability filtering.</td>
+</tr>
+<tr>
+<td>ProteinProphet</td>
+<td><code>&lt;dataset_id&gt;_ProteinProphet_filtered.idXML</code></td>
+<td>Groups supplied to ProteinQuantifier, with zero-probability parent groups removed.</td>
+</tr>
+<tr>
+<td>ProteinInferencer</td>
+<td><code>&lt;dataset_id&gt;_IDConflictResolver.consensusXML</code></td>
+<td>Inferred groups and quantified features after any enabled protein FDR filtering and identification conflict resolution.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition important">
+<p class="admonition-title">PSM and protein confidence are different</p>
+<p>The default validation threshold is a PSM q-value of <code>0.01</code>. The default ProteinProphet route does not apply a 1% protein q-value filter. In the ProteinInferencer route, protein FDR calculation and filtering are both off by default. See <a href="../configuration/#protein-grouping-and-quantitation">Protein grouping and quantitation</a> for the settings that control this.</p>
+</div>
+<p>Search and validation directories retain the identification evidence. Filtered idXML files describe accepted PSMs for each sample or TMT plex. Unfiltered PEP-scored idXML files retain evidence used for cohort ProteinProphet grouping and should not be interpreted as an accepted-identification list. For multiple search engines, use the final consensus identifications for combined counts rather than summing the per-engine filtered files.</p>
+<h2 id="quantitation-details">Quantitation details</h2>
+<p>The LFQ or TMT directory contains the feature maps used for protein quantitation. The final <code>*_IDConflictResolver.consensusXML</code> resolves conflicting peptide assignments before the protein step. These files are useful for investigating feature-level quantities and sample mapping.</p>
+<p>TMT also publishes a dataset peptide table and, for feature-based quantitation, <code>&lt;dataset_id&gt;_LinkedFeatures.tsv</code>. The linked table records the input <code>fraction_id</code>, <code>plex_id</code>, reporter label, and sample description. In the merged TMT peptide CSV, the design fraction does not necessarily equal the input acquisition's <code>fraction_id</code>; use the linked table when tracing feature-based results back to input fractions.</p>
+<p>With MAD normalization, scaling information is published in <code>&lt;dataset_id&gt;_MADNormalizer_scaling.tsv</code>. Optional per-run diagnostics and intermediate feature maps are retained when <code>save_intermediate_files</code> is enabled for that step. See the <a href="../pipelines/tmt/">TMT</a> and <a href="../pipelines/lfq/">LFQ</a> references for details.</p>
+<h2 id="quality-control">Quality control</h2>
+<p>Open the combined table under:</p>
+<pre><code class="language-text">main_workflow/qc-ProteomicDDA-&lt;version&gt;/&lt;dataset_id&gt;/output/
+  &lt;dataset_id&gt;_QC_metrics.tsv
+</code></pre>
+<p>It summarizes acquisition, search, PSM features, accepted identifications, protein inference, and quantitation. Every row has the columns <code>dataset_id</code>, <code>layer</code>, <code>source_process</code>, <code>sample_name</code>, <code>search_engine</code>, <code>fraction_id</code>, <code>metric_name</code>, <code>group</code>, <code>value</code>, <code>unit</code>, <code>status</code>, and <code>source_file</code>.</p>
+<p>Compare corresponding fractions and like-for-like acquisition types. Sample-level identifications, cohort-level protein groups, and channel-level quantities describe different units. A metric marked <code>unavailable</code> is not a measured zero. TMT quantitation metrics use channel descriptions in <code>group</code>; acquisition metrics use the plex name.</p>
+<p>Interactive MS1 maps are under <code>output/mzML/</code> as <code>&lt;sample_name&gt;_&lt;fraction_id&gt;_MS1_landscape.html</code>. They work offline and show a selected subset of peaks. Colors represent within-run intensity percentiles, so the same color does not imply the same absolute intensity across files. Use the maps together with the numerical summaries to investigate unusual samples, rather than applying a universal pass/fail threshold.</p>
+<h2 id="proteovault-database">ProteoVault database</h2>
+<p>The database is published above the dataset directory:</p>
+<pre><code class="language-text">&lt;output_dir&gt;/SpectroMesa-DDA-&lt;version&gt;/&lt;dataset_id&gt;.proteovault.duckdb
+</code></pre>
+<p>It combines DDA identification, quantitation, sequence, and QC information and is validated before publication. Load it with <a href="https://github.com/TheBoutrosLab/package-ProteoVaultR">ProteoVaultR</a> for analysis in R.</p>
+<p>The database records source paths from the build work directory. Moving the database does not update those paths. If you need to follow its source-file links after relocation, use the <code>proteovault update-paths</code> command described in the <a href="https://github.com/TheBoutrosLab/package-ProteoVault/blob/v0.2.5/docs/cli.md">ProteoVault CLI guide</a>.</p>
+<h2 id="keep-the-analysis-record">Keep the analysis record</h2>
+<p>Retain your acquisition and channel CSVs, exact FASTA, run configuration, software versions, and logs. The top-level log directory contains <code>nextflow-log/trace.txt</code>, <code>timeline.html</code>, <code>report.html</code>, and the resolved <code>params.json</code>. Each analysis step also saves its own logs.</p>
+<p>The <code>manifests/</code> directory records file handoffs between analysis steps; it is useful for troubleshooting sample mapping. Published results alone do not provide Nextflow's resume cache. Keep the launch directory's <code>.nextflow</code> folder and the work directory if you may <a href="../execution/#resume-an-interrupted-run">resume the analysis</a>.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../execution/" class="btn btn-neutral float-left" title="Running and resuming"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../testing/" class="btn btn-neutral float-right" title="Running tests">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/TheBoutrosLab/SpectroMesa-DDA" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../execution/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../testing/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+      <script src="../js/version-select.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

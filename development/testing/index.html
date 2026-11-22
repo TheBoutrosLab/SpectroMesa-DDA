@@ -5,15 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>Testing - SpectroMesa-DDA</title>
+    <title>Running tests - SpectroMesa-DDA</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../extra.css" rel="stylesheet" />
         <link href="../css/version-select.css" rel="stylesheet" />
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Testing";
+        var mkdocs_page_name = "Running tests";
         var mkdocs_page_input_path = "testing.md";
         var mkdocs_page_url = null;
       </script>
@@ -32,7 +33,11 @@
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
           <a href=".." class="icon icon-home"> SpectroMesa-DDA
-        </a>
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
       </div>
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
@@ -41,34 +46,71 @@
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../quick-start/">Quick start</a>
+                <li class="toctree-l1"><a class="reference internal" href="../overview/">Overview</a>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../inputs/">Inputs</a>
+                <li class="toctree-l1"><a class="reference internal" href="../installation/">Installation</a>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../parameters/">Parameters</a>
+                <li class="toctree-l1"><a class="reference internal" href="../inputs/">Preparing inputs</a>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../pipeline-steps-and-outputs/">Pipeline steps and outputs</a>
+                <li class="toctree-l1"><a class="reference internal" href="../configuration/">Configuring an analysis</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../execution/">Running and resuming</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../results/">Understanding results</a>
                 </li>
               </ul>
               <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="./">Testing</a>
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Running tests</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#install-the-test-tools">Install the test tools</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#download-the-public-test-data">Download the public test data</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#match-the-test-database">Match the test database</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#supply-msfragger-separately">Supply MSFragger separately</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#configure-the-test-environment">Configure the test environment</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#run-a-test-case">Run a test case</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#inspect-the-run">Inspect the run</a>
+    </li>
     </ul>
                 </li>
               </ul>
+              <p class="caption"><span class="caption-text">Pipeline reference</span></p>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../current-limitations/">Current limitations</a>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../license/">License</a>
-                </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../parameters/">Shared parameters</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/conversion/">convert-MSData</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/search/">search-ProteomicMSMS</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/validation/">validate-ProteomicPSM</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/lfq/">quantitate-ProteomicLFQ</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/tmt/">quantitate-ProteomicTMT</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/protein/">quantitate-ProteomicProtein</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/qc/">qc-ProteomicDDA</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pipelines/proteovault/">ProteoVault</a>
+                  </li>
               </ul>
       </div>
     </div>
@@ -84,9 +126,9 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
-      <li class="breadcrumb-item active">Testing</li>
+      <li class="breadcrumb-item active">Running tests</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/TheBoutrosLab/SpectroMesa-DDA/blob/d92cd3118584fbf44a42a3f77489c5479d57e96f/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/TheBoutrosLab/SpectroMesa-DDA/edit/main/docs/testing.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -94,21 +136,152 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h2 id="testing">Testing</h2>
-<p>The NFTest cases exercise MSFragger LFQ, scan-based and feature-based MSFragger TMT, TMT spectrum reindexing, and Sage LFQ, including QC. The standard MSFragger LFQ and TMT cases set <code>run_proteovault = false</code>; other cases still attempt ProteoVault by default. The RAW TMT case uses two E. coli TMT RAW files under <code>TEST_DATA_DIR</code>. From the repository root, copy <code>.env-template</code> to <code>.env</code>, set <code>TEST_DATA_DIR</code>, <code>NFT_RUN_ROOT</code>, and <code>NFT_CLUSTER</code>, then run:</p>
-<pre><code class="language-bash">python3 test/run-nftest.py test_integration_MSFragger_LFQ_Protein
-python3 test/run-nftest.py test_integration_MSFragger_TMT_Protein
-python3 test/run-nftest.py test_integration_MSFragger_TMT_Reindexed
-python3 test/run-nftest.py test_integration_Sage_LFQ_Protein
-python3 test/run-nftest.py test_integration_MSFragger_TMT_RAW
+                <h1 id="running-the-tests">Running the tests</h1>
+<p>The integration tests run SpectroMesa-DDA on small reference datasets to check that the analysis completes in your computing environment. You will need the installed pipeline, the public test data, the required search software, and <strong>UCLA NFTest</strong>. Start with one case before trying the other acquisition and quantitation routes.</p>
+<h2 id="install-the-test-tools">Install the test tools</h2>
+<p>Complete the <a href="../installation/">pipeline installation</a>, including its submodules, Java, Nextflow, and the container runtime you will use. The test launcher also needs Python 3.8 or newer and <a href="https://github.com/uclahs-cds/tool-NFTest">UCLA NFTest (<code>uclahs-cds/tool-NFTest</code>)</a>.</p>
+<p>You can keep the Python tools in a dedicated environment:</p>
+<pre><code class="language-bash">python3 -m venv &quot;$HOME/.venvs/spectromesa-tests&quot;
+source &quot;$HOME/.venvs/spectromesa-tests/bin/activate&quot;
+python3 -m pip install \
+    &quot;git+https://github.com/uclahs-cds/tool-NFTest.git&quot; \
+    PyYAML python-dotenv
+python3 -m nftest --help
 </code></pre>
-<p>The test runner puts results under <code>&lt;run-root&gt;/&lt;test-case&gt;/</code> and temporary files under <code>&lt;run-root&gt;/.nftest-temp/&lt;12-character case ID&gt;/</code>. With <code>NFT_CLUSTER=boutroslab_aws</code>, the run root is <code>$NFT_RUN_ROOT/$SLURM_JOB_ID</code> and a Slurm job is required. With <code>NFT_CLUSTER=pines</code>, it uses <code>$NFT_RUN_ROOT</code> directly and selects the <code>apptainer,pines</code> profiles. Leaving <code>NFT_CLUSTER</code> unset uses Docker and the AWS compute profile without adding a Slurm job directory. Test CSVs expand <code>$TEST_DATA_DIR</code> through <a href="https://github.com/TheBoutrosLab/SpectroMesa-DDA/blob/d92cd3118584fbf44a42a3f77489c5479d57e96f/test/csv_environment_expander.groovy">test/csv_environment_expander.groovy</a>. See <a href="https://github.com/TheBoutrosLab/SpectroMesa-DDA/blob/d92cd3118584fbf44a42a3f77489c5479d57e96f/test/README.md">test/README.md</a> for the expected mzML, FASTA, channel CSV, and MSFragger JAR files.</p>
+<p>If your NFTest version imports <code>pkg_resources</code>, install <code>setuptools&lt;81</code> in this environment.</p>
+<p>Activate this environment whenever you run a test, including inside a cluster job. The launcher uses NFTest from the same Python environment as <code>python3</code>.</p>
+<p>Use the tested Nextflow settings:</p>
+<pre><code class="language-bash">export NXF_VER=24.10.6
+export NXF_SYNTAX_PARSER=v1
+</code></pre>
+<h2 id="download-the-public-test-data">Download the public test data</h2>
+<p>The Boutros Lab public S3 location is <code>s3://boutroslab-public/test-data/</code>. DDA fixtures are under <code>spectromesa/ecoli_lfq/</code>, <code>spectromesa/ecoli_tmt/</code>, and <code>spectromesa/database/</code>. Install the <a href="https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html">AWS CLI</a>, then choose a persistent directory:</p>
+<pre><code class="language-bash">export TEST_DATA_DIR=/path/to/test/data
+mkdir -p &quot;$TEST_DATA_DIR&quot;
+
+aws s3 sync --no-sign-request \
+    s3://boutroslab-public/test-data/spectromesa/database/ \
+    &quot;$TEST_DATA_DIR/database/&quot;
+aws s3 sync --no-sign-request \
+    s3://boutroslab-public/test-data/spectromesa/ecoli_lfq/mzML/ \
+    &quot;$TEST_DATA_DIR/ecoli_lfq/mzML/&quot;
+aws s3 sync --no-sign-request \
+    s3://boutroslab-public/test-data/spectromesa/ecoli_tmt/mzML/ \
+    &quot;$TEST_DATA_DIR/ecoli_tmt/mzML/&quot;
+</code></pre>
+<p>For the RAW conversion case, also download:</p>
+<pre><code class="language-bash">aws s3 sync --no-sign-request \
+    s3://boutroslab-public/test-data/spectromesa/ecoli_tmt/Raw/ \
+    &quot;$TEST_DATA_DIR/ecoli_tmt/Raw/&quot;
+</code></pre>
+<p><code>--no-sign-request</code> allows these public downloads without AWS credentials. Keep the directory names and filenames intact. The repository supplies the test acquisition and channel CSVs, so you do not need to construct them manually.</p>
+<h3 id="match-the-test-database">Match the test database</h3>
+<div class="admonition important">
+<p class="admonition-title">Update the older FASTA path in the selected test</p>
+<p>The checked-in test configurations currently name an older FASTA that is not in the public fixture listing. Before running a case with the public download, update its database path and accession markers together. The available FASTA below uses <code>DECOY_</code> decoys and <code>contam_</code> contaminants.</p>
+</div>
+<p>In the selected <code>test/&lt;case&gt;/test.config</code>, use:</p>
+<pre><code class="language-groovy">params {
+    decoy_database = &quot;${TEST_DATA_DIR}/database/UP000000625_83333-FragPipe/2026-11-12-decoys-contam-input.fasta.fas&quot;
+    decoy_string = 'DECOY_'
+    decoy_position = 'prefix'
+    contam_string = 'contam_'
+    contam_position = 'prefix'
+}
+</code></pre>
+<p>Edit the existing values before <code>methods.setup()</code>; preserve the rest of the test's scientific settings. The shared database markers are propagated to search, validation, and protein quantitation. Changing the FASTA changes the scientific test input, so record the database used when comparing runs. The E. coli TMT fixture is described as a protein-spike experiment: verify that your sequence set contains any spike proteins you intend to evaluate; a workflow completion test is not a benchmark of their recovery.</p>
+<h3 id="supply-msfragger-separately">Supply MSFragger separately</h3>
+<p>For MSFragger cases, obtain the licensed distribution as described in <a href="../installation/#obtain-msfragger">Installation</a>, and place <code>MSFragger-4.4.1.jar</code> directly under <code>TEST_DATA_DIR</code>, or update the selected test's JAR path. The public bucket download does not supply this JAR. The Sage LFQ case does not need MSFragger.</p>
+<h2 id="configure-the-test-environment">Configure the test environment</h2>
+<p>Unlike ordinary analyses, the test launcher is run from the repository root because it reads the repository's <code>nftest.yml</code>. Copy <code>.env-template</code> to <code>.env</code> if you have not already configured it:</p>
+<pre><code class="language-bash">cd /path/to/SpectroMesa-DDA
+cp .env-template .env
+</code></pre>
+<p>Edit <code>.env</code> with your paths and execution environment:</p>
+<pre><code class="language-text">NXF_VER=24.10.6
+NXF_SYNTAX_PARSER=v1
+TEST_DATA_DIR=/path/to/test/data
+NFT_RUN_ROOT=/scratch/your_user/spectromesa-dda-tests
+NFT_CLUSTER=pines
+</code></pre>
+<table>
+<thead>
+<tr>
+<th><code>NFT_CLUSTER</code></th>
+<th>Execution environment</th>
+<th>Run location</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pines</code></td>
+<td>Apptainer with the 64 CPU, 500 GB resource plan</td>
+<td><code>NFT_RUN_ROOT</code></td>
+</tr>
+<tr>
+<td><code>boutroslab_aws</code></td>
+<td>Docker with the 32 CPU, 128 GB resource plan; requires <code>SLURM_JOB_ID</code></td>
+<td><code>NFT_RUN_ROOT/SLURM_JOB_ID</code></td>
+</tr>
+<tr>
+<td>Unset or empty</td>
+<td>Docker with the AWS resource plan</td>
+<td><code>NFT_RUN_ROOT</code></td>
+</tr>
+</tbody>
+</table>
+<p>Request an appropriate compute allocation first. These resource plans do not submit a cluster job. Relative <code>NFT_RUN_ROOT</code> values resolve from the repository root; if unset, the root defaults to the repository. For Apptainer, set persistent caches as described in <a href="../installation/#check-the-container-runtime">Installation</a>.</p>
+<h2 id="run-a-test-case">Run a test case</h2>
+<p>Activate the Python environment containing UCLA NFTest and run one case from the repository root:</p>
+<pre><code class="language-bash">python3 test/run-nftest.py test_integration_MSFragger_LFQ_Protein
+</code></pre>
+<p>The current cases are:</p>
+<table>
+<thead>
+<tr>
+<th>Case</th>
+<th>Coverage</th>
+<th>ProteoVault</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>test_integration_MSFragger_LFQ_Protein</code></td>
+<td>MSFragger, two fractions per LFQ sample, ProteinProphet, QC</td>
+<td>Disabled in the test configuration</td>
+</tr>
+<tr>
+<td><code>test_integration_Sage_LFQ_Protein</code></td>
+<td>Sage on the same fractionated LFQ fixture, ProteinProphet, QC</td>
+<td>Enabled</td>
+</tr>
+<tr>
+<td><code>test_integration_MSFragger_TMT_Protein</code></td>
+<td>MSFragger, three fractions per TMT plex, experimental feature-based TMT with MAD normalization, ProteinProphet, QC</td>
+<td>Disabled in the test configuration</td>
+</tr>
+<tr>
+<td><code>test_integration_MSFragger_TMT_Reindexed</code></td>
+<td>Two fractions per TMT plex, spectrum reindexing, scan-based TMT, ProteinProphet, QC</td>
+<td>Enabled</td>
+</tr>
+<tr>
+<td><code>test_integration_MSFragger_TMT_RAW</code></td>
+<td>RAW conversion, one acquisition per TMT plex, scan-based TMT, ProteinProphet, QC</td>
+<td>Enabled</td>
+</tr>
+</tbody>
+</table>
+<p>Use the case name as the launcher's argument. Start with one case and resolve its setup errors before running the full set. The supplied cases exercise workflow completion and file handoffs; <code>nftest.yml</code> does not define numerical assertions for biological results.</p>
+<h2 id="inspect-the-run">Inspect the run</h2>
+<p>Results are written under <code>&lt;run-root&gt;/&lt;test-case&gt;/</code>; temporary work is under <code>&lt;run-root&gt;/.nftest-temp/&lt;12-character case ID&gt;/</code>. The launcher retains temporary files to help investigate failures. Check the final exit status, logs, expected quantitative outputs, and QC summaries. A successful setup check or a partially populated output directory is not evidence that the integration test completed.</p>
+<p>The test CSVs expand <code>TEST_DATA_DIR</code> through the supplied launcher configuration. Ordinary analysis CSVs should contain actual paths as described in <a href="../inputs/">Preparing inputs</a>. Keep the test work directories while investigating a failure and review the <a href="../execution/#resume-an-interrupted-run">resume limitations</a> before relaunching.</p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../pipeline-steps-and-outputs/" class="btn btn-neutral float-left" title="Pipeline steps and outputs"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../current-limitations/" class="btn btn-neutral float-right" title="Current limitations">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../results/" class="btn btn-neutral float-left" title="Understanding results"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../parameters/" class="btn btn-neutral float-right" title="Shared parameters">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -135,10 +308,10 @@ python3 test/run-nftest.py test_integration_MSFragger_TMT_RAW
         </span>
     
     
-      <span><a href="../pipeline-steps-and-outputs/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../results/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../current-limitations/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../parameters/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
@@ -146,6 +319,7 @@ python3 test/run-nftest.py test_integration_MSFragger_TMT_RAW
     <script>var base_url = "..";</script>
     <script src="../js/theme_extra.js"></script>
     <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
       <script src="../js/version-select.js"></script>
     <script>
         jQuery(function () {

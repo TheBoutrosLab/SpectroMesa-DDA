@@ -3,12 +3,13 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="None" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="Documentation for the SpectroMesa-DDA proteomics pipeline." />
       <link rel="shortcut icon" href="img/favicon.ico" />
     <title>SpectroMesa-DDA</title>
     <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="extra.css" rel="stylesheet" />
         <link href="css/version-select.css" rel="stylesheet" />
     
       <script>
@@ -32,7 +33,11 @@
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
           <a href="." class="icon icon-home"> SpectroMesa-DDA
-        </a>
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
       </div>
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
@@ -43,32 +48,53 @@
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="quick-start/">Quick start</a>
+                <li class="toctree-l1"><a class="reference internal" href="overview/">Overview</a>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="inputs/">Inputs</a>
+                <li class="toctree-l1"><a class="reference internal" href="installation/">Installation</a>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="parameters/">Parameters</a>
+                <li class="toctree-l1"><a class="reference internal" href="inputs/">Preparing inputs</a>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="pipeline-steps-and-outputs/">Pipeline steps and outputs</a>
+                <li class="toctree-l1"><a class="reference internal" href="configuration/">Configuring an analysis</a>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="testing/">Testing</a>
+                <li class="toctree-l1"><a class="reference internal" href="execution/">Running and resuming</a>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="current-limitations/">Current limitations</a>
+                <li class="toctree-l1"><a class="reference internal" href="results/">Understanding results</a>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="license/">License</a>
+                <li class="toctree-l1"><a class="reference internal" href="testing/">Running tests</a>
                 </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Pipeline reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="parameters/">Shared parameters</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="pipelines/conversion/">convert-MSData</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="pipelines/search/">search-ProteomicMSMS</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="pipelines/validation/">validate-ProteomicPSM</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="pipelines/lfq/">quantitate-ProteomicLFQ</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="pipelines/tmt/">quantitate-ProteomicTMT</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="pipelines/protein/">quantitate-ProteomicProtein</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="pipelines/qc/">qc-ProteomicDDA</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="pipelines/proteovault/">ProteoVault</a>
+                  </li>
               </ul>
       </div>
     </div>
@@ -86,7 +112,7 @@
     <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Home</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/TheBoutrosLab/SpectroMesa-DDA/blob/d92cd3118584fbf44a42a3f77489c5479d57e96f/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/TheBoutrosLab/SpectroMesa-DDA/blob/main/README.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -95,13 +121,16 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="spectromesa-dda">SpectroMesa-DDA</h1>
-<p>This Boutros Lab metapipeline optionally converts vendor RAW or other supported MS data to mzML, searches DDA mzML files with Comet, Sage, or MSFragger, validates peptide-spectrum matches (PSMs), quantifies peptides with TMT or label-free quantitation (LFQ), quantifies proteins with ProteinProphet or ProteinInferencer, runs DDA quality control, and builds a ProteoVault database.</p>
-<p><img alt="DDA metapipeline schematic" src="pipeline-flow.svg" /></p>
+<p><img src="logo_large.png" alt="SpectroMesa-DDA logo" width="600"></p>
+<p>SpectroMesa-DDA is a Nextflow pipeline for analyzing unfractionated and fractionated DDA proteomics experiments with label-free or TMT quantitation.</p>
+<p>Start with the <a href="overview/">overview</a> and <a href="installation/">installation guide</a>.</p>
+<p><a href="https://github.com/TheBoutrosLab/SpectroMesa-DDA/releases/latest">Download the latest release</a> · <a href="execution/">Run an analysis</a> · <a href="testing/">Run the tests</a> · <a href="parameters/">Pipeline reference</a></p>
+<p><a href="LICENSE">BSD 3-Clause License</a>. Copyright © 2026 Sanford Burnham Prebys Medical Discovery Institute (Boutros Lab).</p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="quick-start/" class="btn btn-neutral float-right" title="Quick start">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="overview/" class="btn btn-neutral float-right" title="Overview">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -129,7 +158,7 @@
     
     
     
-      <span><a href="quick-start/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="overview/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
@@ -137,6 +166,7 @@
     <script>var base_url = ".";</script>
     <script src="js/theme_extra.js"></script>
     <script src="js/theme.js"></script>
+      <script src="search/main.js"></script>
       <script src="js/version-select.js"></script>
     <script>
         jQuery(function () {
@@ -149,5 +179,5 @@
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2026-11-20 23:58:15.248231+00:00
+Build Date UTC : 2026-11-22 03:49:56.837318+00:00
 -->

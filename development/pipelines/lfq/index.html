@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>quantitate-ProteomicLFQ - SpectroMesa-DDA</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../extra.css" rel="stylesheet" />
+        <link href="../../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "quantitate-ProteomicLFQ";
+        var mkdocs_page_input_path = "pipelines/lfq.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> SpectroMesa-DDA
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../overview/">Overview</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../installation/">Installation</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../inputs/">Preparing inputs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../configuration/">Configuring an analysis</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../execution/">Running and resuming</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../results/">Understanding results</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../testing/">Running tests</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Pipeline reference</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../../parameters/">Shared parameters</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../conversion/">convert-MSData</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../search/">search-ProteomicMSMS</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../validation/">validate-ProteomicPSM</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">quantitate-ProteomicLFQ</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#how-it-works">How it works</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#inputs-and-outputs">Inputs and outputs</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#parameter-reference">Parameter reference</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#analysis-settings">Analysis settings</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#software-and-containers">Software and containers</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#automatically-supplied-settings">Automatically supplied settings</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#retention-time-alignment">Retention-time alignment</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#resolving-identification-conflicts">Resolving identification conflicts</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#de-novo-feature-detection">De novo feature detection</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#identification-guided-feature-detection">Identification-guided feature detection</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#feature-linking">Feature linking</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#identification-mapping-for-the-de-novo-route">Identification mapping for the de novo route</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#peptide-summarization">Peptide summarization</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#retention-time-transformation">Retention-time transformation</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#tool-defaults">Tool defaults</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#computing-and-temporary-files">Computing and temporary files</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#related-steps">Related steps</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#references">References</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../tmt/">quantitate-ProteomicTMT</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../protein/">quantitate-ProteomicProtein</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../qc/">qc-ProteomicDDA</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../proteovault/">ProteoVault</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">SpectroMesa-DDA</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Pipeline reference</li>
+      <li class="breadcrumb-item active">quantitate-ProteomicLFQ</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/TheBoutrosLab/SpectroMesa-DDA/edit/main/docs/pipelines/lfq.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="label-free-quantitation">Label-free quantitation</h1>
+<p><strong>OpenMS FeatureFinderIdentification</strong> extracts MS1 peptide features guided by accepted identifications. Alignment and feature linking then connect corresponding features across samples.</p>
+<p><img alt="Label-free quantitation workflow" src="../flowcharts/lfq.svg" /></p>
+<p><a href="../flowcharts/lfq.svg">Open the original flowchart at full size</a>.</p>
+<h2 id="how-it-works">How it works</h2>
+<ol>
+<li>Match each sample's validated identifications to its acquisition fractions.</li>
+<li>Extract and quantify identification-guided chromatographic features with FFId.</li>
+<li>Align retention times and link corresponding features across samples within each fraction.</li>
+<li>If enabled, use untargeted multiplex features as seeds for match between runs.</li>
+<li>Combine fraction maps, resolve conflicting peptide assignments, and provide the final consensusXML to <a href="../protein/">protein quantitation</a>.</li>
+</ol>
+<h2 id="inputs-and-outputs">Inputs and outputs</h2>
+<p>The pipeline supplies validated idXML and sample/fraction mzML manifests automatically. LFQ requires matching fraction IDs across samples. The final output is a cohort <code>*_IDConflictResolver.consensusXML</code>; SpectroMesa-DDA also publishes a <code>manifests/protein-cohort.consensusXML</code> handoff. An LFQ-stage peptide table is also published. The final protein and peptide abundance tables using the selected protein groups come from the following protein quantitation step.</p>
+<div class="admonition important">
+<p class="admonition-title">Keep the merged feature output</p>
+<p><code>merge_featureXML</code> is already <code>true</code>. Keep it true so the following protein quantitation step receives one final cohort feature map.</p>
+</div>
+<p>The launched LFQ template enables <code>save_intermediate_files</code>, although the standalone default is false. Turn it off when you do not need those extra published files.</p>
+<p>Match between runs is off by default. Enabling <code>enable_mbr</code> requires FFId, at least two samples, and merged feature maps. It changes the evidence used to quantify features and should be evaluated on representative samples.</p>
+<p>The reference also records the standalone de novo feature-finding options. The guide uses FFId; settings specific to de novo detection do not alter FFId results.</p>
+<h2 id="parameter-reference">Parameter reference</h2>
+<p>Use the <code>quantitate_ProteomicLFQ</code> block inside <code>params</code>. Defaults below describe this step as launched by SpectroMesa-DDA. “Not set; tool default” means no override is passed. Automatically supplied values do not need to be repeated.</p>
+<h3 id="analysis-settings">Analysis settings</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default / supplied value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>algorithm</code></td>
+<td>Text</td>
+<td>FFId</td>
+<td>LFQ algorithm. FFId is the documented default; the standalone pipeline also offers de novo feature finding.</td>
+</tr>
+<tr>
+<td><code>enable_mbr</code></td>
+<td>Boolean</td>
+<td>false</td>
+<td>Enable QT match between runs in the FFId workflow.</td>
+</tr>
+<tr>
+<td><code>featureXML_csv</code></td>
+<td>Path</td>
+<td>Not supplied</td>
+<td>Standalone featureXML input manifest; not needed for the documented FFId route.</td>
+</tr>
+<tr>
+<td><code>featureXML_entrypoint</code></td>
+<td>Boolean</td>
+<td>false</td>
+<td>Start the standalone de novo route from featureXML. Keep false for this acquisition-based workflow.</td>
+</tr>
+<tr>
+<td><code>ffmultiplex_intensity_threshold</code></td>
+<td>Number</td>
+<td>10000.0</td>
+<td>Minimum MS1 peak intensity for untargeted seed detection.</td>
+</tr>
+<tr>
+<td><code>ffmultiplex_max_charge</code></td>
+<td>Integer</td>
+<td>5</td>
+<td>Maximum seed charge.</td>
+</tr>
+<tr>
+<td><code>ffmultiplex_min_charge</code></td>
+<td>Integer</td>
+<td>2</td>
+<td>Minimum seed charge.</td>
+</tr>
+<tr>
+<td><code>filter_mapped_features</code></td>
+<td>Boolean</td>
+<td>false</td>
+<td>Remove features already associated with identifications in the de novo route. Does not configure the default FFId route.</td>
+</tr>
+<tr>
+<td><code>find_features_centroided_algorithm_isotopic_pattern_mz_tolerance</code></td>
+<td>Number</td>
+<td>0.005</td>
+<td>m/z tolerance for matching peaks to an isotope pattern, in Da.</td>
+</tr>
+<tr>
+<td><code>find_features_centroided_algorithm_mass_trace_mz_tolerance</code></td>
+<td>Number</td>
+<td>0.004</td>
+<td>Allowed m/z deviation within an MS1 mass trace, in Da.</td>
+</tr>
+<tr>
+<td><code>mbr_seed_detector</code></td>
+<td>Text</td>
+<td>multiplex</td>
+<td>Seed detector for FFId MBR; only multiplex is currently supported.</td>
+</tr>
+<tr>
+<td><code>merge_featureXML</code></td>
+<td>Boolean</td>
+<td>true</td>
+<td>Combine sample feature maps for protein quantitation. Keep true for an end-to-end analysis.</td>
+</tr>
+<tr>
+<td><code>protein_quantifier_fractions_aggregate</code></td>
+<td>Text</td>
+<td>sum</td>
+<td>Combine fractions within each assay: sum adds them; best selects the best fraction per peptide and fraction group.</td>
+</tr>
+<tr>
+<td><code>save_intermediate_files</code></td>
+<td>Boolean</td>
+<td>true</td>
+<td>Publish additional intermediate files for inspection. Final outputs and execution logs are retained independently.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="software-and-containers">Software and containers</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default / supplied value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>docker_image_openms</code></td>
+<td>Text</td>
+<td>ghcr.io/theboutroslab/openms-thirdparty:3.6.0</td>
+<td>Container image for openms. Change only to a compatible image.</td>
+</tr>
+<tr>
+<td><code>docker_image_pyopenms</code></td>
+<td>Text</td>
+<td>ghcr.io/theboutroslab/pyopenms:3.6.0</td>
+<td>Container image for pyopenms. Change only to a compatible image.</td>
+</tr>
+<tr>
+<td><code>openms_version</code></td>
+<td>Text</td>
+<td>3.6.0</td>
+<td>Version used for output labeling and default container selection.</td>
+</tr>
+<tr>
+<td><code>pyopenms_version</code></td>
+<td>Text</td>
+<td>3.6.0</td>
+<td>Version used for output labeling and default container selection.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="automatically-supplied-settings">Automatically supplied settings</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default / supplied value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fractionated</code></td>
+<td>Boolean</td>
+<td>Detected from the acquisition CSV</td>
+<td>Process corresponding acquisition fractions. Set automatically from the input CSV.</td>
+</tr>
+<tr>
+<td><code>idXML_csv</code></td>
+<td>Path</td>
+<td>Generated validated-identification manifest</td>
+<td>Sample level idXML input table.</td>
+</tr>
+<tr>
+<td><code>mzML_csv</code></td>
+<td>Path</td>
+<td>Generated sample/fraction manifest</td>
+<td>mzML input table for FFId and de novo mzML entry point.</td>
+</tr>
+<tr>
+<td><code>output_dir</code></td>
+<td>Path</td>
+<td>Assigned within the analysis output</td>
+<td>Destination for this step. Set the shared output_dir for the complete analysis.</td>
+</tr>
+<tr>
+<td><code>project_name</code></td>
+<td>Text</td>
+<td>Shared dataset_id</td>
+<td>Project name used in output paths.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="retention-time-alignment">Retention-time alignment</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default / supplied value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>align_featureXML_id_algorithm_auto_reference</code></td>
+<td>Text</td>
+<td>consensus</td>
+<td>How alignment selects its reference; this workflow uses a consensus reference by default.</td>
+</tr>
+<tr>
+<td><code>align_featureXML_id_algorithm_min_run_occur</code></td>
+<td>Integer</td>
+<td>Not set; tool default</td>
+<td>Minimum number of runs (incl. reference, if any) in which a peptide must occur to be used for the alignment.</td>
+</tr>
+<tr>
+<td><code>align_featureXML_id_algorithm_min_score</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Minimum score for an ID to be considered. Applies to the last score calculated.</td>
+</tr>
+<tr>
+<td><code>align_featureXML_id_algorithm_score_cutoff</code></td>
+<td>Boolean</td>
+<td>Not set; tool default</td>
+<td>If only IDs above a score cutoff should be used. Used together with min_score.</td>
+</tr>
+<tr>
+<td><code>align_featureXML_id_design</code></td>
+<td>Path</td>
+<td>Not set; tool default</td>
+<td>Input file containing the experimental design (valid formats: 'tsv')</td>
+</tr>
+<tr>
+<td><code>align_featureXML_id_reference_file</code></td>
+<td>Path</td>
+<td>Not set; tool default</td>
+<td>File to use as reference (valid formats: 'featureXML', 'consensusXML', 'idXML')</td>
+</tr>
+<tr>
+<td><code>align_featureXML_id_reference_index</code></td>
+<td>Integer</td>
+<td>Not set; tool default</td>
+<td>Use one of the input files as reference ('1' for the first file, etc.).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="resolving-identification-conflicts">Resolving identification conflicts</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default / supplied value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>conflict_resolver_resolve_between_features</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Resolve competing peptide assignments between features as well as within each feature.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="de-novo-feature-detection">De novo feature detection</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default / supplied value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>find_features_centroided_algorithm_feature_max_intersection</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Maximum overlap tolerated between detected features.</td>
+</tr>
+<tr>
+<td><code>find_features_centroided_algorithm_feature_max_rt_span</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Maximum feature retention-time span relative to the fitted model.</td>
+</tr>
+<tr>
+<td><code>find_features_centroided_algorithm_feature_min_isotope_fit</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Minimum agreement with the expected isotope distribution.</td>
+</tr>
+<tr>
+<td><code>find_features_centroided_algorithm_feature_min_rt_span</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Minimum feature retention-time span relative to the fitted model.</td>
+</tr>
+<tr>
+<td><code>find_features_centroided_algorithm_feature_min_score</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Minimum overall feature quality score.</td>
+</tr>
+<tr>
+<td><code>find_features_centroided_algorithm_feature_min_trace_score</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Minimum quality of the fitted chromatographic mass trace.</td>
+</tr>
+<tr>
+<td><code>find_features_centroided_algorithm_feature_reported_mz</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Method used to report the feature m/z.</td>
+</tr>
+<tr>
+<td><code>find_features_centroided_algorithm_feature_rt_shape</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Chromatographic peak shape used for feature fitting.</td>
+</tr>
+<tr>
+<td><code>find_features_centroided_algorithm_fit_max_iterations</code></td>
+<td>Integer</td>
+<td>Not set; tool default</td>
+<td>Maximum iterations used to fit a feature model.</td>
+</tr>
+<tr>
+<td><code>find_features_centroided_algorithm_intensity_bins</code></td>
+<td>Integer</td>
+<td>Not set; tool default</td>
+<td>Number of intensity bins used to estimate feature intensity.</td>
+</tr>
+<tr>
+<td><code>find_features_centroided_algorithm_isotopic_pattern_abundance_12C</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Carbon-12 abundance assumed for isotope-pattern calculations.</td>
+</tr>
+<tr>
+<td><code>find_features_centroided_algorithm_isotopic_pattern_abundance_14N</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Nitrogen-14 abundance assumed for isotope-pattern calculations.</td>
+</tr>
+<tr>
+<td><code>find_features_centroided_algorithm_isotopic_pattern_charge_high</code></td>
+<td>Integer</td>
+<td>Not set; tool default</td>
+<td>Highest charge state considered during isotope-pattern detection.</td>
+</tr>
+<tr>
+<td><code>find_features_centroided_algorithm_isotopic_pattern_charge_low</code></td>
+<td>Integer</td>
+<td>Not set; tool default</td>
+<td>Lowest charge state considered during isotope-pattern detection.</td>
+</tr>
+<tr>
+<td><code>find_features_centroided_algorithm_isotopic_pattern_intensity_percentage</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Required proportion of the theoretical isotope-pattern intensity.</td>
+</tr>
+<tr>
+<td><code>find_features_centroided_algorithm_isotopic_pattern_intensity_percentage_optional</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Minimum theoretical intensity for optional isotope peaks.</td>
+</tr>
+<tr>
+<td><code>find_features_centroided_algorithm_isotopic_pattern_mass_window_width</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Mass-window width used to calculate isotope distributions.</td>
+</tr>
+<tr>
+<td><code>find_features_centroided_algorithm_isotopic_pattern_optional_fit_improvement</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Required improvement when including optional isotope peaks.</td>
+</tr>
+<tr>
+<td><code>find_features_centroided_algorithm_mass_trace_max_missing</code></td>
+<td>Integer</td>
+<td>Not set; tool default</td>
+<td>Maximum consecutive missing observations tolerated in a mass trace.</td>
+</tr>
+<tr>
+<td><code>find_features_centroided_algorithm_mass_trace_min_spectra</code></td>
+<td>Integer</td>
+<td>Not set; tool default</td>
+<td>Minimum consecutive spectra supporting a mass trace.</td>
+</tr>
+<tr>
+<td><code>find_features_centroided_algorithm_mass_trace_slope_bound</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Allowed change in mass-trace intensity between neighboring scans.</td>
+</tr>
+<tr>
+<td><code>find_features_centroided_algorithm_seed_min_score</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Minimum quality score for a feature seed.</td>
+</tr>
+<tr>
+<td><code>find_features_centroided_algorithm_user_seed_min_score</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Minimum score for a feature generated from a supplied seed.</td>
+</tr>
+<tr>
+<td><code>find_features_centroided_algorithm_user_seed_mz_tolerance</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>m/z tolerance around a supplied seed.</td>
+</tr>
+<tr>
+<td><code>find_features_centroided_algorithm_user_seed_rt_tolerance</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Retention-time tolerance around a supplied seed.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="identification-guided-feature-detection">Identification-guided feature detection</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default / supplied value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>find_features_ident_EMGScoring_init_mom</code></td>
+<td>Boolean</td>
+<td>Not set; tool default</td>
+<td>Initialize the elution-model fit from distribution moments.</td>
+</tr>
+<tr>
+<td><code>find_features_ident_EMGScoring_max_iteration</code></td>
+<td>Integer</td>
+<td>Not set; tool default</td>
+<td>Maximum number of iterations for EMG fitting.</td>
+</tr>
+<tr>
+<td><code>find_features_ident_add_mass_offset_peptides</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Mass offsets used to generate additional peptide assays.</td>
+</tr>
+<tr>
+<td><code>find_features_ident_detect_mapping_tolerance</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>RT tolerance (plus/minus) for mapping peptide IDs to features. Absolute value in seconds if 1 or greater, else relative to the RT span of the feature.</td>
+</tr>
+<tr>
+<td><code>find_features_ident_detect_min_peak_width</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Minimum chromatographic peak width retained by feature detection.</td>
+</tr>
+<tr>
+<td><code>find_features_ident_detect_peak_width</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Expected elution peak width in seconds, for smoothing (Gauss filter). Also determines the RT extration window, unless set explicitly via 'extract:rt_window'.</td>
+</tr>
+<tr>
+<td><code>find_features_ident_detect_signal_to_noise</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Signal-to-noise threshold for chromatographic peak detection.</td>
+</tr>
+<tr>
+<td><code>find_features_ident_extract_batch_size</code></td>
+<td>Integer</td>
+<td>Not set; tool default</td>
+<td>Nr of peptides used in each batch of chromatogram extraction. Smaller values decrease memory usage but increase runtime.</td>
+</tr>
+<tr>
+<td><code>find_features_ident_extract_isotope_pmin</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Minimum probability used to select extracted isotope peaks.</td>
+</tr>
+<tr>
+<td><code>find_features_ident_extract_mz_window</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>M/z window size for chromatogram extraction (unit: ppm if 1 or greater, else Da/Th)</td>
+</tr>
+<tr>
+<td><code>find_features_ident_extract_n_isotopes</code></td>
+<td>Integer</td>
+<td>Not set; tool default</td>
+<td>Number of isotopes to include in each peptide assay.</td>
+</tr>
+<tr>
+<td><code>find_features_ident_extract_rt_window</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Retention-time extraction window around an identified peptide.</td>
+</tr>
+<tr>
+<td><code>find_features_ident_min_psm_cutoff</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Minimum PSM score required for identification-guided feature seeds.</td>
+</tr>
+<tr>
+<td><code>find_features_ident_model_type</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Type of elution model to fit to features</td>
+</tr>
+<tr>
+<td><code>find_features_ident_quantify_decoys</code></td>
+<td>Boolean</td>
+<td>Not set; flag omitted</td>
+<td>Whether decoy peptides should be quantified (true) or skipped (false).</td>
+</tr>
+<tr>
+<td><code>find_features_ident_seed_apex_rt_tolerance</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Maximum time difference between a seed and the detected feature apex.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="feature-linking">Feature linking</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default / supplied value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>link_features_algorithm_ignore_adduct</code></td>
+<td>Boolean</td>
+<td>Not set; tool default</td>
+<td>True [default]: pairing requires equal adducts (or at least one without adduct annotation); true: Pairing irrespective of adducts</td>
+</tr>
+<tr>
+<td><code>link_features_algorithm_min_IDscore_forTolCalc</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>If IDs are used: What is the minimum score of an ID to assume a reliable match for tolerance calculation. Check your current score type!</td>
+</tr>
+<tr>
+<td><code>link_features_algorithm_min_nr_diffs_per_bin</code></td>
+<td>Integer</td>
+<td>Not set; tool default</td>
+<td>If IDs are used: How many differences from matching IDs should be used to calculate a linking tolerance for unIDed features in an RT region. RT regions will be extended until that number is reached.</td>
+</tr>
+<tr>
+<td><code>link_features_algorithm_noID_penalty</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>If IDs are used: For the normalized distances, how high should the penalty for missing IDs be? 0 = no bias, 1 = IDs inside the max tolerances always preferred (even if much further away).</td>
+</tr>
+<tr>
+<td><code>link_features_algorithm_nr_partitions</code></td>
+<td>Integer</td>
+<td>Not set; tool default</td>
+<td>How many partitions in m/z space should be used for the algorithm (more partitions means faster runtime and more memory efficient execution).</td>
+</tr>
+<tr>
+<td><code>link_features_algorithm_use_identifications</code></td>
+<td>Boolean</td>
+<td>true with MBR; otherwise tool default</td>
+<td>Never link features that are annotated with different peptides (only the best hit per peptide identification is taken into account).</td>
+</tr>
+<tr>
+<td><code>link_features_distance_MZ_exponent</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Exponent applied to m/z distance during linking.</td>
+</tr>
+<tr>
+<td><code>link_features_distance_MZ_max_difference</code></td>
+<td>Number</td>
+<td>10.0 with MBR; otherwise tool default</td>
+<td>Maximum m/z separation for linked features, in the selected mass unit.</td>
+</tr>
+<tr>
+<td><code>link_features_distance_MZ_unit</code></td>
+<td>Text</td>
+<td>ppm with MBR; otherwise tool default</td>
+<td>Unit of the linking m/z tolerance.</td>
+</tr>
+<tr>
+<td><code>link_features_distance_MZ_weight</code></td>
+<td>Number</td>
+<td>5.0 with MBR; otherwise tool default</td>
+<td>Weight of m/z distance in the linking score.</td>
+</tr>
+<tr>
+<td><code>link_features_distance_RT_exponent</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Exponent applied to retention-time distance during linking.</td>
+</tr>
+<tr>
+<td><code>link_features_distance_RT_max_difference</code></td>
+<td>Number</td>
+<td>300.0 with MBR; otherwise tool default</td>
+<td>Maximum retention-time separation for linked features, in seconds.</td>
+</tr>
+<tr>
+<td><code>link_features_distance_RT_weight</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Weight of retention-time distance in the linking score.</td>
+</tr>
+<tr>
+<td><code>link_features_distance_intensity_exponent</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Exponent applied to intensity differences during linking.</td>
+</tr>
+<tr>
+<td><code>link_features_distance_intensity_log_transform</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Compare intensities after logarithmic transformation.</td>
+</tr>
+<tr>
+<td><code>link_features_distance_intensity_weight</code></td>
+<td>Number</td>
+<td>0.1 with MBR; otherwise tool default</td>
+<td>Weight of intensity differences in the linking score.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="identification-mapping-for-the-de-novo-route">Identification mapping for the de novo route</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default / supplied value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>map_idXML_consensus_annotate_ids_with_subelements</code></td>
+<td>Boolean</td>
+<td>Not set; tool default</td>
+<td>Record which constituent feature matched each identification.</td>
+</tr>
+<tr>
+<td><code>map_idXML_consensus_use_subelements</code></td>
+<td>Boolean</td>
+<td>Not set; tool default</td>
+<td>Match identifications to constituent feature coordinates rather than consensus coordinates.</td>
+</tr>
+<tr>
+<td><code>map_idXML_feature_use_centroid_mz</code></td>
+<td>Boolean</td>
+<td>Not set; tool default</td>
+<td>Use the feature centroid m/z for identification matching.</td>
+</tr>
+<tr>
+<td><code>map_idXML_feature_use_centroid_rt</code></td>
+<td>Boolean</td>
+<td>Not set; tool default</td>
+<td>Use the feature centroid retention time for identification matching.</td>
+</tr>
+<tr>
+<td><code>map_idXML_ignore_charge</code></td>
+<td>Boolean</td>
+<td>Not set; tool default</td>
+<td>Allow a match without requiring equal precursor and feature charges.</td>
+</tr>
+<tr>
+<td><code>map_idXML_mz_measure</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Mass-tolerance unit used for identification matching.</td>
+</tr>
+<tr>
+<td><code>map_idXML_mz_reference</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Choose the reference m/z used to compare identifications and features.</td>
+</tr>
+<tr>
+<td><code>map_idXML_mz_tolerance</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Maximum m/z difference allowed for an identification-to-feature match.</td>
+</tr>
+<tr>
+<td><code>map_idXML_rt_tolerance</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Maximum retention-time difference for matching, in seconds.</td>
+</tr>
+<tr>
+<td><code>map_idXML_spectra_in</code></td>
+<td>Path</td>
+<td>Not set; tool default</td>
+<td>Optional spectra used to annotate which identifications have matching acquisition data.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="peptide-summarization">Peptide summarization</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default / supplied value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>protein_quantifier_best_charge</code></td>
+<td>Boolean</td>
+<td>Not set; flag omitted</td>
+<td>Use one charge globally per modified peptide. False combines charge states.</td>
+</tr>
+<tr>
+<td><code>protein_quantifier_consensus_normalize</code></td>
+<td>Boolean</td>
+<td>Not set; flag omitted</td>
+<td>Apply consensus-map normalization during protein quantitation; changes the quantities used for summarization.</td>
+</tr>
+<tr>
+<td><code>protein_quantifier_format_quoting</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Quoting convention for exported text fields. Keep compatible with downstream readers.</td>
+</tr>
+<tr>
+<td><code>protein_quantifier_format_replacement</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Replacement for separator characters inside text values.</td>
+</tr>
+<tr>
+<td><code>protein_quantifier_format_separator</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Output field separator. Keep the default tab separator for the QC and database readers.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="retention-time-transformation">Retention-time transformation</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default / supplied value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>transform_rt_b_spline_boundary_condition</code></td>
+<td>Integer</td>
+<td>Not set; tool default</td>
+<td>Boundary condition at B-spline endpoints: 0 (value zero), 1 (first derivative zero) or 2 (second derivative zero)</td>
+</tr>
+<tr>
+<td><code>transform_rt_b_spline_extrapolate</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Method to use for extrapolation beyond the original data range. 'linear': Linear extrapolation using the slope of the B-spline at the corresponding endpoint. 'b_spline': Use the B-spline (as for interpolation). 'constant': Use the constant value of the B-spline at the corresponding endpoint. 'global_linear': Use a linear fit through the data (which will most probably introduce discontinuities at the ends of the data range).</td>
+</tr>
+<tr>
+<td><code>transform_rt_b_spline_num_nodes</code></td>
+<td>Integer</td>
+<td>Not set; tool default</td>
+<td>Number of nodes for B-spline fitting. Overrides 'wavelength' if set (to two or greater). A lower value means more smoothing.</td>
+</tr>
+<tr>
+<td><code>transform_rt_b_spline_wavelength</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Determines the amount of smoothing by setting the number of nodes for the B-spline. The number is chosen so that the spline approximates a low-pass filter with this cutoff wavelength. The wavelength is given in the same units as the data; a higher value means more smoothing. '0' sets the number of nodes to twice the number of input points.</td>
+</tr>
+<tr>
+<td><code>transform_rt_interpolated_extrapolation_type</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Type of extrapolation to apply: two-point-linear: use the first and last data point to build a single linear model, four-point-linear: build two linear models on both ends using the first two / last two points, global-linear: use all points to build a single linear model. Note that global-linear may not be continuous at the border.</td>
+</tr>
+<tr>
+<td><code>transform_rt_interpolated_interpolation_type</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Type of interpolation to apply.</td>
+</tr>
+<tr>
+<td><code>transform_rt_invert</code></td>
+<td>Boolean</td>
+<td>Not set; flag omitted</td>
+<td>Invert transformation (approximatively) before applying it</td>
+</tr>
+<tr>
+<td><code>transform_rt_linear_symmetric_regression</code></td>
+<td>Boolean</td>
+<td>Not set; tool default</td>
+<td>Perform linear regression on 'y - x' vs. 'y + x', instead of on 'y' vs. 'x'.</td>
+</tr>
+<tr>
+<td><code>transform_rt_linear_x_datum_max</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Maximum x value</td>
+</tr>
+<tr>
+<td><code>transform_rt_linear_x_datum_min</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Minimum x value</td>
+</tr>
+<tr>
+<td><code>transform_rt_linear_x_weight</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Weight x values (valid: '1/x', '1/x2', 'ln(x)', '')</td>
+</tr>
+<tr>
+<td><code>transform_rt_linear_y_datum_max</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Maximum y value</td>
+</tr>
+<tr>
+<td><code>transform_rt_linear_y_datum_min</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Minimum y value</td>
+</tr>
+<tr>
+<td><code>transform_rt_linear_y_weight</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Weight y values (valid: '1/y', '1/y2', 'ln(y)', '')</td>
+</tr>
+<tr>
+<td><code>transform_rt_lowess_delta</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Nonnegative parameter which may be used to save computations (recommended value is 0.01 of the range of the input, e.g. for data ranging from 1000 seconds to 2000 seconds, it could be set to 10). Setting a negative value will automatically do this.</td>
+</tr>
+<tr>
+<td><code>transform_rt_lowess_extrapolation_type</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Method to use for extrapolation outside the data range. 'two-point-linear': Uses a line through the first and last point to extrapolate. 'four-point-linear': Uses a line through the first and second point to extrapolate in front and and a line through the last and second-to-last point in the end. 'global-linear': Uses a linear regression to fit a line through all data points and use it for interpolation.</td>
+</tr>
+<tr>
+<td><code>transform_rt_lowess_interpolation_type</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Method to use for interpolation between datapoints computed by lowess. 'linear': Linear interpolation. 'cspline': Use the cubic spline for interpolation. 'akima': Use an akima spline for interpolation</td>
+</tr>
+<tr>
+<td><code>transform_rt_lowess_num_iterations</code></td>
+<td>Integer</td>
+<td>Not set; tool default</td>
+<td>Number of robustifying iterations for lowess fitting.</td>
+</tr>
+<tr>
+<td><code>transform_rt_lowess_span</code></td>
+<td>Number</td>
+<td>Not set; tool default</td>
+<td>Fraction of datapoints (f) to use for each local regression (determines the amount of smoothing). Choosing this parameter in the range .2 to .8 usually results in a good fit.</td>
+</tr>
+<tr>
+<td><code>transform_rt_model_type</code></td>
+<td>Text</td>
+<td>Not set; tool default</td>
+<td>Type of model</td>
+</tr>
+<tr>
+<td><code>transform_rt_store_original_rt</code></td>
+<td>Boolean</td>
+<td>Not set; flag omitted</td>
+<td>Store the original retention times (before transformation) as meta data in the output file</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tool-defaults">Tool defaults</h3>
+<p>Version-specific tool references: <a href="https://openms.de/doxygen/release/3.6.0/html/TOPP_FeatureFinderCentroided.html">FeatureFinderCentroided</a>, <a href="https://openms.de/doxygen/release/3.6.0/html/TOPP_FeatureFinderIdentification.html">FeatureFinderIdentification</a>, <a href="https://openms.de/doxygen/release/3.6.0/html/TOPP_FeatureLinkerUnlabeledQT.html">FeatureLinkerUnlabeledQT</a>, <a href="https://openms.de/doxygen/release/3.6.0/html/TOPP_IDConflictResolver.html">IDConflictResolver</a>, <a href="https://openms.de/doxygen/release/3.6.0/html/TOPP_IDMapper.html">IDMapper</a>, <a href="https://openms.de/doxygen/release/3.6.0/html/TOPP_MapAlignerIdentification.html">MapAlignerIdentification</a>, <a href="https://openms.de/doxygen/release/3.6.0/html/TOPP_MapRTTransformer.html">MapRTTransformer</a>, <a href="https://openms.de/doxygen/release/3.6.0/html/TOPP_ProteinQuantifier.html">ProteinQuantifier</a>.</p>
+<p>The additional option tables list parameters explicitly forwarded by the pipeline's OpenMS modules. Unset valued options use the tool's defaults; flags are added only when true. Check the configured tool's <code>-helphelp</code> for accepted values and interactions. Avoid overriding export formatting or generated input/output options that the next analysis step relies on.</p>
+<h3 id="computing-and-temporary-files">Computing and temporary files</h3>
+<p>The <a href="../../parameters/#computing-and-temporary-files">shared parameter reference</a> explains these settings. This pipeline declares: <code>base_resource_update</code>, <code>max_cpus</code>, <code>max_memory</code>, <code>min_cpus</code>, <code>min_memory</code>, <code>resource_allocation_profile_tag</code>, <code>ucla_cds</code>, <code>work_dir</code>.</p>
+<p>The tables were checked against the <a href="https://github.com/TheBoutrosLab/pipeline-quantitate-ProteomicLFQ/tree/1a1bb40494d4d82fd558f3f328c598041f091bfa/config">individual pipeline configuration</a>, its tool modules, and the SpectroMesa-DDA settings that select this workflow.</p>
+<h2 id="related-steps">Related steps</h2>
+<p><a href="../../overview/">Overview</a> · <a href="../../parameters/">Shared parameters</a> · <a href="../../configuration/">Configuring an analysis</a> · <a href="../../results/">Understanding results</a></p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://doi.org/10.1038/s41592-024-02197-7">OpenMS 3 enables reproducible analysis of large-scale mass spectrometry data (2024)</a>.</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../validation/" class="btn btn-neutral float-left" title="validate-ProteomicPSM"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../tmt/" class="btn btn-neutral float-right" title="quantitate-ProteomicTMT">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/TheBoutrosLab/SpectroMesa-DDA" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../validation/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../tmt/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+      <script src="../../js/version-select.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

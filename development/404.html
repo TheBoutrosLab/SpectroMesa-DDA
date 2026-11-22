@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/css/theme.css" />
     <link rel="stylesheet" href="/css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="/extra.css" rel="stylesheet" />
         <link href="/css/version-select.css" rel="stylesheet" />
     
     <!--[if lt IE 9]>
@@ -25,7 +26,11 @@
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
           <a href="/." class="icon icon-home"> SpectroMesa-DDA
-        </a>
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="//search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
       </div>
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
@@ -34,32 +39,53 @@
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="/quick-start/">Quick start</a>
+                <li class="toctree-l1"><a class="reference internal" href="/overview/">Overview</a>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="/inputs/">Inputs</a>
+                <li class="toctree-l1"><a class="reference internal" href="/installation/">Installation</a>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="/parameters/">Parameters</a>
+                <li class="toctree-l1"><a class="reference internal" href="/inputs/">Preparing inputs</a>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="/pipeline-steps-and-outputs/">Pipeline steps and outputs</a>
+                <li class="toctree-l1"><a class="reference internal" href="/configuration/">Configuring an analysis</a>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="/testing/">Testing</a>
+                <li class="toctree-l1"><a class="reference internal" href="/execution/">Running and resuming</a>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="/current-limitations/">Current limitations</a>
+                <li class="toctree-l1"><a class="reference internal" href="/results/">Understanding results</a>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="/license/">License</a>
+                <li class="toctree-l1"><a class="reference internal" href="/testing/">Running tests</a>
                 </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Pipeline reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="/parameters/">Shared parameters</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="/pipelines/conversion/">convert-MSData</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="/pipelines/search/">search-ProteomicMSMS</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="/pipelines/validation/">validate-ProteomicPSM</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="/pipelines/lfq/">quantitate-ProteomicLFQ</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="/pipelines/tmt/">quantitate-ProteomicTMT</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="/pipelines/protein/">quantitate-ProteomicProtein</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="/pipelines/qc/">qc-ProteomicDDA</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="/pipelines/proteovault/">ProteoVault</a>
+                  </li>
               </ul>
       </div>
     </div>
@@ -123,6 +149,7 @@
     <script>var base_url = "/";</script>
     <script src="/js/theme_extra.js"></script>
     <script src="/js/theme.js"></script>
+      <script src="/search/main.js"></script>
       <script src="/js/version-select.js"></script>
     <script>
         jQuery(function () {
