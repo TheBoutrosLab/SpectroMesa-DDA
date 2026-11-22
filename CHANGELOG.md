@@ -4,6 +4,14 @@ All notable changes to SpectroMesa-DDA are documented here. The format follows [
 
 ## [Unreleased]
 
+### Added
+
+- Add SpectroMesa-DDA user guides, LFQ/TMT input and configuration guidance, public-data testing instructions, and individual pipeline references matching the DIA documentation (2026-11-21).
+
+### Changed
+
+- Use a minimal README as the MkDocs home page and build the documentation with original submodule figures.
+
 ## [1.3.1] - 2026-11-20
 
 ### Changed

@@ -1,5 +1,7 @@
 # Integration tests
 
+For setup, public S3 downloads, and case selection, see [Running the tests](../docs/testing.md).
+
 From the repository root, copy `.env-template` to `.env` and set `NXF_VER`,
 `NXF_SYNTAX_PARSER`, `TEST_DATA_DIR`, `NFT_RUN_ROOT`, and `NFT_CLUSTER`.
 Run a case with `python3 test/run-nftest.py <case>` in the Python environment
